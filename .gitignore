@@ -123,3 +123,4 @@ crashlytics-build.properties
 local.properties
 
 .gradle/*
+app/app.iml
