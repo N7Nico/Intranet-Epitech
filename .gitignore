@@ -46,5 +46,13 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+<<<<<<< HEAD
 /.idea
 /.gradle
+=======
+.idea/
+.idea\
+app\app.iml
+local.properties
+.gradle/
+>>>>>>> origin/master
