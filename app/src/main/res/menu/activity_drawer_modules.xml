@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_profile"
+            android:title="Profil" />
+        <item
+            android:id="@+id/nav_marks"
+            android:icon="@drawable/ic_marks"
+            android:title="Notes" />
+    </group>
+    <group
+        android:id="@+id/group_modules"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_modules"
+            android:icon="@drawable/ic_modules"
+            android:title="Modules" />
+        <item
+            android:id="@+id/nav_all_modules"
+            android:icon="@drawable/ic_modules"
+            android:title="Tous les Modules" />
+    </group>
+    <group
+        android:id="@+id/group_others"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_projects"
+            android:icon="@drawable/ic_projects"
+            android:title="Projects" />
+        <item
+            android:id="@+id/nav_schedule"
+            android:icon="@drawable/ic_schedule"
+            android:title="Planning" />
+    </group>
+
+    <item android:title="Misc">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_logout"
+                android:title="Déconnexion" />
+        </menu>
+    </item>
+</menu>

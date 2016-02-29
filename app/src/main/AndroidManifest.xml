@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.nico_11_riv.intranetepitech">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name="com.orm.SugarApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="DATABASE"
+            android:value="intraepitech.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="2" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.nico_11_riv" />
+
+        <activity
+            android:name=".LoginActivity_"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ProfileActivity_"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MarksActivity_"
+            android:label="@string/title_activity_marks"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MarksAllActivity_"
+            android:label="@string/title_activity_marks_all"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ModulesActivity_"
+            android:label="@string/title_activity_modules"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ModulesAllActivity_"
+            android:label="@string/title_activity_modules_all"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProjectsActivity_"
+            android:label="@string/title_activity_projects"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ScheduleActivity_"
+            android:label="@string/title_activity_schedule"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ScheduleModulesActivity_"
+            android:label="@string/title_activity_schedule_modules"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ScheduleAllActivity_"
+            android:label="@string/title_activity_schedule_all"
+            android:theme="@style/AppTheme.NoActionBar" />
+    </application>
+
+</manifest>

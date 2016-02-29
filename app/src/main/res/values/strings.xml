@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Intranet Epitech</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="connexion_error">Erreur de connexion</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Login</string>
+    <string name="prompt_password">Mot de Passe Unix</string>
+    <string name="action_sign_in">Connexion</string>
+    <string name="error_field_required">Ce champ est obligatoire</string>
+
+    <string name="title_activity_login">Connexion</string>
+    <string name="title_activity_profile">Profil</string>
+    <string name="title_activity_modules">Modules</string>
+    <string name="title_activity_modules_all">Tous les Modules</string>
+    <string name="title_activity_projects">Projets</string>
+    <string name="title_activity_schedule">Planning</string>
+    <string name="title_activity_schedule_modules">Planning (Modules enregistrés)</string>
+    <string name="title_activity_schedule_all">Tout le Planning</string>
+    <string name="title_activity_marks">Notes</string>
+    <string name="title_activity_marks_all">Toutes les Notes</string>
+
+    <string name="login">login_n</string>
+    <string name="mail">login_n@epitech.eu</string>
+
+    <string name="promo">Promo</string>
+    <string name="semester">Semestre</string>
+    <string name="logtime">NetSoul :</string>
+    <string name="current_credit">Credits :</string>
+
+    <string name="prev_week">Prev</string>
+    <string name="next_week">Next</string>
+
+    <string name="object_credit">Objectif :</string>
+
+    <string name="colorlistvl">#ECEFF1</string>
+    <string name="colorlistvd">#E3F2FD</string>
+</resources>

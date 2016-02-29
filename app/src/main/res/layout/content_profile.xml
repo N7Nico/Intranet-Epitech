@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/content_profile_layout"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+app:layout_behavior="@string/appbar_scrolling_view_behavior"
+tools:context="com.nico_11_riv.intranetepitech.ProfileActivity"
+tools:showIn="@layout/app_bar_profile">
+
+<include
+    layout="@layout/header_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/listmessagesfragment"
+        android:layout_marginTop="176dp"
+        android:name="com.nico_11_riv.intranetepitech.ListMessagesFragment_"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+
+</RelativeLayout>

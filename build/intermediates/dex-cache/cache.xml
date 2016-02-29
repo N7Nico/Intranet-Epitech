@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\exploded-aar\com.android.support\design\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.1.1_31b251dbafce8d6b61fc375bfaaa4469504854ee.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\.gradle\caches\modules-2\files-2.1\org.springframework.android\spring-android-core\2.0.0.M3\c7e2c60943248bbce5de6cf552592281ed2296b\spring-android-core-2.0.0.M3.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="0c7e2c60943248bbce5de6cf552592281ed2296b">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\spring-android-core-2.0.0.M3_481c4bcd85b820aa3b106ac16a240cda47da7dc0.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.1.1_f3a475a2edc63b14a491eb1db2629b6dc90641a9.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\exploded-aar\me.zhanghai.android.materialprogressbar\library\1.1.4\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="2a24cba08e1d865a79e61335f5a1bd64d520106d">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\me.zhanghai.android.materialprogressbar-library-1.1.4_08fcd149e5423571d6325a19372733645efc0342.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\picasso-2.5.2_f25ba16477b86c3c9adf39615fb1580900692d09.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\.gradle\caches\modules-2\files-2.1\org.springframework.android\spring-android-rest-template\2.0.0.M3\204c594c2a47073b30d3cb14ca69ba1066c4e44c\spring-android-rest-template-2.0.0.M3.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="204c594c2a47073b30d3cb14ca69ba1066c4e44c">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\spring-android-rest-template-2.0.0.M3_ca5dc08b660f1b7f021e2bc403aa846ae33c124e.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.5\686c608d1805b6d4d425ec4459e88164ffc85870\gson-2.5.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="686c608d1805b6d4d425ec4459e88164ffc85870">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\gson-2.5_22bfddd33d5c918dde932da9fa7944e61d397016.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\exploded-aar\com.github.afollestad.material-dialogs\core\0.8.5.3\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ebecf3acfec70f41f94a66e4d84ae55d78362168">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.github.afollestad.material-dialogs-core-0.8.5.3_d262b541eb8b911d98d8d7751a0c88baafbf895a.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.1.1_1536cea9523835cddd0696de0f4a87f635bb8f3e.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\exploded-aar\com.github.afollestad.material-dialogs\commons\0.8.5.3\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8b9bc5fe2a7fe4a6392f2fa9b3266981149e8bdf">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.github.afollestad.material-dialogs-commons-0.8.5.3_94abf66c709bda0be4aff47445cdf3cf2f19ee7b.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\.gradle\caches\modules-2\files-2.1\com.google.guava\guava\18.0\cce0823396aa693798f8882e64213b1772032b09\guava-18.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="cce0823396aa693798f8882e64213b1772032b09">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\guava-18.0_4d56571feeb3b47d51e1decc785d431b39b582c6.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\.gradle\caches\modules-2\files-2.1\org.androidannotations\androidannotations-api\3.3.2\7d6149d856b880bbd676047aacb8446a758fbbdb\androidannotations-api-3.3.2.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7d6149d856b880bbd676047aacb8446a758fbbdb">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\androidannotations-api-3.3.2_47074dfeb197c3546acc66db4998a02dc94fc586.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1_d6d7eb7fd9cda8d8fb11161050bf2e0a2e0961d6.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1_1833bdfb6846d92b00d68bf493fea611a1fd8396.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\exploded-aar\com.github.alamkanak\android-week-view\1.2.6\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="393eb85d65baa2c3702efdf699832498f8b51bf1">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.github.alamkanak-android-week-view-1.2.6_45058b4fc7196350e56b9621fb538bfc7f2c28b2.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\exploded-aar\com.github.satyan\sugar\1.4\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ac045b53684345f4ec8468477e8fc5034d0d2bfd">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.github.satyan-sugar-1.4_44d0eb423985296108fd6f4f782ea091b3dbf077.jar" />
+    </item>
+    <item
+        jar="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.1.1_72c44b286136241f855838f4d2655c13ed59980a.jar" />
+    </item>
+
+</items>
