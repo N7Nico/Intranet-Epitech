@@ -46,5 +46,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+*.iml
+.gradle
+/local.properties
 /.idea
-/.gradle
+.DS_Store
+/build
+/captures
