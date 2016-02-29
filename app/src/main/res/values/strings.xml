@@ -38,4 +38,8 @@
 
     <string name="colorlistvl">#ECEFF1</string>
     <string name="colorlistvd">#E3F2FD</string>
+
+    <string name="action_planning_activities">Activités Uniquement</string>
+    <string name="action_planning_modules">Modules Uniquement</string>
+    <string name="action_planning_all">Tout</string>
 </resources>

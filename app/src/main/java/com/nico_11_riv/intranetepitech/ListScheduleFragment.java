@@ -2,17 +2,21 @@ package com.nico_11_riv.intranetepitech;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.RectF;
 import android.net.ConnectivityManager;
+import android.support.annotation.NonNull;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
+import com.nico_11_riv.intranetepitech.database.Planning;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Guserinfos;
 import com.nico_11_riv.intranetepitech.database.setters.planning.Pplanning;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
-import com.nico_11_riv.intranetepitech.database.Planning;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -29,9 +33,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 @EFragment(R.layout.listschedule)
-public class ListScheduleFragment extends Fragment implements MonthLoader.MonthChangeListener {
+public class ListScheduleFragment extends Fragment implements MonthLoader.MonthChangeListener, WeekView.EventClickListener {
 
     private static int week = 1;
     @RestService
@@ -81,6 +86,7 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
             toto();
         }
         weekView.setMonthChangeListener(this);
+        weekView.setOnEventClickListener(this);
     }
 
     private boolean eventMatches(WeekViewEvent event, int year, int month) {
@@ -92,7 +98,8 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
         Calendar startTime = null;
         List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
-        List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * from Planning where token = ? and registerevent = ? or registerevent = ?", gUser.getToken(), "registered", "present");
+        List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * from Planning where token = ? ", gUser.getToken());
+        //  List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * from Planning where token = ? and registerevent = ? or registerevent = ?", gUser.getToken(), "registered", "present");
         for (int i = 0; i < pl.size(); i++) {
             Planning info = pl.get(i);
             startTime = Calendar.getInstance();
@@ -118,7 +125,9 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
                 e.printStackTrace();
             }
             WeekViewEvent event = new WeekViewEvent(1, info.getActi_title(), cal, cale);
-            // event.setColor(getResources().getColor(R.color.event_color_01));
+            int[] androidColors = getResources().getIntArray(R.array.androidcolors);
+            int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
+            event.setColor(randomAndroidColor);
             events.add(event);
         }
         List<WeekViewEvent> matchedEvents = new ArrayList<WeekViewEvent>();
@@ -128,5 +137,20 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
             }
         }
         return matchedEvents;
+    }
+
+    @Override
+    public void onEventClick(WeekViewEvent event, RectF eventRect) {
+        new MaterialDialog.Builder(getActivity())
+                .title(event.getName())
+                .positiveText("S'inscrire")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                    }
+                })
+                .negativeText("Annuler")
+                .show();
     }
 }

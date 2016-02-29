@@ -10,6 +10,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -96,16 +98,6 @@ public class ScheduleActivity extends AppCompatActivity implements NavigationVie
         sImg(user_info);
     }
 
-    private ArrayList<Schedule_content> generateData() {
-        ArrayList<Schedule_content> items = new ArrayList<Schedule_content>();
-        List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * from Planning where token = ? and registerevent = ? or registerevent = ?", gUser.getToken(), "registered", "present");
-        for (int i = 0; i < pl.size(); i++) {
-            Planning info = pl.get(i);
-            items.add(new Schedule_content(info.getTitlemodule().substring(0, 2), info.getActi_title(), info.getStart().substring(0, info.getStart().length() - 3), info.getEnd().split("\\ ")[1].substring(0, 5), info.getScolaryear(), info.getRegisterevent(), info.getCodemodule(), info.getCodeinstance(), info.getCodeacti(), info.getCodeevent(), info.getAllow_token()));
-        }
-        return items;
-    }
-
     @UiThread
     void sAdpater(ListView listView, ScheduleAdpater adapter) {
         listView.setAdapter(adapter);
@@ -172,12 +164,6 @@ public class ScheduleActivity extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.nav_schedule) {
             drawer_layout.closeDrawer(GravityCompat.START);
             startActivity(new Intent(this, ScheduleActivity_.class));
-        } else if (id == R.id.nav_schedule_modules) {
-            drawer_layout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, ScheduleModulesActivity_.class));
-        } else if (id == R.id.nav_schedule_all) {
-            drawer_layout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, ScheduleAllActivity_.class));
         } else if (id == R.id.nav_logout) {
             drawer_layout.closeDrawer(GravityCompat.START);
             List<User> users = User.find(User.class, "connected = ?", "true");
@@ -187,5 +173,37 @@ public class ScheduleActivity extends AppCompatActivity implements NavigationVie
             startActivity(new Intent(this, LoginActivity_.class));
         }
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.planning, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_activities:
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+            case R.id.action_modules:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                return true;
+
+            case R.id.action_all:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 }
