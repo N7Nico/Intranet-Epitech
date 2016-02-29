@@ -51,3 +51,4 @@ Temporary Items
 app\app.iml
 local.properties
 .gradle/
+.gradle/2.8/taskArtifacts/cache.properties.lock
