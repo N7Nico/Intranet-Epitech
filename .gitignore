@@ -50,6 +50,10 @@ Temporary Items
 .gradle
 /local.properties
 /.idea
+.idea\
+.idea/
+.gradle/
+.gradle\
 .DS_Store
 /build
 /captures
