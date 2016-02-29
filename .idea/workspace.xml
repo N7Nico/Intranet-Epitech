@@ -4,10 +4,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="36a5187b-a7fb-4f9c-884b-1dfac5ec4e0b" name="Default" comment="">
-      <change type="MOVED" beforePath="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\src\main\java\com\nico_11_riv\intranetepitech\api\herokuapi.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nico_11_riv/intranetepitech/api/HerokuAPI.java" />
-      <change type="MOVED" beforePath="C:\Users\nicol\Coding\Projects\Intranet-Epitech\app\src\main\java\com\nico_11_riv\intranetepitech\api\requests\unRegisterEventRequest.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/nico_11_riv/intranetepitech/api/requests/UnRegisterEventRequest.java" />
-    </list>
+    <list default="true" id="36a5187b-a7fb-4f9c-884b-1dfac5ec4e0b" name="Default" comment="" />
     <ignored path="Intranet-Epitech.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
