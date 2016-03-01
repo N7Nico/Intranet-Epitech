@@ -58,12 +58,12 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
     }
 
     @UiThread
-    void titi() {
+    void db_change() {
         weekView.notifyDatasetChanged();
     }
 
     @Background
-    void toto() {
+    void set_date() {
         Calendar c = GregorianCalendar.getInstance(Locale.FRANCE);
         c.add(Calendar.DATE, 7 * week);
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -76,14 +76,14 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
         String endDate = df.format(c.getTime());
         api.setCookie("PHPSESSID", gUser.getToken());
         Pplanning pl = new Pplanning(api.getplanning(startDate, endDate));
-        titi();
+        db_change();
     }
 
     @AfterViews
     void init() {
         if (isConnected() == true) {
             Planning.deleteAll(Planning.class, "token = ?", gUser.getToken());
-            toto();
+            set_date();
         }
         weekView.setMonthChangeListener(this);
         weekView.setOnEventClickListener(this);
