@@ -13,7 +13,9 @@ import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
+import com.nico_11_riv.intranetepitech.api.HerokuAPI;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
+import com.nico_11_riv.intranetepitech.api.requests.TokenRequest;
 import com.nico_11_riv.intranetepitech.database.Planning;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Guserinfos;
 import com.nico_11_riv.intranetepitech.database.setters.planning.Pplanning;
@@ -31,6 +33,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -43,6 +46,9 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
     private static int week = 1;
     @RestService
     IntrAPI api;
+
+    @RestService
+    HerokuAPI o_api;
     @Bean
     APIErrorHandler ErrorHandler;
     @ViewById
@@ -142,13 +148,17 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
     }
 
     @Background
-    void registertoevent(Planning tmp, int register) {
+    void registertoevent(Planning tmp, String validate) {
         api.setCookie("PHPSSID", gUser.getToken());
-        if (register == 0) {
+        if (Objects.equals(validate, "S'inscrire")) {
             String rslt = api.registerevent(tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent());
         }
-        else {
+        else if (Objects.equals(validate, "Se d'ésinscrire")){
             String rslt = api.unregisterevent(tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent());
+        }
+        else {
+            TokenRequest tr = new TokenRequest(gUser.getToken(), tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent(), "00000000");
+            o_api.validateToken(tr);
         }
     }
 
@@ -159,16 +169,33 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
         String end = df.format(event.getEndTime().getTime());
         List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * FROM Planning WHERE token = ? AND actititle = ? AND start = ? AND end = ?",
                 gUser.getToken(), event.getName(), start, end);
+
+        Calendar cal = Calendar.getInstance();
+        String d1 = df.format(cal.getTime());
+
         final Planning tmp = pl.get(0);
-        final int register = ((Objects.equals(tmp.getRegisterevent(), "registered")) ? 1 : 0);
+        String text = "";
+
+
+        if (Objects.equals(tmp.getRegisterevent(), "registered")) {
+            text = "Se d'ésinscrire";
+        }
+        else if (Objects.equals(tmp.getRegisterevent(), "registered") && Objects.equals(tmp.getAllow_token(), "true") && d1.compareTo(tmp.getStart()) > 0) {
+            text = "Token";
+        }
+        else {
+            text = "S'inscrire";
+        }
+        final String validate = text;
+
         new MaterialDialog.Builder(getActivity())
                 .title(tmp.getActititle())
                 .content("Start at " + start + " | End at " + end)
-                .positiveText((register == 0 ? "S'inscrire" : "Se désinscrire"))
+                .positiveText(validate)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        registertoevent(tmp, register);
+                        registertoevent(tmp, validate);
                     }
                 })
                 .negativeText("Annuler")
