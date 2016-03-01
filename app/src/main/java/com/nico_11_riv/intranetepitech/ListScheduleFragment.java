@@ -34,6 +34,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Random;
 
 @EFragment(R.layout.listschedule)
@@ -141,9 +142,14 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
     }
 
     @Background
-    void registertoevent(Planning tmp) {
+    void registertoevent(Planning tmp, int register) {
         api.setCookie("PHPSSID", gUser.getToken());
-        String rslt = api.registerevent(tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent());
+        if (register == 0) {
+            String rslt = api.registerevent(tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent());
+        }
+        else {
+            String rslt = api.unregisterevent(tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent());
+        }
     }
 
     @Override
@@ -154,14 +160,15 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
         List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * FROM Planning WHERE token = ? AND actititle = ? AND start = ? AND end = ?",
                 gUser.getToken(), event.getName(), start, end);
         final Planning tmp = pl.get(0);
+        final int register = ((Objects.equals(tmp.getRegisterevent(), "registered")) ? 1 : 0);
         new MaterialDialog.Builder(getActivity())
                 .title(tmp.getActititle())
                 .content("Start at " + start + " | End at " + end)
-                .positiveText("S'inscrire")
+                .positiveText((register == 0 ? "S'inscrire" : "Se désinscrire"))
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        registertoevent(tmp);
+                        registertoevent(tmp, register);
                     }
                 })
                 .negativeText("Annuler")

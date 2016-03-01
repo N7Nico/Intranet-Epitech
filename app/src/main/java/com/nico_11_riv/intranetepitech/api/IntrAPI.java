@@ -43,6 +43,10 @@ public interface IntrAPI {
     @RequiresCookie("PHPSESSID")
     String registerevent(String scolaryear, String codemodule, String codeinstance, String codeacti, String codeevent);
 
+    @Post("/module/{scolaryear}/{codemodule}/{codeinstance}/{codeacti}/{codeevent}/unregister?format=json")
+    @RequiresCookie("PHPSESSID")
+    String unregisterevent(String scolaryear, String codemodule, String codeinstance, String codeacti, String codeevent);
+
     void setCookie(String name, String value);
     String getCookie(String name);
 }
