@@ -173,6 +173,18 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
         Calendar cal = Calendar.getInstance();
         String d1 = df.format(cal.getTime());
 
+        Date d0 = null;
+        Date d2 = null;
+        long diff = 0;
+        try {
+            d0 = df.parse(start);
+            d2 = df.parse(d1);
+            diff = d0.getTime() - d2.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long diffDays = diff / (24 * 60 * 60 * 1000);
+
         final Planning tmp = pl.get(0);
         String text = "S'inscrire";
 
@@ -182,13 +194,14 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
         else if (Objects.equals(tmp.getRegisterevent(), "registered") && Objects.equals(tmp.getAllow_token(), "true") && d1.compareTo(tmp.getStart()) > 0) {
             text = "Token";
         }
-        else if (Objects.equals(tmp.getRegisterevent(), "present")){
+        else if (Objects.equals(tmp.getRegisterevent(), "present") || diffDays < 1){
             text = "OK";
         }
+
         final String validate = text;
 
         new MaterialDialog.Builder(getActivity())
-                .title(tmp.getActititle())
+                .title(tmp.getActititle() + " -- " + diffDays)
                 .content("Start at " + start + " | End at " + end)
                 .positiveText(validate)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
