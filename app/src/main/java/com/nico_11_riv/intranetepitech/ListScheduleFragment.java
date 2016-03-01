@@ -196,6 +196,7 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         registertoevent(tmp, validate);
+                        startActivity(getActivity().getIntent());
                     }
                 })
                 .negativeText("Annuler")
