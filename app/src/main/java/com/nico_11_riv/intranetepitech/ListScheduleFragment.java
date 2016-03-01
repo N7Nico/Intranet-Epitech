@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -124,7 +125,7 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            WeekViewEvent event = new WeekViewEvent(1, info.getActi_title(), cal, cale);
+            WeekViewEvent event = new WeekViewEvent(1, info.getActititle(), cal, cale);
             int[] androidColors = getResources().getIntArray(R.array.androidcolors);
             int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
             event.setColor(randomAndroidColor);
@@ -139,15 +140,28 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
         return matchedEvents;
     }
 
+    @Background
+    void registertoevent(Planning tmp) {
+        api.setCookie("PHPSSID", gUser.getToken());
+        String rslt = api.registerevent(tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent());
+    }
+
     @Override
-    public void onEventClick(WeekViewEvent event, RectF eventRect) {
+    public void onEventClick(final WeekViewEvent event, RectF eventRect) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
+        String start = df.format(event.getStartTime().getTime());
+        String end = df.format(event.getEndTime().getTime());
+        List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * FROM Planning WHERE token = ? AND actititle = ? AND start = ? AND end = ?",
+                gUser.getToken(), event.getName(), start, end);
+        final Planning tmp = pl.get(0);
         new MaterialDialog.Builder(getActivity())
-                .title(event.getName())
+                .title(tmp.getActititle())
+                .content("Start at " + start + " | End at " + end)
                 .positiveText("S'inscrire")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-
+                        registertoevent(tmp);
                     }
                 })
                 .negativeText("Annuler")

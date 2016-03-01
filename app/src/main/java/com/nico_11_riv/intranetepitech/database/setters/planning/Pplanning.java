@@ -28,7 +28,7 @@ public class Pplanning {
                     pl.setCodeevent(tmp.getString("codeevent"));
                     pl.setSemester(tmp.getString("semester"));
                     pl.setTitlemodule(tmp.getString("titlemodule"));
-                    pl.setActi_title(tmp.getString("acti_title"));
+                    pl.setActititle(tmp.getString("acti_title"));
                     pl.setStart(tmp.getString("start"));
                     pl.setEnd(tmp.getString("end"));
                     pl.setResigtermodule(tmp.getString("module_registered"));

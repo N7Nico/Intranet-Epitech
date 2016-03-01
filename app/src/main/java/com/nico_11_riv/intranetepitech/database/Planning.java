@@ -12,7 +12,7 @@ public class Planning extends SugarRecord {
     private String codeevent;
     private String semester;
     private String titlemodule;
-    private String acti_title;
+    private String actititle;
     private String start;
     private String end;
     private String resigtermodule;
@@ -93,12 +93,12 @@ public class Planning extends SugarRecord {
         this.titlemodule = titlemodule;
     }
 
-    public String getActi_title() {
-        return acti_title;
+    public String getActititle() {
+        return actititle;
     }
 
-    public void setActi_title(String acti_title) {
-        this.acti_title = acti_title;
+    public void setActititle(String actititle) {
+        this.actititle = actititle;
     }
 
     public String getStart() {
