@@ -174,8 +174,7 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
         String d1 = df.format(cal.getTime());
 
         final Planning tmp = pl.get(0);
-        String text = "";
-
+        String text = "S'inscrire";
 
         if (Objects.equals(tmp.getRegisterevent(), "registered")) {
             text = "Se d'ésinscrire";
@@ -183,8 +182,8 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
         else if (Objects.equals(tmp.getRegisterevent(), "registered") && Objects.equals(tmp.getAllow_token(), "true") && d1.compareTo(tmp.getStart()) > 0) {
             text = "Token";
         }
-        else {
-            text = "S'inscrire";
+        else if (Objects.equals(tmp.getRegisterevent(), "present")){
+            text = "OK";
         }
         final String validate = text;
 
@@ -196,7 +195,9 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         registertoevent(tmp, validate);
-                        startActivity(getActivity().getIntent());
+                        if (!Objects.equals(validate, "OK")) {
+                            startActivity(getActivity().getIntent());
+                        }
                     }
                 })
                 .negativeText("Annuler")
