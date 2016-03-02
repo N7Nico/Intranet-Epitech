@@ -72,6 +72,10 @@ public interface IntrAPI {
     @RequiresCookie("PHPSESSID")
     String getproject(String scolaryear, String codemodule, String codeinstance, String codeacti);
 
+    @Post("/module/{scolaryear}/{codemodule}/{codeinstance}/{codeacti}/project/file/?format=json")
+    @RequiresCookie("PHPSESSID")
+    String getprojectfile(String scolaryear, String codemodule, String codeinstance, String codeacti);
+
     void setCookie(String name, String value);
     String getCookie(String name);
 }

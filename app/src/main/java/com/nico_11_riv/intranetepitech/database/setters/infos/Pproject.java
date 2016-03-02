@@ -1,5 +1,7 @@
 package com.nico_11_riv.intranetepitech.database.setters.infos;
 
+import android.util.Log;
+import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
@@ -12,7 +14,9 @@ import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.web.client.HttpClientErrorException;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,7 +46,7 @@ public class Pproject {
                                     JSONObject tmp = array.getJSONObject(o);
                                     if (Objects.equals(tmp.getString("is_projet"), "true")) {
                                         api.setCookie("PHPSESSID", user.getToken());
-                                        getProject(api.getproject(a.getJSONObject(i).getString("scolaryear"), a.getJSONObject(i).getString("code"), a.getJSONObject(i).getString("codeinstance"), tmp.getString("codeacti")));
+                                        getProject(api.getproject(a.getJSONObject(i).getString("scolaryear"), a.getJSONObject(i).getString("code"), a.getJSONObject(i).getString("codeinstance"), tmp.getString("codeacti")), api);
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -72,7 +76,7 @@ public class Pproject {
                         JSONObject tmp = array.getJSONObject(a);
                         if (Objects.equals(tmp.getString("is_projet"), "true")) {
                             api.setCookie("PHPSESSID", user.getToken());
-                            getProject(api.getproject(allmodules.get(i).getScolaryear(), allmodules.get(i).getCodemodule(), allmodules.get(i).getCodeinstance(), tmp.getString("codeacti")));
+                            getProject(api.getproject(allmodules.get(i).getScolaryear(), allmodules.get(i).getCodemodule(), allmodules.get(i).getCodeinstance(), tmp.getString("codeacti")), api);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -97,7 +101,7 @@ public class Pproject {
                         JSONObject tmp = array.getJSONObject(a);
                         if (Objects.equals(tmp.getString("is_projet"), "true")) {
                             api.setCookie("PHPSESSID", user.getToken());
-                            getProject(api.getproject(allmodules.get(i).getScolaryear(), allmodules.get(i).getCode(), allmodules.get(i).getCodeinstance(), tmp.getString("codeacti")));
+                            getProject(api.getproject(allmodules.get(i).getScolaryear(), allmodules.get(i).getCode(), allmodules.get(i).getCodeinstance(), tmp.getString("codeacti")), api);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -131,7 +135,7 @@ public class Pproject {
     }
 
 
-    public void getProject(String api) {
+    public void getProject(String api, IntrAPI intra) {
         JSONObject ori = null;
         try {
             ori = new JSONObject(api);
@@ -162,7 +166,24 @@ public class Pproject {
             project.setClosed(ori.getString("closed"));
             project.setInstanceregistered(ori.getString("instance_registered"));
             project.setUserprojectstatus(ori.getString("user_project_status"));
-            //project.setFileurl(ori.getString("fileurl"));
+            project.setFileurl("");
+            if (!Objects.equals(ori.getString("type_code"), "rdv") && URLUtil.isValidUrl("https://intra.epitech.eu/module/" + ori.getString("scolaryear") + "/" + ori.getString("codemodule") + "/" + ori.getString("codeinstance") + "/" + ori.getString("codeacti"))) {
+                intra.setCookie("PHPSESSID", user.getToken());
+                String path = "https://www.intra.epitech.eu";
+                try {
+                    JSONArray json = new JSONArray(intra.getprojectfile(ori.getString("scolaryear"), ori.getString("codemodule"), ori.getString("codeinstance"), ori.getString("codeacti")));
+                    JSONObject tmp = json.getJSONObject(0);
+                    if (tmp.has("fullpath")) {
+                        path += tmp.getString("fullpath");
+                        project.setFileurl(path);
+                    }
+                } catch (JSONException e) {
+                    project.setFileurl("");
+                    e.printStackTrace();
+                } catch (HttpClientErrorException e) {
+                    Log.d("Response", e.getResponseBodyAsString());
+                }
+            }
             List<Projects> p = Projects.findWithQuery(Projects.class, "Select * FROM Projects WHERE codeacti = ?", ori.getString("codeacti"));
             if (p.size() == 0) {
                 project.save();

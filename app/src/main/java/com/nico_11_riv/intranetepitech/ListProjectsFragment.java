@@ -1,12 +1,16 @@
 package com.nico_11_riv.intranetepitech;
 
 import android.app.Fragment;
+import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.nico_11_riv.intranetepitech.database.Projects;
+import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.ui.contents.Projects_content;
+import com.orm.query.Select;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -14,10 +18,14 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.List;
+
 @EFragment(R.layout.listprojects)
 public class ListProjectsFragment extends Fragment implements AdapterView.OnItemClickListener {
     @ViewById
     ListView projslistview;
+
+    GUser user = new GUser();
 
     @AfterViews
     void init() {
@@ -26,9 +34,11 @@ public class ListProjectsFragment extends Fragment implements AdapterView.OnItem
 
     @UiThread
     void dispPopUp(Projects_content item) {
+        List<Projects> projectsList = Projects.findWithQuery(Projects.class, "Select * FROM Projects WHERE token = ? AND title = ?", user.getToken(), item.getProjectName());
+        Projects projects = projectsList.get(0);
         new MaterialDialog.Builder(getActivity())
                 .title(item.getProjectName())
-                .content("Timeline : " + item.getStartDate() + " - " + item.getEndDate())
+                .content(Html.fromHtml("<b>Description :</b> " + projects.getDescription() + "<br /><b>Fichier : </b><a href= \"" + projects.getFileurl() + "\">" + projects.getFileurl() + "</a>"))
                 .negativeText("Retour")
                 .show();
     }
