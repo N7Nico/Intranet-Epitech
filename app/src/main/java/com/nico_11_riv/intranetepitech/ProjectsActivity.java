@@ -142,9 +142,11 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
             InfosRequest ir = new InfosRequest(gUser.getToken());
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
             Projects.deleteAll(Projects.class, "token = ?", gUser.getToken());
+            api.setCookie("PHPSESSID", gUser.getToken());
             String result = api.getuserinfo(gUser.getLogin());
             Puserinfos infos = new Puserinfos(result);
             maketoast();
+            api.setCookie("PHPSESSID", gUser.getToken());
             Pproject p = new Pproject(api);
         }
         Guserinfos guserinfos = new Guserinfos();
