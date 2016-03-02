@@ -38,7 +38,10 @@ public class ListProjectsFragment extends Fragment implements AdapterView.OnItem
         Projects projects = projectsList.get(0);
         new MaterialDialog.Builder(getActivity())
                 .title(item.getProjectName())
-                .content(Html.fromHtml("<b>Description :</b> " + projects.getDescription() + "<br /><b>Fichier : </b><a href= \"" + projects.getFileurl() + "\">" + projects.getFileurl() + "</a>"))
+                .content(Html.fromHtml("<b>Description :</b> " + projects.getDescription() + "<br />" +
+                        "<b>Deadline : </b>" + projects.getDeadline() + "<br />" +
+                        "<b>Groupe de : </b>" + projects.getNbmin() + " à " + projects.getNbmax() + "<br />" +
+                        "<b>Fichier : </b><a href= \"" + projects.getFileurl() + "\">" + projects.getFileurl() + "</a>"))
                 .negativeText("Retour")
                 .show();
     }
