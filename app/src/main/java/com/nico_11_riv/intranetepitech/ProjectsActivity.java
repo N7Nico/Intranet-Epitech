@@ -21,8 +21,10 @@ import com.nico_11_riv.intranetepitech.api.HerokuAPI;
 import com.nico_11_riv.intranetepitech.api.requests.InfosRequest;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Allprojects;
+import com.nico_11_riv.intranetepitech.database.Projects;
 import com.nico_11_riv.intranetepitech.database.setters.infos.CircleTransform;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Guserinfos;
+import com.nico_11_riv.intranetepitech.database.setters.infos.Pproject;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Puserinfos;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Pallprojects;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
@@ -97,11 +99,13 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
 
     private ArrayList<Projects_content> generateData() {
         ArrayList<Projects_content> items = new ArrayList<Projects_content>();
-        List<Allprojects> project = Select.from(Allprojects.class).where(Condition.prop("token").eq(gUser.getToken())).list();
-        for (int i = 0; i < project.size(); i++) {
-            Allprojects info = project.get(i);
-            items.add(new Projects_content(info.getActititle(), info.getBeginacti(), info.getEndacti()));
+        //List<Allprojects> project = Select.from(Allprojects.class).where(Condition.prop("token").eq(gUser.getToken())).list();
+        List<Projects> p = Select.from(Projects.class).where(Condition.prop("token").eq(gUser.getToken())).list();
+        for (int i = 0; i < p.size(); i++) {
+            Projects info = p.get(i);
+            items.add(new Projects_content(info.getTitle(), info.getBegin(), info.getEnd()));
         }
+        items.add(new Projects_content("fee", "efgfrgf", "cce"));
         return items;
     }
 
@@ -136,7 +140,9 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
             Allprojects.deleteAll(Allprojects.class, "token = ?", gUser.getToken());
             String result = api.getuserinfo(gUser.getLogin());
             Puserinfos infos = new Puserinfos(result);
-            Pallprojects pallprojects = new Pallprojects(API.getallprojets(gUser.getToken()));
+            Pproject p = new Pproject(api);
+            //Pallprojects pallprojects = new Pallprojec-ts(API.getallprojets(gUser.getToken()));
+
         }
         Guserinfos guserinfos = new Guserinfos();
         initMenu();

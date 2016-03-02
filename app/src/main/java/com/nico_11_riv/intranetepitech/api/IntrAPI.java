@@ -63,6 +63,15 @@ public interface IntrAPI {
     @RequiresCookie("PHPSESSID")
     String unregisterproject(String scolaryear, String codemodule, String codeinstance, String codeacti);
 
+    // Get Project row
+    @Post("/module/{scolaryear}/{codemodule}/{codeinstance}/?format=json")
+    @RequiresCookie("PHPSESSID")
+    String getactivite(String scolaryear, String codemodule, String codeinstance);
+
+    @Post("/module/{scolaryear}/{codemodule}/{codeinstance}/{codeacti}/project/?format=json")
+    @RequiresCookie("PHPSESSID")
+    String getproject(String scolaryear, String codemodule, String codeinstance, String codeacti);
+
     void setCookie(String name, String value);
     String getCookie(String name);
 }
