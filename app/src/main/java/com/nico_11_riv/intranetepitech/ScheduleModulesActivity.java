@@ -37,8 +37,8 @@ import org.androidannotations.annotations.rest.RestService;
 
 import java.util.List;
 
-@EActivity(R.layout.activity_schedule)
-public class ScheduleActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+@EActivity(R.layout.activity_schedule_modules)
+public class ScheduleModulesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static int week = 0;
 
@@ -135,7 +135,7 @@ public class ScheduleActivity extends AppCompatActivity implements NavigationVie
             startActivity(new Intent(this, ProjectsActivity_.class));
         } else if (id == R.id.nav_schedule) {
             drawer_layout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, ScheduleActivity_.class));
+            startActivity(new Intent(this, ScheduleModulesActivity_.class));
         } else if (id == R.id.nav_logout) {
             drawer_layout.closeDrawer(GravityCompat.START);
             List<User> users = User.find(User.class, "connected = ?", "true");

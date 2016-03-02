@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -29,6 +28,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ import java.util.Objects;
 import java.util.Random;
 
 @EFragment(R.layout.listschedule)
-public class ListScheduleFragment extends Fragment implements MonthLoader.MonthChangeListener, WeekView.EventClickListener {
+public class ListScheduleAllF extends Fragment implements MonthLoader.MonthChangeListener, WeekView.EventClickListener {
 
     private static int week = 1;
     @RestService
@@ -55,6 +55,8 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
     WeekView weekView;
     private GUser gUser = new GUser();
     private Guserinfos guserinfos = null;
+    private List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+    private int waitt = 1;
 
     private boolean isConnected() {
         try {
@@ -101,23 +103,42 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
         return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) == month - 1) || (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
     }
 
+    @Background
+    void toto(String startDate, String endDate, int newYear, int newMonth) {
+        if (isConnected() == true) {
+            Planning.deleteAll(Planning.class, "token = ?", gUser.getToken());
+            api.setCookie("PHPSESSID", gUser.getToken());
+            Pplanning plf = new Pplanning(api.getplanning(startDate, endDate));
+            waitt = 0;
+        }
+    }
+
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-        Calendar startTime = null;
-        List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+        waitt = 1;
+        Calendar calendar = Calendar.getInstance();
+        // passing month-1 because 0-->jan, 1-->feb... 11-->dec
+        calendar.set(newYear, newMonth - 1, 1);
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
+        Date date = calendar.getTime();
+        DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
+        String endDate = DATE_FORMAT.format(date);
 
+        Calendar calendarr = Calendar.getInstance();
+        // passing month-1 because 0-->jan, 1-->feb... 11-->dec
+        calendarr.set(newYear, newMonth - 1, 1);
+        calendarr.set(Calendar.DATE, calendarr.getActualMinimum(Calendar.DATE));
+        Date datee = calendarr.getTime();
+        DateFormat DATE_FORMATT = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
+        String startDate = DATE_FORMATT.format(datee);
+
+        toto(startDate, endDate, newYear, newMonth);
+        while (waitt == 1);
+        Calendar startTime = null;
+        events = new ArrayList<WeekViewEvent>();
         List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * from Planning where token = ? ", gUser.getToken());
-        //  List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * from Planning where token = ? and registerevent = ? or registerevent = ?", gUser.getToken(), "registered", "present");
         for (int i = 0; i < pl.size(); i++) {
             Planning info = pl.get(i);
-            startTime = Calendar.getInstance();
-            startTime.set(Calendar.HOUR_OF_DAY, 3);
-            startTime.set(Calendar.MINUTE, 0);
-            startTime.set(Calendar.MONTH, newMonth - 1);
-            startTime.set(Calendar.YEAR, newYear);
-            Calendar endTime = (Calendar) startTime.clone();
-            endTime.add(Calendar.HOUR, 1);
-            endTime.set(Calendar.MONTH, newMonth - 1);
             Calendar cal = Calendar.getInstance();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
             try {
@@ -152,11 +173,9 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
         api.setCookie("PHPSSID", gUser.getToken());
         if (Objects.equals(validate, "S'inscrire")) {
             String rslt = api.registerevent(tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent());
-        }
-        else if (Objects.equals(validate, "Se d'ésinscrire")){
+        } else if (Objects.equals(validate, "Se d'ésinscrire")) {
             String rslt = api.unregisterevent(tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent());
-        }
-        else {
+        } else {
             TokenRequest tr = new TokenRequest(gUser.getToken(), tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent(), "00000000");
             o_api.validateToken(tr);
         }
@@ -190,11 +209,9 @@ public class ListScheduleFragment extends Fragment implements MonthLoader.MonthC
 
         if (Objects.equals(tmp.getRegisterevent(), "registered")) {
             text = "Se d'ésinscrire";
-        }
-        else if (Objects.equals(tmp.getRegisterevent(), "registered") && Objects.equals(tmp.getAllow_token(), "true") && d1.compareTo(tmp.getStart()) > 0) {
+        } else if (Objects.equals(tmp.getRegisterevent(), "registered") && Objects.equals(tmp.getAllow_token(), "true") && d1.compareTo(tmp.getStart()) > 0) {
             text = "Token";
-        }
-        else if (Objects.equals(tmp.getRegisterevent(), "present") || diffDays < 1){
+        } else if (Objects.equals(tmp.getRegisterevent(), "present") || diffDays < 1) {
             text = "OK";
         }
 

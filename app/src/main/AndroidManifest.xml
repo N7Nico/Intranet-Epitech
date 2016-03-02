@@ -58,6 +58,14 @@
             android:label="@string/title_activity_projects"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".ScheduleAllActivity_"
+            android:label="@string/title_activity_schedule"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ScheduleModulesActivity_"
+            android:label="@string/title_activity_schedule"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ScheduleActivity_"
             android:label="@string/title_activity_schedule"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -5,12 +5,12 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ScheduleActivity"
-    tools:showIn="@layout/app_bar_schedule">
+    tools:context=".ScheduleModulesActivity"
+    tools:showIn="@layout/app_bar_schedule_modules">
 
     <fragment
-        android:id="@+id/listschedulefragment"
-        android:name="com.nico_11_riv.intranetepitech.ListScheduleF_"
+        android:id="@+id/listmodulesschedulefragment"
+        android:name="com.nico_11_riv.intranetepitech.ListScheduleModulesF_"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 </RelativeLayout>
