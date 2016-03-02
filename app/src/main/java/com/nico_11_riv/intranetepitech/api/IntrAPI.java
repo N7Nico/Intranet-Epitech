@@ -47,6 +47,22 @@ public interface IntrAPI {
     @RequiresCookie("PHPSESSID")
     String unregisterevent(String scolaryear, String codemodule, String codeinstance, String codeacti, String codeevent);
 
+    @Post("/module/{scolaryear}/{codemodule}/{codeinstance}/register?format=json")
+    @RequiresCookie("PHPSESSID")
+    String registermodule(String scolaryear, String codemodule, String codeinstance);
+
+    @Post("/module/{scolaryear}/{codemodule}/{codeinstance}/unregister?format=json")
+    @RequiresCookie("PHPSESSID")
+    String unregistermodule(String scolaryear, String codemodule, String codeinstance);
+
+    @Post("/module/{scolaryear}/{codemodule}/{codeinstance}/{codeacti}/project/register?format=json")
+    @RequiresCookie("PHPSESSID")
+    String registerproject(String scolaryear, String codemodule, String codeinstance, String codeacti);
+
+    @Post("/module/{scolaryear}/{codemodule}/{codeinstance}/{codeacti}/project/unregister?format=json")
+    @RequiresCookie("PHPSESSID")
+    String unregisterproject(String scolaryear, String codemodule, String codeinstance, String codeacti);
+
     void setCookie(String name, String value);
     String getCookie(String name);
 }
