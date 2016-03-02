@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.HerokuAPI;
@@ -130,6 +131,11 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
         display_cur_projs();
     }
 
+    @UiThread
+    void maketoast() {
+        Toast.makeText(getApplicationContext(), "La réception des données peut être longue", Toast.LENGTH_LONG).show();
+    }
+
     @Background
     void loadInfos() {
         if (isConnected() == true) {
@@ -138,6 +144,7 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
             Projects.deleteAll(Projects.class, "token = ?", gUser.getToken());
             String result = api.getuserinfo(gUser.getLogin());
             Puserinfos infos = new Puserinfos(result);
+            maketoast();
             Pproject p = new Pproject(api);
         }
         Guserinfos guserinfos = new Guserinfos();
