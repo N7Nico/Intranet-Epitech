@@ -1,18 +1,14 @@
 package com.nico_11_riv.intranetepitech.database.setters.infos;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.widget.Toast;
 
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Allmodules;
+import com.nico_11_riv.intranetepitech.database.Modules;
 import com.nico_11_riv.intranetepitech.database.Projects;
 import com.nico_11_riv.intranetepitech.database.Userinfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.UiThread;
-import org.androidannotations.annotations.rest.RestService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,34 +25,111 @@ public class Pproject {
     GUser user = new GUser();
     List<Userinfos> info = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", user.getLogin());
 
-    public Pproject(IntrAPI api) {
-        String returnapi = "";
-        List<Allmodules> allmodules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE token = ?", this.user.getToken());
-        for (int i = 0; i < allmodules.size(); i++) {
-            api.setCookie("PHPSESSID", user.getToken());
-            returnapi = api.getactivite(allmodules.get(i).getScolaryear(), allmodules.get(i).getCode(), allmodules.get(i).getCodeinstance());
-            JSONObject object = null;
-            try {
-                object = new JSONObject(returnapi);
-                if (object.has("activites") && Objects.equals(object.getString("student_registered"), "1")) {
-                    JSONArray array = object.getJSONArray("activites");
-                    for (int a = 0; a < array.length(); a++) {
-                        try {
-                            JSONObject tmp = array.getJSONObject(a);
-                            if (Objects.equals(tmp.getString("is_projet"), "true")) {
-                                api.setCookie("PHPSESSID", user.getToken());
-                                getProject(api.getproject(allmodules.get(i).getScolaryear(), allmodules.get(i).getCode(), allmodules.get(i).getCodeinstance(), tmp.getString("codeacti")));
+    public void parsemoduleapi(String rslt, IntrAPI api) {
+        try {
+            JSONArray a = new JSONArray(rslt);
+            for (int i = 0; i < a.length(); i++) {
+                if (!Objects.equals(a.getJSONObject(i).getString("status"), "notregistered")) {
+                    api.setCookie("PHPSESSID", user.getToken());
+                    String returnapi = api.getactivite(a.getJSONObject(i).getString("scolaryear"), a.getJSONObject(i).getString("code"), a.getJSONObject(i).getString("codeinstance"));
+                    JSONObject object = null;
+                    try {
+                        object = new JSONObject(returnapi);
+                        if (object.has("activites") && Objects.equals(object.getString("student_registered"), "1")) {
+                            JSONArray array = object.getJSONArray("activites");
+                            for (int o = 0; o < array.length(); o++) {
+                                try {
+                                    JSONObject tmp = array.getJSONObject(o);
+                                    if (Objects.equals(tmp.getString("is_projet"), "true")) {
+                                        api.setCookie("PHPSESSID", user.getToken());
+                                        getProject(api.getproject(a.getJSONObject(i).getString("scolaryear"), a.getJSONObject(i).getString("code"), a.getJSONObject(i).getString("codeinstance"), tmp.getString("codeacti")));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void parsemoduledb(List<Modules> allmodules, int i, IntrAPI api) {
+        api.setCookie("PHPSESSID", user.getToken());
+        String returnapi = api.getactivite(allmodules.get(i).getScolaryear(), allmodules.get(i).getCodemodule(), allmodules.get(i).getCodeinstance());
+        JSONObject object = null;
+        try {
+            object = new JSONObject(returnapi);
+            if (object.has("activites") && Objects.equals(object.getString("student_registered"), "1")) {
+                JSONArray array = object.getJSONArray("activites");
+                for (int a = 0; a < array.length(); a++) {
+                    try {
+                        JSONObject tmp = array.getJSONObject(a);
+                        if (Objects.equals(tmp.getString("is_projet"), "true")) {
+                            api.setCookie("PHPSESSID", user.getToken());
+                            getProject(api.getproject(allmodules.get(i).getScolaryear(), allmodules.get(i).getCodemodule(), allmodules.get(i).getCodeinstance(), tmp.getString("codeacti")));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void parseallmoduledb(List<Allmodules> allmodules, int i, IntrAPI api) {
+        api.setCookie("PHPSESSID", user.getToken());
+        String returnapi = api.getactivite(allmodules.get(i).getScolaryear(), allmodules.get(i).getCode(), allmodules.get(i).getCodeinstance());
+        JSONObject object = null;
+        try {
+            object = new JSONObject(returnapi);
+            if (object.has("activites") && Objects.equals(object.getString("student_registered"), "1")) {
+                JSONArray array = object.getJSONArray("activites");
+                for (int a = 0; a < array.length(); a++) {
+                    try {
+                        JSONObject tmp = array.getJSONObject(a);
+                        if (Objects.equals(tmp.getString("is_projet"), "true")) {
+                            api.setCookie("PHPSESSID", user.getToken());
+                            getProject(api.getproject(allmodules.get(i).getScolaryear(), allmodules.get(i).getCode(), allmodules.get(i).getCodeinstance(), tmp.getString("codeacti")));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Pproject(IntrAPI api) {
+        List<Allmodules> allmodules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE token = ?", this.user.getToken());
+        List<Modules> modules= Modules.findWithQuery(Modules.class, "SELECT * FROM Modules WHERE token = ?", this.user.getToken());
+        if (allmodules.size() == 0) {
+            if (modules.size() == 0) {
+                api.setCookie("PHPSESSID", user.getToken());
+                parsemoduleapi(api.getallmodules(), api);
+            }
+            else if (modules.size() > 0) {
+                for (int i = 0; i < modules.size(); i++) {
+                    parsemoduledb(modules, i, api);
+                }
+            }
+        }
+        else {
+            for (int i = 0; i < allmodules.size(); i++) {
+                parseallmoduledb(allmodules, i, api);
             }
         }
     }
+
 
     public void getProject(String api) {
         JSONObject ori = null;

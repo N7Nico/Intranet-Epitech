@@ -99,13 +99,11 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
 
     private ArrayList<Projects_content> generateData() {
         ArrayList<Projects_content> items = new ArrayList<Projects_content>();
-        //List<Allprojects> project = Select.from(Allprojects.class).where(Condition.prop("token").eq(gUser.getToken())).list();
-        List<Projects> p = Select.from(Projects.class).where(Condition.prop("token").eq(gUser.getToken())).list();
+        List<Projects> p = Projects.findWithQuery(Projects.class, "Select * FROM Projects WHERE token = ? ORDER BY ?", gUser.getToken(), "start");
         for (int i = 0; i < p.size(); i++) {
             Projects info = p.get(i);
             items.add(new Projects_content(info.getTitle(), info.getBegin(), info.getEnd()));
         }
-        items.add(new Projects_content("fee", "efgfrgf", "cce"));
         return items;
     }
 
@@ -137,12 +135,10 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
         if (isConnected() == true) {
             InfosRequest ir = new InfosRequest(gUser.getToken());
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
-            Allprojects.deleteAll(Allprojects.class, "token = ?", gUser.getToken());
+            Projects.deleteAll(Projects.class, "token = ?", gUser.getToken());
             String result = api.getuserinfo(gUser.getLogin());
             Puserinfos infos = new Puserinfos(result);
             Pproject p = new Pproject(api);
-            //Pallprojects pallprojects = new Pallprojec-ts(API.getallprojets(gUser.getToken()));
-
         }
         Guserinfos guserinfos = new Guserinfos();
         initMenu();
