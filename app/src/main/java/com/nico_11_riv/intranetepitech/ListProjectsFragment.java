@@ -52,6 +52,7 @@ public class ListProjectsFragment extends Fragment implements AdapterView.OnItem
     @Background
     void registrationproject(Projects projects, String validate) {
         if (Objects.equals(validate, "S'inscrire")) {
+            api.setCookie("PHPSESSID", user.getToken());
             api.registerproject(projects.getScolaryear(), projects.getCodemodule(), projects.getCodeinstance(), projects.getCodeacti());
         }
     }
