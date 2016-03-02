@@ -1,6 +1,7 @@
 package com.nico_11_riv.intranetepitech;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
@@ -46,7 +47,6 @@ public class ListScheduleF extends Fragment implements MonthLoader.MonthChangeLi
     private static int week = 1;
     @RestService
     IntrAPI api;
-
     @RestService
     HerokuAPI o_api;
     @Bean
@@ -57,6 +57,7 @@ public class ListScheduleF extends Fragment implements MonthLoader.MonthChangeLi
     private Guserinfos guserinfos = null;
     private List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
     private int waitt = 1;
+    private ProgressDialog progress;
 
     private boolean isConnected() {
         try {
@@ -67,34 +68,8 @@ public class ListScheduleF extends Fragment implements MonthLoader.MonthChangeLi
         }
     }
 
-    @UiThread
-    void db_change() {
-        weekView.notifyDatasetChanged();
-    }
-
-    @Background
-    void set_date() {
-        Calendar c = GregorianCalendar.getInstance(Locale.FRANCE);
-        c.add(Calendar.DATE, 7 * week);
-        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
-
-        String startDate = df.format(c.getTime());
-        c.add(Calendar.DATE, 6);
-        String endDate = df.format(c.getTime());
-        api.setCookie("PHPSESSID", gUser.getToken());
-        Pplanning pl = new Pplanning(api.getplanning(startDate, endDate));
-        db_change();
-    }
-
     @AfterViews
     void init() {
-        if (isConnected() == true) {
-            Planning.deleteAll(Planning.class, "token = ?", gUser.getToken());
-            set_date();
-        }
         weekView.setMonthChangeListener(this);
         weekView.setOnEventClickListener(this);
     }
@@ -110,11 +85,13 @@ public class ListScheduleF extends Fragment implements MonthLoader.MonthChangeLi
             api.setCookie("PHPSESSID", gUser.getToken());
             Pplanning plf = new Pplanning(api.getplanning(startDate, endDate));
             waitt = 0;
+           // tk();
         }
     }
 
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+
         waitt = 1;
         Calendar calendar = Calendar.getInstance();
         // passing month-1 because 0-->jan, 1-->feb... 11-->dec
@@ -131,9 +108,8 @@ public class ListScheduleF extends Fragment implements MonthLoader.MonthChangeLi
         Date datee = calendarr.getTime();
         DateFormat DATE_FORMATT = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
         String startDate = DATE_FORMATT.format(datee);
-
         toto(startDate, endDate, newYear, newMonth);
-        while (waitt == 1);
+        while (waitt == 1) ;
         Calendar startTime = null;
         events = new ArrayList<WeekViewEvent>();
         List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * from Planning where token = ? and registerevent = ? or registerevent = ?", gUser.getToken(), "registered", "present");

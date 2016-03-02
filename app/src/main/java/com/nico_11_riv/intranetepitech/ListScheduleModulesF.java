@@ -67,34 +67,8 @@ public class ListScheduleModulesF extends Fragment implements MonthLoader.MonthC
         }
     }
 
-    @UiThread
-    void db_change() {
-        weekView.notifyDatasetChanged();
-    }
-
-    @Background
-    void set_date() {
-        Calendar c = GregorianCalendar.getInstance(Locale.FRANCE);
-        c.add(Calendar.DATE, 7 * week);
-        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
-
-        String startDate = df.format(c.getTime());
-        c.add(Calendar.DATE, 6);
-        String endDate = df.format(c.getTime());
-        api.setCookie("PHPSESSID", gUser.getToken());
-        Pplanning pl = new Pplanning(api.getplanning(startDate, endDate));
-        db_change();
-    }
-
     @AfterViews
     void init() {
-        if (isConnected() == true) {
-            Planning.deleteAll(Planning.class, "token = ?", gUser.getToken());
-            set_date();
-        }
         weekView.setMonthChangeListener(this);
         weekView.setOnEventClickListener(this);
     }

@@ -1,10 +1,12 @@
 package com.nico_11_riv.intranetepitech;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -67,34 +69,8 @@ public class ListScheduleAllF extends Fragment implements MonthLoader.MonthChang
         }
     }
 
-    @UiThread
-    void db_change() {
-        weekView.notifyDatasetChanged();
-    }
-
-    @Background
-    void set_date() {
-        Calendar c = GregorianCalendar.getInstance(Locale.FRANCE);
-        c.add(Calendar.DATE, 7 * week);
-        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
-
-        String startDate = df.format(c.getTime());
-        c.add(Calendar.DATE, 6);
-        String endDate = df.format(c.getTime());
-        api.setCookie("PHPSESSID", gUser.getToken());
-        Pplanning pl = new Pplanning(api.getplanning(startDate, endDate));
-        db_change();
-    }
-
     @AfterViews
     void init() {
-        if (isConnected() == true) {
-            Planning.deleteAll(Planning.class, "token = ?", gUser.getToken());
-            set_date();
-        }
         weekView.setMonthChangeListener(this);
         weekView.setOnEventClickListener(this);
     }
@@ -110,11 +86,13 @@ public class ListScheduleAllF extends Fragment implements MonthLoader.MonthChang
             api.setCookie("PHPSESSID", gUser.getToken());
             Pplanning plf = new Pplanning(api.getplanning(startDate, endDate));
             waitt = 0;
+
         }
     }
 
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+
         waitt = 1;
         Calendar calendar = Calendar.getInstance();
         // passing month-1 because 0-->jan, 1-->feb... 11-->dec
