@@ -57,6 +57,7 @@ public class ListScheduleF extends Fragment implements MonthLoader.MonthChangeLi
     private Guserinfos guserinfos = null;
     private List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
     private int waitt = 1;
+    private int wait2 = 1;
     private ProgressDialog progress;
 
     private boolean isConnected() {
@@ -85,7 +86,6 @@ public class ListScheduleF extends Fragment implements MonthLoader.MonthChangeLi
             api.setCookie("PHPSESSID", gUser.getToken());
             Pplanning plf = new Pplanning(api.getplanning(startDate, endDate));
             waitt = 0;
-           // tk();
         }
     }
 
@@ -157,13 +157,29 @@ public class ListScheduleF extends Fragment implements MonthLoader.MonthChangeLi
         }
     }
 
+    @Background
+    void getEvent(WeekViewEvent event) {
+        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
+        String startt = dff.format(event.getStartTime().getTime());
+        String endd = dff.format(event.getEndTime().getTime());
+        if (isConnected() == true) {
+            Planning.deleteAll(Planning.class, "token = ?", gUser.getToken());
+            api.setCookie("PHPSESSID", gUser.getToken());
+            Pplanning plf = new Pplanning(api.getplanning(startt, endd));
+            wait2 = 0;
+        }
+    }
+
     @Override
     public void onEventClick(final WeekViewEvent event, RectF eventRect) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
         String start = df.format(event.getStartTime().getTime());
         String end = df.format(event.getEndTime().getTime());
-        List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * FROM Planning WHERE token = ? AND actititle = ? AND start = ? AND end = ?",
-                gUser.getToken(), event.getName(), start, end);
+
+        wait2 = 1;
+        getEvent(event);
+        while (wait2 == 1);
+        List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * FROM Planning WHERE token = ? AND actititle = ? AND start = ? AND end = ?", gUser.getToken(), event.getName(), start, end);
 
         Calendar cal = Calendar.getInstance();
         String d1 = df.format(cal.getTime());
