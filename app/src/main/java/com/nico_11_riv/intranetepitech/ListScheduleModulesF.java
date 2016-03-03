@@ -2,6 +2,7 @@ package com.nico_11_riv.intranetepitech;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
@@ -20,11 +21,11 @@ import com.nico_11_riv.intranetepitech.database.setters.infos.Guserinfos;
 import com.nico_11_riv.intranetepitech.database.setters.planning.Pplanning;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
@@ -34,29 +35,35 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
 
 @EFragment(R.layout.listschedule)
 public class ListScheduleModulesF extends Fragment implements MonthLoader.MonthChangeListener, WeekView.EventClickListener {
-
-    private static int week = 1;
     @RestService
     IntrAPI api;
 
     @RestService
     HerokuAPI o_api;
+
     @Bean
     APIErrorHandler ErrorHandler;
+
+    @AfterInject
+    void afterInject() {
+        api.setRestErrorHandler(ErrorHandler);
+        o_api.setRestErrorHandler(ErrorHandler);
+    }
+
     @ViewById
     WeekView weekView;
     private GUser gUser = new GUser();
-    private Guserinfos guserinfos = null;
     private List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
     private int waitt = 1;
+    private int wait2 = 1;
 
     private boolean isConnected() {
         try {
@@ -107,7 +114,7 @@ public class ListScheduleModulesF extends Fragment implements MonthLoader.MonthC
         String startDate = DATE_FORMATT.format(datee);
 
         toto(startDate, endDate, newYear, newMonth);
-        while (waitt == 1);
+        while (waitt == 1) ;
         Calendar startTime = null;
         events = new ArrayList<WeekViewEvent>();
         List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * from Planning where token = ? and resigtermodule = ?", gUser.getToken(), "true");
@@ -128,9 +135,17 @@ public class ListScheduleModulesF extends Fragment implements MonthLoader.MonthC
                 e.printStackTrace();
             }
             WeekViewEvent event = new WeekViewEvent(1, info.getActititle(), cal, cale);
-            int[] androidColors = getResources().getIntArray(R.array.androidcolors);
-            int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
-            event.setColor(randomAndroidColor);
+            Map<String, String> eventypes = new HashMap<String, String>() {{
+                put("class", "#6faabd");
+                put("exam", "#d7906f");
+                put("rdv", "#e2aa55");
+                put("tp", "#a28ab9");
+                put("other", "#668cb3");
+            }};
+            if (eventypes.get(info.getTypecode()) != null)
+                event.setColor(Color.parseColor(eventypes.get(info.getTypecode())));
+            else
+                event.setColor(Color.parseColor("#668cb3"));
             events.add(event);
         }
         List<WeekViewEvent> matchedEvents = new ArrayList<WeekViewEvent>();
@@ -155,11 +170,29 @@ public class ListScheduleModulesF extends Fragment implements MonthLoader.MonthC
         }
     }
 
+    @Background
+    void getEvent(WeekViewEvent event) {
+        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
+        String startt = dff.format(event.getStartTime().getTime());
+        String endd = dff.format(event.getEndTime().getTime());
+        if (isConnected() == true) {
+            Planning.deleteAll(Planning.class, "token = ?", gUser.getToken());
+            api.setCookie("PHPSESSID", gUser.getToken());
+            Pplanning plf = new Pplanning(api.getplanning(startt, endd));
+            wait2 = 0;
+        }
+    }
+
     @Override
     public void onEventClick(final WeekViewEvent event, RectF eventRect) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
         String start = df.format(event.getStartTime().getTime());
         String end = df.format(event.getEndTime().getTime());
+
+        wait2 = 1;
+        getEvent(event);
+        while (wait2 == 1) ;
+
         List<Planning> pl = Planning.findWithQuery(Planning.class, "Select * FROM Planning WHERE token = ? AND actititle = ? AND start = ? AND end = ?", gUser.getToken(), event.getName(), start, end);
 
         Calendar cal = Calendar.getInstance();

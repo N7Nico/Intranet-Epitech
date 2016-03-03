@@ -33,6 +33,7 @@ import com.orm.query.Condition;
 import com.orm.query.Select;
 import com.squareup.picasso.Picasso;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
@@ -52,6 +53,11 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
 
     @Bean
     APIErrorHandler ErrorHandler;
+
+    @AfterInject
+    void afterInject() {
+        api.setRestErrorHandler(ErrorHandler);
+    }
 
     @ViewById
     DrawerLayout drawer_layout;

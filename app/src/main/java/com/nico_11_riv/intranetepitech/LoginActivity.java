@@ -37,13 +37,15 @@ import java.util.Random;
 public class LoginActivity extends AppCompatActivity {
 
     @RestService
-    HerokuAPI API;
-
-    @RestService
-    IntrAPI restapi;
+    IntrAPI api;
 
     @Bean
     APIErrorHandler ErrorHandler;
+
+    @AfterInject
+    void afterInject() {
+        api.setRestErrorHandler(ErrorHandler);
+    }
 
     @ViewById
     AutoCompleteTextView vlogin;
@@ -53,11 +55,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @ViewById
     Button login_button;
-
-    @AfterInject
-    void afterInject() {
-        API.setRestErrorHandler(ErrorHandler);
-    }
 
     private boolean isConnected() {
         try {
@@ -88,9 +85,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     boolean check_user(String token, String login) {
-        String api = restapi.getuserinfo(login);
+        String restapi = api.getuserinfo(login);
         try {
-            JSONObject json = new JSONObject(api);
+            JSONObject json = new JSONObject(restapi);
             if (json.has("message")) {
                 return false;
             }
@@ -118,14 +115,14 @@ public class LoginActivity extends AppCompatActivity {
     boolean connectNetwork(String login, String passwd) {
         LoginRequest lr = new LoginRequest(login, passwd);
         String tokengenerate = generateToken();
-        restapi.setCookie("PHPSESSID", tokengenerate);
+        api.setCookie("PHPSESSID", tokengenerate);
         try {
-            restapi.sendToken(lr);
+            api.sendToken(lr);
             if (check_user(tokengenerate, login)) {
                 User u = new User(login, passwd, tokengenerate, "true");
                 u.save();
-                restapi.setCookie("PHPSESSID", tokengenerate);
-                Puserinfos infos = new Puserinfos(restapi.getuserinfo(login));
+                api.setCookie("PHPSESSID", tokengenerate);
+                Puserinfos infos = new Puserinfos(api.getuserinfo(login));
                 return false;
             }
         } catch (Exception e) {

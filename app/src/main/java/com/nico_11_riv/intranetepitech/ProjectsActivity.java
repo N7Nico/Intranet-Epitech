@@ -53,9 +53,6 @@ import java.util.List;
 public class ProjectsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @RestService
-    HerokuAPI API;
-
-    @RestService
     IntrAPI api;
 
     @Bean
@@ -74,7 +71,7 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
 
     @AfterInject
     void afterInject() {
-        API.setRestErrorHandler(ErrorHandler);
+        api.setRestErrorHandler(ErrorHandler);
     }
 
     private boolean isConnected() {

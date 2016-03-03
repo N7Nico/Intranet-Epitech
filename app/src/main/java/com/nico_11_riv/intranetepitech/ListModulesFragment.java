@@ -10,13 +10,16 @@ import android.widget.ListView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Allmodules;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.ui.contents.Modules_content;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -39,6 +42,14 @@ public class ListModulesFragment extends Fragment implements AdapterView.OnItemC
 
     @RestService
     IntrAPI api;
+
+    @Bean
+    APIErrorHandler ErrorHandler;
+
+    @AfterInject
+    void afterInject() {
+        api.setRestErrorHandler(ErrorHandler);
+    }
 
     @AfterViews
     void init() {

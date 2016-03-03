@@ -10,14 +10,17 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Projects;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.ui.contents.Projects_content;
 import com.orm.query.Select;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -41,6 +44,14 @@ public class ListProjectsFragment extends Fragment implements AdapterView.OnItem
 
     @RestService
     IntrAPI api;
+
+    @Bean
+    APIErrorHandler ErrorHandler;
+
+    @AfterInject
+    void afterInject() {
+        api.setRestErrorHandler(ErrorHandler);
+    }
 
     GUser user = new GUser();
 

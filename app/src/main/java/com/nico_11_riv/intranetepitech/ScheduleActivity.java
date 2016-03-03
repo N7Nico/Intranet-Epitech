@@ -1,8 +1,6 @@
 package com.nico_11_riv.intranetepitech;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,17 +13,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
+import com.nico_11_riv.intranetepitech.database.User;
 import com.nico_11_riv.intranetepitech.database.setters.infos.CircleTransform;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Guserinfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
-import com.nico_11_riv.intranetepitech.database.User;
 import com.squareup.picasso.Picasso;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
@@ -38,8 +36,6 @@ import java.util.List;
 
 @EActivity(R.layout.activity_schedule)
 public class ScheduleActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    private static int week = 0;
 
     @RestService
     IntrAPI api;
@@ -56,15 +52,9 @@ public class ScheduleActivity extends AppCompatActivity implements NavigationVie
     @ViewById
     NavigationView nav_view;
 
-    private GUser gUser = new GUser();
-
-    private boolean isConnected() {
-        try {
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            return cm.getActiveNetworkInfo().isConnectedOrConnecting();
-        } catch (Exception e) {
-            return false;
-        }
+    @AfterInject
+    void afterInject() {
+        api.setRestErrorHandler(ErrorHandler);
     }
 
     @UiThread
@@ -74,7 +64,11 @@ public class ScheduleActivity extends AppCompatActivity implements NavigationVie
 
     @UiThread
     void sImg(Guserinfos user_info) {
-        Picasso.with(getApplicationContext()).load(user_info.getPicture()).transform(new CircleTransform()).into((ImageView) findViewById(R.id.user_img));
+        try {
+            Picasso.with(getApplicationContext()).load(user_info.getPicture()).transform(new CircleTransform()).into((ImageView) findViewById(R.id.user_img));
+        } catch (Exception e) {
+
+        }
     }
 
     @Background

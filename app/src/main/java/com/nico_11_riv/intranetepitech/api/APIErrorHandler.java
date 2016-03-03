@@ -14,20 +14,11 @@ import org.springframework.core.NestedRuntimeException;
 public class APIErrorHandler extends Application implements RestErrorHandler {
     private Context context;
 
-    @ViewById
-    Button login_button;
-
     public APIErrorHandler(Context context) {
         this.context = context;
     }
 
-    @UiThread
-    void connexionError() {
-        //login_button.setText("Réessayez");
-    }
-
     @Override
     public void onRestClientExceptionThrown(NestedRuntimeException e) {
-        connexionError();
     }
 }

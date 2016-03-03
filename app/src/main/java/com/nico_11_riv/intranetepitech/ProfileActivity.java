@@ -34,6 +34,7 @@ import com.orm.query.Condition;
 import com.orm.query.Select;
 import com.squareup.picasso.Picasso;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
@@ -93,8 +94,12 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     @ViewById
     TextView gpa;
 
-    private GUser gUser = null;
+    @AfterInject
+    void afterInject() {
+        api.setRestErrorHandler(ErrorHandler);
+    }
 
+    private GUser gUser = null;
 
     private boolean isConnected() {
         try {

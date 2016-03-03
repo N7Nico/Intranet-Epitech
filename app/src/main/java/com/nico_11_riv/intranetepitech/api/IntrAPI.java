@@ -6,6 +6,7 @@ import org.androidannotations.annotations.rest.Get;
 import org.androidannotations.annotations.rest.Post;
 import org.androidannotations.annotations.rest.RequiresCookie;
 import org.androidannotations.annotations.rest.Rest;
+import org.androidannotations.api.rest.RestClientErrorHandling;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 
@@ -14,7 +15,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
  */
 
 @Rest(rootUrl = "https://intra.epitech.eu", converters = {StringHttpMessageConverter.class, FormHttpMessageConverter.class})
-public interface IntrAPI {
+public interface IntrAPI extends RestClientErrorHandling {
     @Post("/")
     @RequiresCookie("PHPSESSID")
     String sendToken(LoginRequest lr);
