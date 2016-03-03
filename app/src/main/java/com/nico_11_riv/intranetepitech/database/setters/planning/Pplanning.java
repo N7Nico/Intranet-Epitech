@@ -34,6 +34,7 @@ public class Pplanning {
                     pl.setResigtermodule(tmp.getString("module_registered"));
                     pl.setAllow_token(tmp.getString("allow_token"));
                     pl.setRegisterevent(tmp.getString("event_registered"));
+                    pl.setTypecode(tmp.getString("type_code"));
                     pl.save();
                 }
             }

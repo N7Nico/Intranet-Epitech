@@ -3,6 +3,7 @@ package com.nico_11_riv.intranetepitech;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
@@ -37,8 +38,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
@@ -132,9 +135,16 @@ public class ListScheduleAllF extends Fragment implements MonthLoader.MonthChang
                 e.printStackTrace();
             }
             WeekViewEvent event = new WeekViewEvent(1, info.getActititle(), cal, cale);
-            int[] androidColors = getResources().getIntArray(R.array.androidcolors);
-            int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
-            event.setColor(randomAndroidColor);
+
+            Map<String, String> eventypes = new HashMap<String, String>() {{
+                put("class", "#6faabd");
+                put("exam", "#d7906f");
+                put("rdv", "#e2aa55");
+                put("tp", "#a28ab9");
+                put("other", "#668cb3");
+            }};
+
+            event.setColor(Color.parseColor(eventypes.get(info.getTypecode())));
             events.add(event);
         }
         List<WeekViewEvent> matchedEvents = new ArrayList<WeekViewEvent>();

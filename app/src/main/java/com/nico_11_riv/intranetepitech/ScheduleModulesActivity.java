@@ -24,7 +24,6 @@ import com.nico_11_riv.intranetepitech.database.setters.infos.CircleTransform;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Guserinfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.database.User;
-import com.nico_11_riv.intranetepitech.ui.adapters.ScheduleAdpater;
 import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
@@ -89,11 +88,6 @@ public class ScheduleModulesActivity extends AppCompatActivity implements Naviga
         TextView email = (TextView) header.findViewById(R.id.user_email);
         email.setText(user_info.getEmail());
         sImg(user_info);
-    }
-
-    @UiThread
-    void sAdpater(ListView listView, ScheduleAdpater adapter) {
-        listView.setAdapter(adapter);
     }
 
     @AfterViews
