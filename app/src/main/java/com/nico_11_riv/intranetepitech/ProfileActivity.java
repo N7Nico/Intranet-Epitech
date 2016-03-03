@@ -144,12 +144,12 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         Picasso.with(getApplicationContext()).load(user_info.getPicture()).transform(new CircleTransform()).into((ImageView) findViewById(R.id.header_imageview_dashboard));
         title_user.setText(gUser.getLogin());
         email_user.setText(user_info.getEmail());
-        student_year.setText(user_info.getPromo());
-        student_semester.setText(user_info.getSemester());
+        student_year.setText("Promo " + user_info.getPromo());
+        student_semester.setText("Semestre " + user_info.getSemester());
         //objectif_credit.setText(user_info.getCredits_obj());
         //current_netsoul.setText(user_info.getActive_log());
-        gpa.setText(user_info.getGpa());
-        current_credits.setText(user_info.getCredits());
+        gpa.setText("GPA : " + user_info.getGpa());
+        current_credits.setText("Credits : " + user_info.getCredits());
     }
 
     void initMenu() {

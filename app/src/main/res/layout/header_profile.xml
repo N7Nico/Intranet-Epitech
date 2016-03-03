@@ -46,8 +46,7 @@
                     android:textColor="@color/abc_primary_text_material_dark"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_horizontal"
-                    android:id="@+id/title_user"
-                    android:text="@string/login" />
+                    android:id="@+id/title_user" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -57,7 +56,6 @@
                     android:textSize="13sp"
                     android:textColor="@color/abc_primary_text_material_dark"
                     android:gravity="center_horizontal"
-                    android:text="@string/mail"
                     android:id="@+id/email_user"/>
 
             </LinearLayout>
@@ -91,7 +89,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="@string/promo"
                         android:textColor="@color/abc_primary_text_material_dark"
                         android:layout_marginRight="5dp"/>
 
@@ -113,7 +110,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="@string/semester"
                         android:textColor="@color/abc_primary_text_material_dark"
                         android:layout_marginRight="5dp"/>
 
@@ -143,7 +139,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="@string/current_credit"
                             android:id="@+id/textView2"
                             android:textColor="@color/abc_primary_text_material_dark"
                             android:layout_marginRight="5dp"
@@ -174,7 +169,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="@string/object_credit"
                             android:layout_marginRight="5dp"
                             android:textColor="@color/abc_primary_text_material_dark"
                             android:id="@+id/textView4" />
@@ -208,7 +202,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="@string/logtime"
                             android:layout_marginRight="5dp"
                             android:textColor="@color/abc_primary_text_material_dark" />
 
@@ -237,7 +230,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="GPA :"
                             android:layout_marginRight="5dp"
                             android:textColor="@color/abc_primary_text_material_dark" />
 
