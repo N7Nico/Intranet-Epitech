@@ -213,7 +213,7 @@ public class ListScheduleF extends Fragment implements MonthLoader.MonthChangeLi
 
         if (Objects.equals(tmp.getRegisterevent(), "registered")) {
             text = "Se d'ésinscrire";
-        } else if (Objects.equals(tmp.getRegisterevent(), "registered") && Objects.equals(tmp.getAllow_token(), "true") && d1.compareTo(tmp.getStart()) > 0) {
+        } else if (Objects.equals(tmp.getRegisterevent(), "registered") && Objects.equals(tmp.getAllow_token(), "true")) {
             text = "Token";
         } else if (Objects.equals(tmp.getRegisterevent(), "present") || diffDays < 1) {
             text = "OK";
