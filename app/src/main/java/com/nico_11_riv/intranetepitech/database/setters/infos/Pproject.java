@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Objects;
@@ -84,6 +85,8 @@ public class Pproject {
                 }
             }
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -170,8 +173,14 @@ public class Pproject {
             if (!Objects.equals(ori.getString("type_code"), "rdv") && URLUtil.isValidUrl("https://intra.epitech.eu/module/" + ori.getString("scolaryear") + "/" + ori.getString("codemodule") + "/" + ori.getString("codeinstance") + "/" + ori.getString("codeacti"))) {
                 intra.setCookie("PHPSESSID", user.getToken());
                 String path = "https://www.intra.epitech.eu";
+                String in = null;
                 try {
-                    JSONArray json = new JSONArray(intra.getprojectfile(ori.getString("scolaryear"), ori.getString("codemodule"), ori.getString("codeinstance"), ori.getString("codeacti")));
+                    in = intra.getprojectfile(ori.getString("scolaryear"), ori.getString("codemodule"), ori.getString("codeinstance"), ori.getString("codeacti"));
+                } catch (HttpClientErrorException e) {
+                    Log.d("Response", e.getResponseBodyAsString());
+                }
+                try {
+                    JSONArray json = new JSONArray(in);
                     JSONObject tmp = json.getJSONObject(0);
                     if (tmp.has("fullpath")) {
                         path += tmp.getString("fullpath");
@@ -182,6 +191,8 @@ public class Pproject {
                     e.printStackTrace();
                 } catch (HttpClientErrorException e) {
                     Log.d("Response", e.getResponseBodyAsString());
+                }  catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
             }
             List<Projects> p = Projects.findWithQuery(Projects.class, "Select * FROM Projects WHERE codeacti = ?", ori.getString("codeacti"));
