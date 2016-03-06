@@ -20,6 +20,7 @@ import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.requests.InfosRequest;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Allmodules;
+import com.nico_11_riv.intranetepitech.database.Modules;
 import com.nico_11_riv.intranetepitech.database.setters.infos.CircleTransform;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Guserinfos;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Puserinfos;
@@ -97,7 +98,14 @@ public class ModulesAllActivity extends AppCompatActivity implements NavigationV
         List<Allmodules> modules = Select.from(Allmodules.class).where(Condition.prop("token").eq(gUser.getToken())).orderBy("title").list();
         for (int i = modules.size() - 1; i > 0; i--) {
             Allmodules info = modules.get(i);
-            items.add(new Modules_content("G", info.getTitle(), "dateins", info.getCode()));
+            List<Modules> modules1 = Modules.findWithQuery(Modules.class, "Select * FROM Modules  a token = ? AND title = ?", gUser.getToken(), modules.get(i).getTitle());
+            String grade = "-";
+            String dateins = "-";
+            if (modules1.size() > 0) {
+                grade = modules1.get(0).getGrade();
+                dateins = modules1.get(0).getDateins();
+            }
+            items.add(new Modules_content(grade, info.getTitle(), dateins, info.getCode()));
         }
         return items;
     }
