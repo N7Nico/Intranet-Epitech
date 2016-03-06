@@ -211,10 +211,10 @@ public class ListScheduleF extends Fragment implements MonthLoader.MonthChangeLi
         final Planning tmp = pl.get(0);
         String text = "S'inscrire";
 
-        if (Objects.equals(tmp.getRegisterevent(), "registered")) {
-            text = "Se d'ésinscrire";
-        } else if (Objects.equals(tmp.getRegisterevent(), "registered") && Objects.equals(tmp.getAllow_token(), "true")) {
+        if (Objects.equals(tmp.getRegisterevent(), "registered") && Objects.equals(tmp.getAllow_token(), "true")) {
             text = "Token";
+        } else if (Objects.equals(tmp.getRegisterevent(), "registered")) {
+                text = "Se d'ésinscrire";
         } else if (Objects.equals(tmp.getRegisterevent(), "present") || diffDays < 1) {
             text = "OK";
         }
