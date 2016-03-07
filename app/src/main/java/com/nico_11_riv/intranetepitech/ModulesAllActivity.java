@@ -55,6 +55,9 @@ public class ModulesAllActivity extends AppCompatActivity implements NavigationV
     @RestService
     IntrAPI api;
 
+    @ViewById
+    ListView modulelistview;
+
     @Bean
     APIErrorHandler ErrorHandler;
 
@@ -136,8 +139,22 @@ public class ModulesAllActivity extends AppCompatActivity implements NavigationV
         display_cur_projs();
     }
 
+    @UiThread
+    void maketoast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @UiThread
+    void reloaddata() {
+        modulelistview.invalidateViews();
+        maketoast("Reloading data");
+    }
+
     @Background
     void loadInfos() {
+        if (Allmodules.count(Allmodules.class) > 0) {
+            display_cur_projs();
+        }
         if (isConnected() == true) {
             InfosRequest ir = new InfosRequest(gUser.getToken());
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
@@ -153,6 +170,7 @@ public class ModulesAllActivity extends AppCompatActivity implements NavigationV
                 e.printStackTrace();
             }
             Puserinfos infos = new Puserinfos(result);
+            maketoast("La base de données se met à jour ...");
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
                 Pallmodules mod = new Pallmodules(api.getallmodules());
@@ -164,6 +182,7 @@ public class ModulesAllActivity extends AppCompatActivity implements NavigationV
                 e.printStackTrace();
             }
         }
+        reloaddata();
         Guserinfos guserinfos = new Guserinfos();
         initMenu();
     }

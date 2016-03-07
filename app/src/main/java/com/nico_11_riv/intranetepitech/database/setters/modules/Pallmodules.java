@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 /**
  * Created by Jimmy on 10/02/2016.
  */
@@ -17,7 +19,13 @@ public class Pallmodules {
             JSONArray arr = new JSONArray(api);
             for (int i = 0; i< arr.length(); i++) {
                 JSONObject tmp = arr.getJSONObject(i);
-                Allmodules allmodules = new Allmodules();
+                Allmodules allmodules = null;
+                List<Allmodules> all = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE token = ? AND code = ?", u.getToken(), tmp.getString("code"));
+                if (all.size() > 0) {
+                    allmodules = all.get(0);
+                } else {
+                    allmodules = new Allmodules();
+                }
                 allmodules.setToken(u.getToken());
                 allmodules.setSemester(tmp.getString("semester"));
                 allmodules.setBegin(tmp.getString("begin"));
