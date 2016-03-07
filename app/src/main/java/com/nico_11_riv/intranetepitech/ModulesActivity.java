@@ -92,6 +92,7 @@ public class ModulesActivity extends AppCompatActivity implements NavigationView
 
         ListView listView = (ListView) findViewById(R.id.modulelistview);
         sAdpater(listView, adapter);
+        adapter.notifyDataSetChanged();
     }
 
     private ArrayList<Modules_content> generateData() {
@@ -130,6 +131,9 @@ public class ModulesActivity extends AppCompatActivity implements NavigationView
 
     @Background
     void loadInfos() {
+        if (Modules.count(Modules.class) > 0) {
+            display_cur_projs();
+        }
         if (isConnected() == true) {
             InfosRequest ir = new InfosRequest(gUser.getToken());
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());

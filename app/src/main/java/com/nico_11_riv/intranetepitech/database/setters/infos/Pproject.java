@@ -146,7 +146,13 @@ public class Pproject {
             e.printStackTrace();
         }
         try {
-            Projects project = new Projects(this.user.getToken());
+            Projects project = null;
+            List<Projects> p = Projects.findWithQuery(Projects.class, "SELECT * FROM Projects WHERE token = ? AND codeacti = ?", user.getToken(), ori.getString("codeacti"));
+            if (p.size() > 0) {
+                project = p.get(0);
+            } else {
+                project = new Projects(this.user.getToken());
+            }
             project.setScolaryear(ori.getString("scolaryear"));
             project.setCodemodule(ori.getString("codemodule"));
             project.setCodeinstance(ori.getString("codeinstance"));
@@ -195,10 +201,11 @@ public class Pproject {
                     e.printStackTrace();
                 }
             }
-            List<Projects> p = Projects.findWithQuery(Projects.class, "Select * FROM Projects WHERE codeacti = ?", ori.getString("codeacti"));
-            if (p.size() == 0) {
+            /*List<Projects> pr = Projects.findWithQuery(Projects.class, "Select * FROM Projects WHERE codeacti = ?", ori.getString("codeacti"));
+            if (pr.size() == 0) {
                 project.save();
-            }
+            }*/
+            project.save();
         } catch (JSONException e) {
             e.printStackTrace();
         }

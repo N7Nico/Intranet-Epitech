@@ -57,6 +57,9 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
     @RestService
     IntrAPI api;
 
+    @ViewById
+    ListView projslistview;
+
     @Bean
     APIErrorHandler ErrorHandler;
 
@@ -86,15 +89,13 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
     }
 
     @UiThread
-            void sAdapter(ListView listView, ProjectsAdapter adapter) {
+    void sAdapter(ListView listView, ProjectsAdapter adapter) {
         listView.setAdapter(adapter);
     }
 
     void display_cur_projs() {
         ProjectsAdapter adapter = new ProjectsAdapter(this, generateData());
-
-        ListView listView = (ListView) findViewById(R.id.projslistview);
-        sAdapter(listView, adapter);
+        sAdapter(projslistview, adapter);
     }
 
     private ArrayList<Projects_content> generateData() {
@@ -131,16 +132,24 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
     }
 
     @UiThread
-    void maketoast() {
-        Toast.makeText(getApplicationContext(), "La réception des données peut être longue", Toast.LENGTH_LONG).show();
+    void maketoast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+    }
+
+    @UiThread
+    void reloaddata() {
+        projslistview.invalidateViews();
+        maketoast("Reloading data");
     }
 
     @Background
     void loadInfos() {
+        if (Projects.count(Projects.class) > 0) {
+            display_cur_projs();
+        }
         if (isConnected() == true) {
             InfosRequest ir = new InfosRequest(gUser.getToken());
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
-            Projects.deleteAll(Projects.class, "token = ?", gUser.getToken());
             api.setCookie("PHPSESSID", gUser.getToken());
             String result = null;
             try {
@@ -153,7 +162,7 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
                 e.printStackTrace();
             }
             Puserinfos infos = new Puserinfos(result);
-            maketoast();
+            maketoast("La base de données se met à jour...");
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
                 Pproject p = new Pproject(api);
@@ -165,6 +174,7 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
                 e.printStackTrace();
             }
         }
+        reloaddata();
         Guserinfos guserinfos = new Guserinfos();
         initMenu();
     }
