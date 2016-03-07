@@ -54,6 +54,9 @@ public class ModulesActivity extends AppCompatActivity implements NavigationView
     @RestService
     IntrAPI api;
 
+    @ViewById
+    ListView modulelistview;
+
     @Bean
     APIErrorHandler ErrorHandler;
 
@@ -89,10 +92,7 @@ public class ModulesActivity extends AppCompatActivity implements NavigationView
 
     void display_cur_projs() {
         ModulesAdapter adapter = new ModulesAdapter(this, generateData());
-
-        ListView listView = (ListView) findViewById(R.id.modulelistview);
-        sAdpater(listView, adapter);
-        adapter.notifyDataSetChanged();
+        sAdpater(modulelistview, adapter);
     }
 
     private ArrayList<Modules_content> generateData() {
@@ -129,6 +129,17 @@ public class ModulesActivity extends AppCompatActivity implements NavigationView
         display_cur_projs();
     }
 
+    @UiThread
+    void maketoast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @UiThread
+    void reloaddata() {
+        modulelistview.invalidateViews();
+        maketoast("Reloading data");
+    }
+
     @Background
     void loadInfos() {
         if (Modules.count(Modules.class) > 0) {
@@ -137,8 +148,6 @@ public class ModulesActivity extends AppCompatActivity implements NavigationView
         if (isConnected() == true) {
             InfosRequest ir = new InfosRequest(gUser.getToken());
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
-            Modules.deleteAll(Modules.class, "token = ?", gUser.getToken());
-
             api.setCookie("PHPSESSID", gUser.getToken());
             String result = null;
             try {
@@ -151,6 +160,7 @@ public class ModulesActivity extends AppCompatActivity implements NavigationView
                 e.printStackTrace();
             }
             Puserinfos infos = new Puserinfos(result);
+            maketoast("La base de données se met à jour...");
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
                 result = api.getmarks(gUser.getLogin());
@@ -163,6 +173,7 @@ public class ModulesActivity extends AppCompatActivity implements NavigationView
             }
             Pmodules mod = new Pmodules(result);
         }
+        reloaddata();
         Guserinfos guserinfos = new Guserinfos();
         initMenu();
     }

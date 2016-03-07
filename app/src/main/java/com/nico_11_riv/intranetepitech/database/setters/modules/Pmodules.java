@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class Pmodules {
     public Pmodules(String api) {
         GUser user = new GUser();
@@ -16,7 +18,14 @@ public class Pmodules {
             JSONArray json = obj.getJSONArray("modules");
             for (int i = 0; i < json.length(); i++) {
                 JSONObject tmp = json.getJSONObject(i);
-                Modules modules = new Modules(user.getToken());
+
+                Modules modules = null;
+                List<Modules> m = Modules.findWithQuery(Modules.class, "SELECT * FROM Modules WHERE token = ? AND codemodule = ?", user.getToken(), tmp.getString("codemodule"));
+                if (m.size() > 0) {
+                    modules = m.get(0);
+                } else {
+                    modules = new Modules(user.getToken());
+                }
                 modules.setScolaryear(tmp.getString("scolaryear"));
                 modules.setCodemodule(tmp.getString("codemodule"));
                 modules.setCodeinstance(tmp.getString("codeinstance"));
