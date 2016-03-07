@@ -103,7 +103,7 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
         List<Projects> p = Projects.findWithQuery(Projects.class, "Select * FROM Projects WHERE token = ? ORDER BY ?", gUser.getToken(), "start");
         for (int i = 0; i < p.size(); i++) {
             Projects info = p.get(i);
-            items.add(new Projects_content(info.getTitle(), info.getBegin(), info.getEnd()));
+            items.add(new Projects_content(info.getTitle(), info.getEnd(), info.getBegin()));
         }
         return items;
     }

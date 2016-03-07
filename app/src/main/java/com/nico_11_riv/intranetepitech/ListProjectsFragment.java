@@ -70,7 +70,7 @@ public class ListProjectsFragment extends Fragment implements AdapterView.OnItem
         if (Objects.equals(validate, "S'inscrire")) {
             api.setCookie("PHPSESSID", user.getToken());
             api.registerproject(projects.getScolaryear(), projects.getCodemodule(), projects.getCodeinstance(), projects.getCodeacti());
-            maketoast("Inscription au projet " + projects.getTitle() + "réussite");
+            maketoast("Inscription au projet " + projects.getTitle() + " réussite");
         }
     }
 
@@ -85,9 +85,8 @@ public class ListProjectsFragment extends Fragment implements AdapterView.OnItem
 
         Date begin = null;
         Date c = null;
-        long diff = 0;
         try {
-            begin = df.parse(projects.getBegin());
+            begin = df.parse(projects.getEndregister());
             c = df.parse(current);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -95,10 +94,9 @@ public class ListProjectsFragment extends Fragment implements AdapterView.OnItem
 
         String v = "OK";
         if (c.before(begin)) {
-            v = ((Objects.equals(projects.getInstanceregistered(), "1")) ? "OK" : "S'inscrire");
-        }
-        else if (c.after(begin)) {
-            v = "OK";
+            if (!Objects.equals(projects.getUserprojectstatus(), "project_confirmed")){
+                v = "S'inscrire";
+            }
         }
         final String validate = v;
 
