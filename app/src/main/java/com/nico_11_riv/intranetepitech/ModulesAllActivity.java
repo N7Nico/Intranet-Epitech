@@ -49,7 +49,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.ArrayList;
 import java.util.List;
 
-@EActivity(R.layout.activity_modules)
+@EActivity(R.layout.activity_modules_all)
 public class ModulesAllActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @RestService
