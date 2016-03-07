@@ -116,6 +116,7 @@ public class ListModulesAllFragment extends Fragment implements AdapterView.OnIt
                 })
                 .negativeText("Retour")
                 .show();
+        Toast.makeText(getActivity().getApplicationContext(), "TEST", Toast.LENGTH_SHORT).show();
     }
 
     @Background

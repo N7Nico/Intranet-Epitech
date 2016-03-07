@@ -63,9 +63,8 @@ public class ListModulesFragment extends Fragment implements AdapterView.OnItemC
         String validate = "OK";
 
         GUser user = new GUser();
-        Toast.makeText(getActivity().getApplicationContext(), item.getCodeModule(), Toast.LENGTH_SHORT).show();
-        List<Modules> mo = Modules.findWithQuery(Modules.class, "Select * FROM Modules WHERE codemodule = ? AND token = ?", item.getCodeModule(), user.getToken());
-        final Modules tmp = mo.get(0);
+        //List<Modules> mo = Modules.findWithQuery(Modules.class, "Select * FROM Modules WHERE codemodule = ? AND token = ?", item.getCodeModule(), user.getToken());
+        //final Modules tmp = mo.get(0);
 
         final String text = validate;
 
@@ -75,6 +74,8 @@ public class ListModulesFragment extends Fragment implements AdapterView.OnItemC
                 .content(Html.fromHtml("<b>Code Module :</b> " + item.getCodeModule() + "<br /><br /><b>Grade :</b> " + (Objects.equals(item.getGrade(), "-") ? "Pas de grade" : item.getGrade())))
                 .negativeText("Retour")
                 .show();
+        Toast.makeText(getActivity().getApplicationContext(), "modules", Toast.LENGTH_SHORT).show();
+
     }
 
     @Background

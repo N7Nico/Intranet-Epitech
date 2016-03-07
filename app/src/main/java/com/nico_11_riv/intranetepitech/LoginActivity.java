@@ -30,6 +30,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Random;
 
@@ -106,8 +107,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @UiThread
-    void error_connect() {
-        Toast.makeText(getApplicationContext(), "Login / Mot de passe invalide", Toast.LENGTH_LONG).show();
+    void error_connect(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
         vlogin.setText("");
         vpasswd.setText("");
     }
@@ -125,8 +126,12 @@ public class LoginActivity extends AppCompatActivity {
                 Puserinfos infos = new Puserinfos(api.getuserinfo(login));
                 return false;
             }
-        } catch (Exception e) {
-            error_connect();
+        } catch (HttpClientErrorException e) {
+            error_connect("Erreur de l'API");
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            error_connect("Mauvais login / mot de passe");
             e.printStackTrace();
         }
         return true;
