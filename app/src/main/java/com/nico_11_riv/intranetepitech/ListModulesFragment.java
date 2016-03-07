@@ -7,12 +7,14 @@ import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Allmodules;
+import com.nico_11_riv.intranetepitech.database.Modules;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.ui.contents.Modules_content;
 
@@ -72,8 +74,9 @@ public class ListModulesFragment extends Fragment implements AdapterView.OnItemC
         String validate = "OK";
 
         GUser user = new GUser();
-        List<Allmodules> mo = Allmodules.findWithQuery(Allmodules.class, "Select * FROM Allmodules WHERE code = ? AND token = ?", item.getCodeModule(), user.getToken());
-        final Allmodules tmp = mo.get(0);
+        Toast.makeText(getActivity().getApplicationContext(), item.getCodeModule(), Toast.LENGTH_SHORT).show();
+        List<Modules> mo = Modules.findWithQuery(Modules.class, "Select * FROM Modules WHERE codemodule = ? AND token = ?", item.getCodeModule(), user.getToken());
+        final Modules tmp = mo.get(0);
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
         Calendar cal = Calendar.getInstance();

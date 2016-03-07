@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +46,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,11 +142,28 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
             Projects.deleteAll(Projects.class, "token = ?", gUser.getToken());
             api.setCookie("PHPSESSID", gUser.getToken());
-            String result = api.getuserinfo(gUser.getLogin());
+            String result = null;
+            try {
+                result = api.getuserinfo(gUser.getLogin());
+            } catch (HttpClientErrorException e) {
+                Log.d("Response", e.getResponseBodyAsString());
+                Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
+            }  catch (NullPointerException e) {
+                Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
             Puserinfos infos = new Puserinfos(result);
             maketoast();
             api.setCookie("PHPSESSID", gUser.getToken());
-            Pproject p = new Pproject(api);
+            try {
+                Pproject p = new Pproject(api);
+            } catch (HttpClientErrorException e) {
+                Log.d("Response", e.getResponseBodyAsString());
+                Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
+            }  catch (NullPointerException e) {
+                Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
         }
         Guserinfos guserinfos = new Guserinfos();
         initMenu();

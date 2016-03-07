@@ -9,12 +9,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.requests.InfosRequest;
@@ -41,6 +43,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,7 +133,16 @@ public class MarksAllActivity extends AppCompatActivity implements NavigationVie
             InfosRequest ir = new InfosRequest(gUser.getToken());
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
             Marks.deleteAll(Marks.class, "token = ?", gUser.getToken());
-            SMarks marks = new SMarks(api.getmarks(gUser.getLogin()));
+            api.setCookie("PHPSESSID", gUser.getToken());
+            try {
+                SMarks marks = new SMarks(api.getmarks(gUser.getLogin()));
+            } catch (HttpClientErrorException e) {
+                Log.d("Response", e.getResponseBodyAsString());
+                Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
+            }  catch (NullPointerException e) {
+                Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
             String result = api.getuserinfo(gUser.getLogin());
             Puserinfos infos = new Puserinfos(result);
         }

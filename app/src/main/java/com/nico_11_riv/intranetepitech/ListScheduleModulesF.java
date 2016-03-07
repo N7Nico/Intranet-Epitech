@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -28,6 +30,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -89,7 +92,15 @@ public class ListScheduleModulesF extends Fragment implements MonthLoader.MonthC
         if (isConnected() == true) {
             Planning.deleteAll(Planning.class, "token = ?", gUser.getToken());
             api.setCookie("PHPSESSID", gUser.getToken());
-            Pplanning plf = new Pplanning(api.getplanning(startDate, endDate));
+            try {
+                Pplanning plf = new Pplanning(api.getplanning(startDate, endDate));
+            } catch (HttpClientErrorException e) {
+                Log.d("Response", e.getResponseBodyAsString());
+                Toast.makeText(getContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
+            }  catch (NullPointerException e) {
+                Toast.makeText(getContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
             waitt = 0;
         }
     }
