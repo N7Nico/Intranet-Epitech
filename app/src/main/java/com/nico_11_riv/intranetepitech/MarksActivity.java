@@ -24,7 +24,7 @@ import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.setters.infos.CircleTransform;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Guserinfos;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Puserinfos;
-import com.nico_11_riv.intranetepitech.database.setters.marks.SMarks;
+import com.nico_11_riv.intranetepitech.database.setters.marks.PMarks;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.database.Marks;
 import com.nico_11_riv.intranetepitech.database.User;
@@ -43,7 +43,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
-import org.json.JSONException;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
@@ -71,6 +70,9 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
 
     @ViewById
     NavigationView nav_view;
+
+    @ViewById
+    ListView markslistview;
 
     private GUser gUser = new GUser();
 
@@ -132,8 +134,22 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
         display_cur_projs();
     }
 
+    @UiThread
+    void maketoast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @UiThread
+    void reloaddata() {
+        markslistview.invalidateViews();
+        maketoast("Reloading data");
+    }
+
     @Background
     void loadInfos() {
+        if (Marks.count(Marks.class) > 0) {
+            display_cur_projs();
+        }
         if (isConnected() == true) {
             InfosRequest ir = new InfosRequest(gUser.getToken());
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
@@ -149,7 +165,8 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
                 Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-            SMarks marks = new SMarks(m);
+            maketoast("Reloading data");
+            PMarks marks = new PMarks(m);
             String result = null;
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
@@ -163,6 +180,7 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
             }
             Puserinfos infos = new Puserinfos(result);
         }
+        reloaddata();
         initMenu();
     }
 

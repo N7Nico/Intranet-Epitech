@@ -7,8 +7,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SMarks {
-    public SMarks (String api) {
+import java.util.List;
+
+public class PMarks {
+    public PMarks(String api) {
         GUser user = new GUser();
         try {
             JSONObject json = new JSONObject(api);
@@ -19,7 +21,14 @@ public class SMarks {
                 toto.save();
                 for (int i = 0; i < marks.length(); ++i) {
                     JSONObject tmp = marks.getJSONObject(i);
-                    Marks note = new Marks(user.getToken());
+                    Marks note = null;
+                    List<Marks> m = Marks.findWithQuery(Marks.class, "SELECT * FROM Marks WHERE token = ? AND codeacti = ?", user.getToken(), tmp.getString("codeacti"));
+                    if (m.size() > 0) {
+                        note = m.get(0);
+                    }
+                    else {
+                        note = new Marks(user.getToken());
+                    }
                     note.setScolyear(tmp.getString("scolaryear"));
                     note.setCodemodule(tmp.getString("codemodule"));
                     note.setTitlemodule(tmp.getString("titlemodule"));

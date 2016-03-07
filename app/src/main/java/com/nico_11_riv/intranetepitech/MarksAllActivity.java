@@ -24,7 +24,7 @@ import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.setters.infos.CircleTransform;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Guserinfos;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Puserinfos;
-import com.nico_11_riv.intranetepitech.database.setters.marks.SMarks;
+import com.nico_11_riv.intranetepitech.database.setters.marks.PMarks;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.database.Marks;
 import com.nico_11_riv.intranetepitech.database.User;
@@ -71,6 +71,9 @@ public class MarksAllActivity extends AppCompatActivity implements NavigationVie
     @ViewById
     NavigationView nav_view;
 
+    @ViewById
+    ListView markslistview;
+
     private GUser gUser = new GUser();
 
     private boolean isConnected() {
@@ -90,8 +93,7 @@ public class MarksAllActivity extends AppCompatActivity implements NavigationVie
     void display_cur_projs() {
         MarksAdapter adapter = new MarksAdapter(this, generateData());
 
-        ListView listView = (ListView) findViewById(R.id.markslistview);
-        sAdapter(listView, adapter);
+        sAdapter(markslistview, adapter);
     }
 
     private ArrayList<Mark_content> generateData() {
@@ -127,15 +129,30 @@ public class MarksAllActivity extends AppCompatActivity implements NavigationVie
         display_cur_projs();
     }
 
+    @UiThread
+    void maketoast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @UiThread
+    void reloaddata() {
+        markslistview.invalidateViews();
+        maketoast("Reloading data");
+    }
+
     @Background
     void loadInfos() {
+        if (Marks.count(Marks.class) > 0) {
+            display_cur_projs();
+        }
         if (isConnected() == true) {
             InfosRequest ir = new InfosRequest(gUser.getToken());
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
             Marks.deleteAll(Marks.class, "token = ?", gUser.getToken());
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
-                SMarks marks = new SMarks(api.getmarks(gUser.getLogin()));
+                maketoast("Reloading data");
+                PMarks marks = new PMarks(api.getmarks(gUser.getLogin()));
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());
                 Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
@@ -147,6 +164,7 @@ public class MarksAllActivity extends AppCompatActivity implements NavigationVie
             Puserinfos infos = new Puserinfos(result);
         }
         initMenu();
+        reloaddata();
     }
 
     @AfterViews
