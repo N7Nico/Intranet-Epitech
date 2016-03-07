@@ -29,6 +29,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 import org.springframework.web.client.HttpClientErrorException;
@@ -167,16 +168,24 @@ public class ListScheduleF extends Fragment implements MonthLoader.MonthChangeLi
         return matchedEvents;
     }
 
+    @UiThread
+    void maketoast(String text) {
+        Toast.makeText(getActivity().getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
     @Background
     void registertoevent(Planning tmp, String validate) {
         api.setCookie("PHPSSID", gUser.getToken());
         if (Objects.equals(validate, "S'inscrire")) {
             String rslt = api.registerevent(tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent());
+            maketoast("Inscription de l'event " + tmp.getActititle() + "réussite");
         } else if (Objects.equals(validate, "Se d'ésinscrire")) {
             String rslt = api.unregisterevent(tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent());
+            maketoast("Désinscription de l'event " + tmp.getActititle() + "réussite");
         } else {
             TokenRequest tr = new TokenRequest(gUser.getToken(), tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent(), "00000000");
             o_api.validateToken(tr);
+            maketoast("Token validé");
         }
     }
 

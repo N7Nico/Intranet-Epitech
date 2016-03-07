@@ -58,14 +58,21 @@ public class ListModulesAllFragment extends Fragment implements AdapterView.OnIt
         modulelistview.setOnItemClickListener(this);
     }
 
+    @UiThread
+    void maketoast(String text) {
+        Toast.makeText(getActivity().getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
     @Background
     void registermodule(Allmodules tmp, String validate) {
         api.setCookie("PHPSESSID", user.getToken());
         if (Objects.equals(validate, "S'inscrire")) {
             api.registermodule(tmp.getScolaryear(), tmp.getCode(), tmp.getCodeinstance());
+            maketoast("Inscription au module " + tmp.getTitle() + " réussite");
         }
         else if (Objects.equals(validate, "Se désinscrire")) {
             api.unregistermodule(tmp.getScolaryear(), tmp.getCode(), tmp.getCodeinstance());
+            maketoast("Désinscription du module " + tmp.getTitle() + " réussite");
         }
     }
 
@@ -74,7 +81,6 @@ public class ListModulesAllFragment extends Fragment implements AdapterView.OnIt
         String validate = "OK";
 
         GUser user = new GUser();
-        Toast.makeText(getActivity().getApplicationContext(), item.getCodeModule(), Toast.LENGTH_SHORT).show();
         List<Allmodules> mo = Allmodules.findWithQuery(Allmodules.class, "Select * FROM Allmodules WHERE code = ? AND token = ?", item.getCodeModule(), user.getToken());
         final Allmodules tmp = mo.get(0);
 
@@ -110,13 +116,13 @@ public class ListModulesAllFragment extends Fragment implements AdapterView.OnIt
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         registermodule(tmp, text);
                         if (!Objects.equals(text, "OK")) {
+                            maketoast("Rechargement des données");
                             startActivity(getActivity().getIntent());
                         }
                     }
                 })
                 .negativeText("Retour")
                 .show();
-        Toast.makeText(getActivity().getApplicationContext(), "TEST", Toast.LENGTH_SHORT).show();
     }
 
     @Background

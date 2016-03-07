@@ -74,8 +74,6 @@ public class ListModulesFragment extends Fragment implements AdapterView.OnItemC
                 .content(Html.fromHtml("<b>Code Module :</b> " + item.getCodeModule() + "<br /><br /><b>Grade :</b> " + (Objects.equals(item.getGrade(), "-") ? "Pas de grade" : item.getGrade())))
                 .negativeText("Retour")
                 .show();
-        Toast.makeText(getActivity().getApplicationContext(), "modules", Toast.LENGTH_SHORT).show();
-
     }
 
     @Background
