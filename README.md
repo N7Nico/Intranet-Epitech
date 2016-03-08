@@ -20,6 +20,6 @@ Ils peuvent ainsi consulter :
 ##### Contact
  - Jimmy Yézéguélian ([contact](yezegu_j@epitech.eu))
  - Victor Fraysse ([contact](frayss_v@epitech.eu))
- - Nicolas rivier ([contact](rivier_b@epitech.eu))
+ - Nicolas Riviere ([contact](rivier_b@epitech.eu))
  
 Vous pouvez nous soumettre des Pull Request afin d'améliorer l'ergonomie  et les fonctionnalités proposées.
