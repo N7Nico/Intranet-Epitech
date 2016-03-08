@@ -164,7 +164,7 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
                 Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-            maketoast("Reloading data");
+            maketoast("La base de données se met à jour...");
             PMarks marks = new PMarks(m);
             String result = null;
             api.setCookie("PHPSESSID", gUser.getToken());

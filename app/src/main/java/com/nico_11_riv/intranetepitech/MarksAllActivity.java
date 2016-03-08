@@ -150,7 +150,7 @@ public class MarksAllActivity extends AppCompatActivity implements NavigationVie
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
-                maketoast("Reloading data");
+                maketoast("La base de données se met à jour...");
                 PMarks marks = new PMarks(api.getmarks(gUser.getLogin()));
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());

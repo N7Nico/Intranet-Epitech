@@ -16,9 +16,6 @@ public class PMarks {
             JSONObject json = new JSONObject(api);
             if (json.has("notes")) {
                 JSONArray marks = json.getJSONArray("notes");
-                Marks toto = new Marks(user.getToken());
-                toto.setTitle(marks.getJSONObject(0).getString("title"));
-                toto.save();
                 for (int i = 0; i < marks.length(); ++i) {
                     JSONObject tmp = marks.getJSONObject(i);
                     Marks note = null;
