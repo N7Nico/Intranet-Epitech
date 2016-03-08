@@ -148,7 +148,6 @@ public class MarksAllActivity extends AppCompatActivity implements NavigationVie
         if (isConnected() == true) {
             InfosRequest ir = new InfosRequest(gUser.getToken());
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
-            Marks.deleteAll(Marks.class, "token = ?", gUser.getToken());
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
                 maketoast("Reloading data");

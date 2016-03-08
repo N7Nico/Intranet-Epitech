@@ -153,7 +153,6 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
         if (isConnected() == true) {
             InfosRequest ir = new InfosRequest(gUser.getToken());
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
-            Marks.deleteAll(Marks.class, "token = ?", gUser.getToken());
             String m = null;
             api.setCookie("PHPSESSID", gUser.getToken());
             try {

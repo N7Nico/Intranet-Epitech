@@ -158,7 +158,6 @@ public class ModulesAllActivity extends AppCompatActivity implements NavigationV
         if (isConnected() == true) {
             InfosRequest ir = new InfosRequest(gUser.getToken());
             Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
-            Allmodules.deleteAll(Allmodules.class, "token = ?", gUser.getToken());
             String result = null;
             try {
                 result = api.getuserinfo(gUser.getLogin());
