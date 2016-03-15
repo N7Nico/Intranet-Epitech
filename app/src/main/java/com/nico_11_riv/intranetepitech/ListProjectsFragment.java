@@ -1,6 +1,7 @@
 package com.nico_11_riv.intranetepitech;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.view.View;
@@ -75,6 +76,13 @@ public class ListProjectsFragment extends Fragment implements AdapterView.OnItem
     }
 
     @UiThread
+    void displaySubject(String url) {
+        Intent i = new Intent(getActivity(), SubjectViewActivity_.class);
+        i.putExtra("subject", url);
+        startActivity(i);
+    }
+
+    @UiThread
     void dispPopUp(Projects_content item) {
         List<Projects> projectsList = Projects.findWithQuery(Projects.class, "Select * FROM Projects WHERE token = ? AND title = ?", user.getToken(), item.getProjectName());
         final Projects projects = projectsList.get(0);
@@ -98,6 +106,9 @@ public class ListProjectsFragment extends Fragment implements AdapterView.OnItem
                 v = "S'inscrire";
             }
         }
+        if (!Objects.equals(projects.getFileurl(), "") && Objects.equals(v, "OK")) {
+            v = "Sujet";
+        }
         final String validate = v;
 
         new MaterialDialog.Builder(getActivity())
@@ -111,9 +122,14 @@ public class ListProjectsFragment extends Fragment implements AdapterView.OnItem
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         registrationproject(projects, validate);
-                        if (!Objects.equals(validate, "OK")) {
+                        if (!Objects.equals(validate, "OK") && !Objects.equals(validate, "Sujet")) {
                             Toast.makeText(getActivity().getApplicationContext(), "Rechargement de l'activité", Toast.LENGTH_SHORT).show();
                             startActivity(getActivity().getIntent());
+                        }
+                        else if (Objects.equals(validate, "Sujet")) {
+                            Intent i = new Intent(getActivity(), SubjectViewActivity_.class);
+                            i.putExtra("subject", projects.getFileurl());
+                            startActivity(i);
                         }
                     }
                 })

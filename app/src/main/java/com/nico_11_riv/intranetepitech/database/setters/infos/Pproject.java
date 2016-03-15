@@ -178,7 +178,7 @@ public class Pproject {
             project.setFileurl("");
             if (!Objects.equals(ori.getString("type_code"), "rdv") && URLUtil.isValidUrl("https://intra.epitech.eu/module/" + ori.getString("scolaryear") + "/" + ori.getString("codemodule") + "/" + ori.getString("codeinstance") + "/" + ori.getString("codeacti"))) {
                 intra.setCookie("PHPSESSID", user.getToken());
-                String path = "https://www.intra.epitech.eu";
+                String path = "https://intra.epitech.eu";
                 String in = null;
                 try {
                     in = intra.getprojectfile(ori.getString("scolaryear"), ori.getString("codemodule"), ori.getString("codeinstance"), ori.getString("codeacti"));
