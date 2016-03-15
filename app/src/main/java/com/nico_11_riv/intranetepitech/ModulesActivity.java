@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -230,5 +232,65 @@ public class ModulesActivity extends AppCompatActivity implements NavigationView
             startActivity(new Intent(this, LoginActivity_.class));
         }
         return true;
+    }
+
+    void display_filter(String query) {
+        ModulesAdapter adapter = new ModulesAdapter(this, generateFilter(query));
+        sAdpater(modulelistview, adapter);
+    }
+
+    private ArrayList<Modules_content> generateFilter(String query) {
+        ArrayList<Modules_content> items = new ArrayList<Modules_content>();
+
+        List<Modules> modules = Modules.findWithQuery(Modules.class, "SELECT * FROM Modules WHERE token = ? AND title LIKE ? ORDER BY title", gUser.getToken(), query);
+        for (int i = modules.size() - 1; i > 0; i--) {
+            Modules info = modules.get(i);
+            items.add(new Modules_content(info.getGrade(), info.getTitle(), info.getDateins(), info.getCodemodule()));
+        }
+        return items;
+    }
+
+    @UiThread
+    void getfilter(String filter) {
+        modulelistview.invalidateViews();
+        display_filter(filter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.module_semester, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.module_filter_sem_1:
+                getfilter("B1%");
+                return true;
+            case R.id.module_filter_sem_2:
+                getfilter("B2%");
+                return true;
+            case R.id.module_filter_sem_3:
+                getfilter("B3%");
+                return true;
+            case R.id.module_filter_sem_4:
+                getfilter("B4%");
+                return true;
+            case R.id.module_filter_sem_5:
+                getfilter("B5%");
+                return true;
+            case R.id.module_filter_sem_6:
+                getfilter("B6%");
+                return true;
+            case R.id.module_filter_sem_7:
+                getfilter("B7%");
+                return true;
+            case R.id.module_filter_sem_8:
+                getfilter("B8%");
+                return true;
+        }
+        return false;
     }
 }

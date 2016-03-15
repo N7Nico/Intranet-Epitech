@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/module_filter_sem_1"
+        android:orderInCategory="100"
+        android:title="@string/semester_1"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/module_filter_sem_2"
+        android:orderInCategory="100"
+        android:title="@string/semester_2"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/module_filter_sem_3"
+        android:orderInCategory="100"
+        android:title="@string/semester_3"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/module_filter_sem_4"
+        android:orderInCategory="100"
+        android:title="@string/semester_4"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/module_filter_sem_5"
+        android:orderInCategory="100"
+        android:title="@string/semester_5"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/module_filter_sem_6"
+        android:orderInCategory="100"
+        android:title="@string/semester_6"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/module_filter_sem_7"
+        android:orderInCategory="100"
+        android:title="@string/semester_7"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/module_filter_sem_8"
+        android:orderInCategory="100"
+        android:title="@string/semester_8"
+        app:showAsAction="never" />
+</menu>

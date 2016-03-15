@@ -42,4 +42,14 @@
     <string name="action_planning_activities">Activités Uniquement</string>
     <string name="action_planning_modules">Modules Uniquement</string>
     <string name="action_planning_all">Tout</string>
+
+    <string name="semester_1">Semestre 1</string>
+    <string name="semester_2">Semestre 2</string>
+    <string name="semester_3">Semestre 3</string>
+    <string name="semester_4">Semestre 4</string>
+    <string name="semester_5">Semestre 5</string>
+    <string name="semester_6">Semestre 6</string>
+    <string name="semester_7">Semestre 7</string>
+    <string name="semester_8">Semestre 8</string>
+
 </resources>
