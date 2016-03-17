@@ -65,11 +65,11 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
     public void test() {
         ArrayList<Trombi_content> items = new ArrayList<Trombi_content>();
 
-        items.add(new Trombi_content("test", "caca", "prout"));
-        items.add(new Trombi_content("test", "caefefeca", "prohtyhtut"));
-        items.add(new Trombi_content("ee", "caeeeeeca", "prtezzout"));
-        items.add(new Trombi_content("test", "cacjtjla", "proththut"));
-        items.add(new Trombi_content("ttttest", "cabbtjca", "prorazavbut"));
+        items.add(new Trombi_content("test", "caca", "https://cdn.local.epitech.eu/userprofil/commentview/yezegu_j.jpg"));
+        items.add(new Trombi_content("test", "caefefeca", "https://cdn.local.epitech.eu/userprofil/commentview/yezegu_j.jpg"));
+        items.add(new Trombi_content("ee", "caeeeeeca", "https://cdn.local.epitech.eu/userprofil/commentview/yezegu_j.jpg"));
+        items.add(new Trombi_content("test", "cacjtjla", "https://cdn.local.epitech.eu/userprofil/commentview/yezegu_j.jpg"));
+        items.add(new Trombi_content("ttttest", "cabbtjca", "https://cdn.local.epitech.eu/userprofil/commentview/yezegu_j.jpg"));
 
         GridView gridView = (GridView) findViewById(R.id.trombigridview);
         TrombiAdapter adapter = new TrombiAdapter(this, items);
