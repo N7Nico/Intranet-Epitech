@@ -1,7 +1,6 @@
 package com.nico_11_riv.intranetepitech.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,11 +36,6 @@ public class TrombiAdapter extends ArrayAdapter<Trombi_content> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View rowView = inflater.inflate(R.layout.row_trombi, parent, false);
-        if (position % 2 == 1) {
-            rowView.setBackgroundColor(Color.parseColor("#F1F1F1"));
-        } else {
-            rowView.setBackgroundColor(Color.parseColor("#E3F2FD"));
-        }
 
         ImageView image = (ImageView) rowView.findViewById(R.id.image);
         TextView login = (TextView) rowView.findViewById(R.id.login);
