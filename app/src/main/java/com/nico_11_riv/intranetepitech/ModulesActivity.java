@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,7 +77,14 @@ public class ModulesActivity extends AppCompatActivity implements NavigationView
     @ViewById
     NavigationView nav_view;
 
+    @ViewById
+    SearchView search;
+
     private GUser gUser = new GUser();
+
+    ModulesAdapter modulesAdapter = null;
+
+    searchQuery searchQuery = null;
 
     private boolean isConnected() {
         try {
@@ -94,6 +102,7 @@ public class ModulesActivity extends AppCompatActivity implements NavigationView
 
     void display_cur_projs() {
         ModulesAdapter adapter = new ModulesAdapter(this, generateData());
+        modulesAdapter = adapter;
         sAdpater(modulelistview, adapter);
     }
 
@@ -180,6 +189,21 @@ public class ModulesActivity extends AppCompatActivity implements NavigationView
         initMenu();
     }
 
+    void inputSearch() {
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                sAdpater(modulelistview, (ModulesAdapter) searchQuery.reloadbysearch(query));
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
+
     @AfterViews
     void init() {
         setSupportActionBar(toolbar);
@@ -190,6 +214,8 @@ public class ModulesActivity extends AppCompatActivity implements NavigationView
 
         nav_view.setNavigationItemSelectedListener(this);
         loadInfos();
+        searchQuery = new searchQuery("modules", search, modulelistview, null, modulesAdapter, null);
+        inputSearch();
     }
 
     @Override

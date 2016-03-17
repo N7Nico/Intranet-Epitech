@@ -1,5 +1,6 @@
 package com.nico_11_riv.intranetepitech;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -8,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,6 +49,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @EActivity(R.layout.activity_marks)
 public class MarksActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -74,6 +77,11 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
     @ViewById
     ListView markslistview;
 
+    @ViewById
+    SearchView search;
+
+    MarksAdapter marksAdapter = null;
+
     private GUser gUser = new GUser();
 
 
@@ -93,7 +101,7 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
 
     void display_cur_projs() {
         MarksAdapter adapter = new MarksAdapter(this, generateData());
-
+        marksAdapter = adapter;
         ListView listView = (ListView) findViewById(R.id.markslistview);
         sAdapter(listView, adapter);
     }
@@ -183,6 +191,52 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
         initMenu();
     }
 
+   /* @UiThread
+    void reloadbysearch(String data) {
+        ArrayList<Mark_content> marks_content = new ArrayList<>();
+        String d = "%" + data + "%";
+        List<Marks> marks = Marks.findWithQuery(Marks.class, "SELECT * FROM Marks WHERE token = ? AND title LIKE ?", gUser.getToken(), d);
+        markslistview.invalidateViews();
+        for (int i = marks.size() - 1; i > 0; i--) {
+            if (i == (marks.size() - 1) - 15) {
+                break;
+            }
+            Marks info = marks.get(i);
+            marks_content.add(new Mark_content(info.getFinal_note(), info.getCorrecteur(), info.getTitlemodule(), info.getTitle(), info.getComment()));
+        }
+        MarksAdapter adapter = new MarksAdapter(this, marks_content);
+        sAdapter(markslistview, adapter);
+    }
+
+    @UiThread
+    void inputSearch() {
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                reloadbysearch(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (Objects.equals(newText, ""))
+                    display_cur_projs();
+                return false;
+            }
+        });
+    }
+
+    void getQuery() {
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        search.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(getApplicationContext(), query, Toast.LENGTH_LONG).show();
+        }
+    }*/
+
     @AfterViews
     void init() {
         setSupportActionBar(toolbar);
@@ -193,6 +247,8 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
 
         nav_view.setNavigationItemSelectedListener(this);
         loadInfos();
+        searchQuery searchQuery = new searchQuery("marks", search, markslistview, marksAdapter, null, null);
+        searchQuery.inputSearch();
     }
 
     @Override

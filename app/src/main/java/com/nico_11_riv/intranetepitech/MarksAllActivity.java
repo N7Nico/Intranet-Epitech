@@ -74,6 +74,10 @@ public class MarksAllActivity extends AppCompatActivity implements NavigationVie
     @ViewById
     ListView markslistview;
 
+    ListView getListView() {
+        return markslistview;
+    }
+
     private GUser gUser = new GUser();
 
     private boolean isConnected() {

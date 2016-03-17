@@ -41,7 +41,13 @@
         <activity
             android:name=".MarksActivity_"
             android:label="@string/title_activity_marks"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+                <intent-filter>
+                    <action android:name="android.intent.action.SEARCH" />
+                </intent-filter>
+                <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"
+                    android:value=".activities.SearchResultActivity" />
+            </activity>
         <activity
             android:name=".MarksAllActivity_"
             android:label="@string/title_activity_marks_all"
@@ -49,7 +55,13 @@
         <activity
             android:name=".ModulesActivity_"
             android:label="@string/title_activity_modules"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"
+                android:value=".activities.SearchResultActivity" />
+        </activity>
         <activity
             android:name=".ModulesAllActivity_"
             android:label="@string/title_activity_modules_all"
@@ -57,7 +69,13 @@
         <activity
             android:name=".ProjectsActivity_"
             android:label="@string/title_activity_projects"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"
+                android:value=".activities.SearchResultActivity" />
+        </activity>
         <activity
             android:name=".ScheduleAllActivity_"
             android:label="@string/title_activity_schedule"

@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,7 +73,12 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
     @ViewById
     NavigationView nav_view;
 
+    @ViewById
+    SearchView search;
+
     private GUser gUser = new GUser();
+
+    ProjectsAdapter projectsAdapter = null;
 
     @AfterInject
     void afterInject() {
@@ -95,6 +101,7 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
 
     void display_cur_projs() {
         ProjectsAdapter adapter = new ProjectsAdapter(this, generateData());
+        projectsAdapter = adapter;
         sAdapter(projslistview, adapter);
     }
 
@@ -189,6 +196,8 @@ public class ProjectsActivity extends AppCompatActivity implements NavigationVie
 
         nav_view.setNavigationItemSelectedListener(this);
         loadInfos();
+        searchQuery searchQuery = new searchQuery("projects", search, projslistview, null, null, projectsAdapter);
+        searchQuery.inputSearch();
     }
 
     @Override
