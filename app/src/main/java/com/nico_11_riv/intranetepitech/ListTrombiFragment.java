@@ -35,7 +35,7 @@ public class ListTrombiFragment extends Fragment implements AdapterView.OnItemCl
     void dispPopUp(Trombi_content item) {
         new MaterialDialog.Builder(getActivity())
                 .title(item.getLogin())
-                .content("test")
+                .content(item.getName())
                 .negativeText("Retour")
                 .show();
     }
