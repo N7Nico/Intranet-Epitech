@@ -1,6 +1,9 @@
 package com.nico_11_riv.intranetepitech;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -33,11 +36,9 @@ public class ListTrombiFragment extends Fragment implements AdapterView.OnItemCl
 
     @UiThread
     void dispPopUp(Trombi_content item) {
-        new MaterialDialog.Builder(getActivity())
-                .title(item.getLogin())
-                .content("test")
-                .negativeText("Retour")
-                .show();
+        Intent intent = new Intent(getActivity(), TrombiUserActivity_.class);
+        intent.putExtra("login", item.getLogin());
+        getActivity().startActivity(intent);
     }
 
     @Background

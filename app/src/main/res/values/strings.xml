@@ -23,6 +23,7 @@
     <string name="title_activity_marks">Notes</string>
     <string name="title_activity_marks_all">Toutes les Notes</string>
     <string name="title_activity_trombi">Trombi</string>
+    <string name="title_activity_trombi_user">Trombi Utilisateur</string>
 
     <string name="login">login_n</string>
     <string name="mail">login_n@epitech.eu</string>

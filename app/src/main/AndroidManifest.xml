@@ -96,6 +96,10 @@
             android:name=".TrombiActivity_"
             android:label="@string/title_activity_trombi"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TrombiUserActivity_"
+            android:label="@string/title_activity_trombi_user"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
