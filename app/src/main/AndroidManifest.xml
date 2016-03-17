@@ -92,6 +92,10 @@
             android:name=".SubjectViewActivity_"
             android:label="Sujet"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TrombiActivity_"
+            android:label="@string/title_activity_trombi"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -22,6 +22,10 @@
             android:id="@+id/nav_schedule"
             android:icon="@drawable/ic_schedule"
             android:title="Planning" />
+        <item
+            android:id="@+id/nav_trombi"
+            android:icon="@drawable/ic_projects"
+            android:title="Trombi" />
     </group>
 
     <item android:title="Misc">

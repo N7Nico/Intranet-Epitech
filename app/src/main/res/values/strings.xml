@@ -22,6 +22,7 @@
     <string name="title_activity_schedule_all">Tout le Planning</string>
     <string name="title_activity_marks">Notes</string>
     <string name="title_activity_marks_all">Toutes les Notes</string>
+    <string name="title_activity_trombi">Trombi</string>
 
     <string name="login">login_n</string>
     <string name="mail">login_n@epitech.eu</string>

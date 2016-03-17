@@ -201,9 +201,6 @@ public class MarksAllActivity extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.nav_marks) {
             drawer_layout.closeDrawer(GravityCompat.START);
             startActivity(new Intent(this, MarksActivity_.class));
-        } else if (id == R.id.nav_all_marks) {
-            drawer_layout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, MarksAllActivity_.class));
         } else if (id == R.id.nav_modules) {
             drawer_layout.closeDrawer(GravityCompat.START);
             startActivity(new Intent(this, ModulesActivity_.class));
@@ -213,7 +210,11 @@ public class MarksAllActivity extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.nav_schedule) {
             drawer_layout.closeDrawer(GravityCompat.START);
             startActivity(new Intent(this, ScheduleActivity_.class));
-        } else if (id == R.id.nav_logout) {
+        }
+        else if (id == R.id.nav_trombi) {
+            drawer_layout.closeDrawer(GravityCompat.START);
+            startActivity(new Intent(this, TrombiActivity_.class));
+        }else if (id == R.id.nav_logout) {
             drawer_layout.closeDrawer(GravityCompat.START);
             List<User> users = User.find(User.class, "connected = ?", "true");
             User user = users.get(0);

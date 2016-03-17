@@ -1,6 +1,5 @@
 package com.nico_11_riv.intranetepitech;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -21,16 +20,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
-import com.nico_11_riv.intranetepitech.api.requests.InfosRequest;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
+import com.nico_11_riv.intranetepitech.api.requests.InfosRequest;
+import com.nico_11_riv.intranetepitech.database.Marks;
+import com.nico_11_riv.intranetepitech.database.User;
+import com.nico_11_riv.intranetepitech.database.Userinfos;
 import com.nico_11_riv.intranetepitech.database.setters.infos.CircleTransform;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Guserinfos;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Puserinfos;
 import com.nico_11_riv.intranetepitech.database.setters.marks.PMarks;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
-import com.nico_11_riv.intranetepitech.database.Marks;
-import com.nico_11_riv.intranetepitech.database.User;
-import com.nico_11_riv.intranetepitech.database.Userinfos;
 import com.nico_11_riv.intranetepitech.ui.adapters.MarksAdapter;
 import com.nico_11_riv.intranetepitech.ui.contents.Mark_content;
 import com.orm.query.Condition;
@@ -49,7 +48,6 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @EActivity(R.layout.activity_marks)
 public class MarksActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -270,9 +268,6 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
         } else if (id == R.id.nav_marks) {
             drawer_layout.closeDrawer(GravityCompat.START);
             startActivity(new Intent(this, MarksActivity_.class));
-        } else if (id == R.id.nav_all_marks) {
-            drawer_layout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, MarksAllActivity_.class));
         } else if (id == R.id.nav_modules) {
             drawer_layout.closeDrawer(GravityCompat.START);
             startActivity(new Intent(this, ModulesActivity_.class));
@@ -282,7 +277,11 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
         } else if (id == R.id.nav_schedule) {
             drawer_layout.closeDrawer(GravityCompat.START);
             startActivity(new Intent(this, ScheduleActivity_.class));
-        } else if (id == R.id.nav_logout) {
+        }
+        else if (id == R.id.nav_trombi) {
+            drawer_layout.closeDrawer(GravityCompat.START);
+            startActivity(new Intent(this, TrombiActivity_.class));
+        }else if (id == R.id.nav_logout) {
             drawer_layout.closeDrawer(GravityCompat.START);
             List<User> users = User.find(User.class, "connected = ?", "true");
             User user = users.get(0);
