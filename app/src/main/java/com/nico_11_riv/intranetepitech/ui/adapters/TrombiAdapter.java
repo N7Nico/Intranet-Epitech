@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nico_11_riv.intranetepitech.R;
+import com.nico_11_riv.intranetepitech.database.setters.infos.CircleTransform;
 import com.nico_11_riv.intranetepitech.ui.contents.Trombi_content;
 import com.squareup.picasso.Picasso;
 
@@ -48,9 +49,9 @@ public class TrombiAdapter extends ArrayAdapter<Trombi_content> {
 
         if (image != null) {
             if (itemsArrayList.get(position).getPicture() == null || itemsArrayList.get(position).getPicture().equals("null"))
-                Picasso.with(getContext()).load(R.drawable.login_x).into(image);
+                Picasso.with(getContext()).load(R.drawable.login_x).transform(new CircleTransform()).into(image);
             else
-                Picasso.with(getContext()).load(itemsArrayList.get(position).getPicture()).into(image);
+                Picasso.with(getContext()).load(itemsArrayList.get(position).getPicture()).transform(new CircleTransform()).into(image);
         }
         login.setText(itemsArrayList.get(position).getLogin());
         name.setText(itemsArrayList.get(position).getName());

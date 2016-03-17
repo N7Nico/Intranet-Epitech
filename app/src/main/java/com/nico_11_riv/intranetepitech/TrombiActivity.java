@@ -122,11 +122,17 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
         return items;
     }
 
+    @UiThread
+    void sHeader(View header) {
+        nav_view.addHeaderView(header);
+    }
+
+    @Background
     void initMenu() {
         Guserinfos user_info = new Guserinfos();
         GUser user = new GUser();
         View header = LayoutInflater.from(this).inflate(R.layout.nav_header, null);
-        nav_view.addHeaderView(header);
+        sHeader(header);
         TextView name = (TextView) header.findViewById(R.id.user_name);
         name.setText(user_info.getTitle() + " (" + user.getLogin() + ")");
         TextView email = (TextView) header.findViewById(R.id.user_email);
