@@ -222,7 +222,7 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
         });
 
         ArrayList<String> teks = new ArrayList<String>();
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i <= 5; i++) {
             teks.add("Tek" + Integer.toString(i));
         }
         ArrayAdapter<String> adapter_tek = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, teks);
