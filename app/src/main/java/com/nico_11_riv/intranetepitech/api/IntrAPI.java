@@ -77,7 +77,6 @@ public interface IntrAPI extends RestClientErrorHandling {
     @RequiresCookie("PHPSESSID")
     String getprojectfile(String scolaryear, String codemodule, String codeinstance, String codeacti);
 
-    // https://intra.epitech.eu/user/filter/user?format=json&location=FR/MPL&year=2015&promo=tek3
     @Post("/user/filter/user?format=json&location={location}&year={year}&promo={promo}")
     @RequiresCookie("PHPSESSID")
     String gettrombi(String location, String year, String promo);

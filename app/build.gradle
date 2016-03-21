@@ -91,4 +91,6 @@ dependencies {
     }
 
     compile 'com.github.alamkanak:android-week-view:1.2.6'
+
+    compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
 }
