@@ -13,7 +13,13 @@ import java.util.List;
  */
 public class Ptrombi {
 
-    public Ptrombi() { }
+    public String scolaryear;
+    public String tek;
+
+    public Ptrombi(String scolaryear, String tek) {
+        this.scolaryear = scolaryear;
+        this.tek = tek;
+    }
 
     public void load(String api) {
         try {
@@ -35,6 +41,8 @@ public class Ptrombi {
                     trombi.setPrenom(tmp.getString("prenom"));
                     trombi.setPicture("https://cdn.local.epitech.eu/userprofil/" + tmp.getString("login") + ".bmp");
                     trombi.setLocation(tmp.getString("location"));
+                    trombi.setYears(this.scolaryear);
+                    trombi.setTek(this.tek);
                     trombi.save();
                 }
             }

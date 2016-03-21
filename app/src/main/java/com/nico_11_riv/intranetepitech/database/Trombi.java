@@ -12,6 +12,8 @@ public class Trombi extends SugarRecord {
     private String prenom;
     private String picture;
     private String location;
+    private String years;
+    private String tek;
 
     public Trombi() {}
 
@@ -61,5 +63,21 @@ public class Trombi extends SugarRecord {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getYears() {
+        return years;
+    }
+
+    public void setYears(String years) {
+        this.years = years;
+    }
+
+    public String getTek() {
+        return tek;
+    }
+
+    public void setTek(String tek) {
+        this.tek = tek;
     }
 }

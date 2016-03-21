@@ -1,12 +1,8 @@
 package com.nico_11_riv.intranetepitech;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -46,9 +41,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,14 +124,14 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
         listView.setAdapter(adapter);
     }
 
-    public void display_trombi(String location) {
-        TrombiAdapter adapter = new TrombiAdapter(this, generateData(location));
+    public void display_trombi() {
+        TrombiAdapter adapter = new TrombiAdapter(this, generateData());
         sAdapter(trombigridview, adapter);
     }
 
-    private ArrayList<Trombi_content> generateData(String location) {
+    private ArrayList<Trombi_content> generateData() {
         ArrayList<Trombi_content> items = new ArrayList<Trombi_content>();
-        List<Trombi> list = Trombi.findWithQuery(Trombi.class, "SELECT * FROM Trombi WHERE location = ?", location);
+        List<Trombi> list = Trombi.findWithQuery(Trombi.class, "SELECT * FROM Trombi WHERE location = ? and years = ? and tek = ?", ville, annee, tek);
         for (int i = 0; i < list.size(); i++) {
             items.add(new Trombi_content(list.get(i).getLogin(), list.get(i).getTitle(), list.get(i).getPicture()));
         }
@@ -160,31 +153,14 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
         name.setText(user_info.getTitle() + " (" + user.getLogin() + ")");
         TextView email = (TextView) header.findViewById(R.id.user_email);
         email.setText(user_info.getEmail());
-        display_trombi(user_info.getLocation());
+        display_trombi();
     }
 
     @Background
     void loadInfos() {
         if (Trombi.count(Trombi.class) > 0) {
-            display_trombi(ville);
+            display_trombi();
         }
-        /*if (isConnected() == true) {
-            String result = "";
-            Guserinfos guserinfos = new Guserinfos();
-            try {
-                api.setCookie("PHPSESSID", gUser.getToken());
-                result = api.gettrombi(guserinfos.getLocation(), guserinfos.getScolaryear(), "Tek" + guserinfos.getStudentyear());
-                Ptrombi ptrombi = new Ptrombi();
-                ptrombi.load(result);
-            } catch (HttpClientErrorException e) {
-                Log.d("Response", e.getResponseBodyAsString());
-                Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
-            } catch (NullPointerException e) {
-                Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-        }*/
-        reloaddata();
         initMenu();
     }
 
@@ -195,7 +171,7 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
             try {
                 api.setCookie("PHPSESSID", gUser.getToken());
                 result = api.gettrombi(ville, scolaryear, tek);
-                Ptrombi trombi = new Ptrombi();
+                Ptrombi trombi = new Ptrombi(scolaryear, tek);
                 trombi.load(result);
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());
@@ -206,7 +182,7 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
             }
         }
         reloaddata();
-        display_trombi(ville);
+        display_trombi();
     }
 
     @UiThread
@@ -222,6 +198,7 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
                 ville = info.get(parent.getItemAtPosition(pos).toString());
                 getTrombi(ville, annee, tek);
             }
+
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
@@ -239,6 +216,7 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
                 annee = parent.getItemAtPosition(pos).toString();
                 getTrombi(ville, annee, tek);
             }
+
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
@@ -275,8 +253,8 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
         toggle.syncState();
 
         nav_view.setNavigationItemSelectedListener(this);
-        loadInfos();
         setSpinner();
+        loadInfos();
     }
 
     @Override
