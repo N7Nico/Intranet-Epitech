@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,12 @@ public class TrombiUserActivity extends AppCompatActivity {
     @ViewById
     TextView gpa;
     @ViewById
+    TextView email;
+    @ViewById
+    TextView credits;
+    @ViewById
+    TextView login;
+    @ViewById
     ImageView image;
 
     GUser gUser = new GUser();
@@ -65,10 +72,14 @@ public class TrombiUserActivity extends AppCompatActivity {
     @UiThread
     void setinformations(String login) {
         List<Userinfos> userinfosList = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", login);
-        name.setText(userinfosList.get(0).getLastname());
-        prenom.setText(userinfosList.get(0).getFirstname());
-        gpa.setText(userinfosList.get(0).getGpa());
-        Picasso.with(getApplicationContext()).load(userinfosList.get(0).getPicture()).transform(new CircleTransform()).into(image);
+        Userinfos user = userinfosList.get(0);
+        name.setText(Html.fromHtml("<b>Nom : </b>" + user.getLastname().substring(0, 1).toUpperCase() + user.getLastname().substring(1)));
+        prenom.setText(Html.fromHtml("<b>Prénom : </b>" + user.getFirstname().substring(0, 1).toUpperCase() + user.getFirstname().substring(1)));
+        this.login.setText(Html.fromHtml("<b>Login : </b>" + user.getLogin()));
+        email.setText(Html.fromHtml("<b>Email : </b>" + user.getLogin() + "@epitech.eu"));
+        gpa.setText(Html.fromHtml("<b>GPA : </b>" + user.getGpa()));
+        credits.setText(Html.fromHtml("<b>Crédits : </b>" + user.getCredits()));
+        Picasso.with(getApplicationContext()).load(user.getPicture()).into(image);
     }
 
     @UiThread
@@ -77,7 +88,6 @@ public class TrombiUserActivity extends AppCompatActivity {
         prenom.setText("");
         gpa.setText("");
         image.setImageURI(null);
-        maketoast("Reloading data", Toast.LENGTH_SHORT);
     }
 
     @UiThread

@@ -9,7 +9,7 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/app_bar_trombi"
+        layout="@layout/app_bar_trombi_user"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -21,21 +21,5 @@
         android:fitsSystemWindows="true"
         app:menu="@menu/activity_drawer" />
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="200dp"
-        android:layout_height="200dp" />
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <TextView
-        android:id="@+id/prenom"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <TextView
-        android:id="@+id/gpa"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </android.support.v4.widget.DrawerLayout>
