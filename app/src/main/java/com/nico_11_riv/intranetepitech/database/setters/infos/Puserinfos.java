@@ -17,7 +17,7 @@ public class Puserinfos {
                 userinfos.setTitle(json.getString("title"));
                 userinfos.setLastname(json.getString("lastname"));
                 userinfos.setFirstname(json.getString("firstname"));
-                userinfos.setEmail(u.getLogin() + "@epitech.eu");
+                userinfos.setEmail(json.getString("login") + "@epitech.eu");
                 userinfos.setScolaryear(json.getString("scolaryear"));
                 userinfos.setPicture(json.getString("picture"));
                 userinfos.setPromo(json.getString("promo"));
