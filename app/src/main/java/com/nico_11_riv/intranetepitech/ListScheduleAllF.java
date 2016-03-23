@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
+import android.text.InputType;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -49,6 +50,8 @@ import java.util.Objects;
 public class ListScheduleAllF extends Fragment implements MonthLoader.MonthChangeListener, WeekView.EventClickListener {
     @RestService
     IntrAPI api;
+
+    public String tokentovalidate = "";
 
     @RestService
     HerokuAPI o_api;
@@ -185,10 +188,6 @@ public class ListScheduleAllF extends Fragment implements MonthLoader.MonthChang
         } else if (Objects.equals(validate, "Se d'ésinscrire")) {
             String rslt = api.unregisterevent(tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent());
             maketoast("Désinscription de l'event " + tmp.getActititle() + "réussite");
-        } else {
-            TokenRequest tr = new TokenRequest(gUser.getToken(), tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent(), "00000000");
-            o_api.validateToken(tr);
-            maketoast("Token validé");
         }
     }
 
@@ -254,6 +253,19 @@ public class ListScheduleAllF extends Fragment implements MonthLoader.MonthChang
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         registertoevent(tmp, validate);
+                        if (Objects.equals(validate, "Token")) {
+                            new MaterialDialog.Builder(getActivity())
+                                    .title("Enter Token")
+                                    .inputType(InputType.TYPE_CLASS_NUMBER)
+                                    .input("00000000", "", new MaterialDialog.InputCallback() {
+                                        @Override
+                                        public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                            TokenRequest tr = new TokenRequest(gUser.getToken(), tmp.getScolaryear(), tmp.getCodemodule(), tmp.getCodeinstance(), tmp.getCodeacti(), tmp.getCodeevent(), input.toString());
+                                            o_api.validateToken(tr);
+                                            maketoast("Token validé");
+                                        }
+                                    }).show();
+                        }
                         if (!Objects.equals(validate, "OK")) {
                             startActivity(getActivity().getIntent());
                         }
