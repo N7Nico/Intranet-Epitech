@@ -1,6 +1,6 @@
 package com.nico_11_riv.intranetepitech;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -16,11 +16,14 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
+
 @EFragment(R.layout.listmarks)
 public class ListMarksFragment extends Fragment implements AdapterView.OnItemClickListener {
     @ViewById
     ListView markslistview;
     private ArrayList<Mark_content> mMarkItemList = null;
+
+
 
     @AfterViews
     void init() {
@@ -36,6 +39,8 @@ public class ListMarksFragment extends Fragment implements AdapterView.OnItemCli
                 .show();
     }
 
+
+
     @Background
     void popUp(AdapterView<?> parent, int position) {
         Mark_content itemContent = (Mark_content) parent.getItemAtPosition(position);
@@ -46,4 +51,5 @@ public class ListMarksFragment extends Fragment implements AdapterView.OnItemCli
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         popUp(parent, position);
     }
+
 }

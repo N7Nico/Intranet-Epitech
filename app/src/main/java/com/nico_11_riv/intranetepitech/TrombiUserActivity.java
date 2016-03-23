@@ -4,20 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Userinfos;
-import com.nico_11_riv.intranetepitech.database.setters.infos.CircleTransform;
 import com.nico_11_riv.intranetepitech.database.setters.infos.Puserinfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
+import com.nico_11_riv.intranetepitech.ui.adapters.ProfilTrombiAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
@@ -57,6 +60,10 @@ public class TrombiUserActivity extends AppCompatActivity {
     TextView login;
     @ViewById
     ImageView image;
+    @ViewById
+    LinearLayout lineartitle;
+
+    private ProfilTrombiAdapter pageAdapter;
 
     GUser gUser = new GUser();
 
@@ -118,6 +125,23 @@ public class TrombiUserActivity extends AppCompatActivity {
         setinformations(login);
     }
 
+
+    @UiThread
+    void initTab(){
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        ProfilTrombiAdapter pagerAdapter =
+                new ProfilTrombiAdapter(getSupportFragmentManager(), TrombiUserActivity.this);
+        viewPager.setAdapter(pagerAdapter);
+
+        // Give the TabLayout the ViewPager
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
+
+        // Iterate over all tabs and set the custom view
+
+    }
+
     @AfterViews
     void init() {
         setSupportActionBar(toolbar);
@@ -126,6 +150,7 @@ public class TrombiUserActivity extends AppCompatActivity {
         toggle.syncState();
         Intent intent = getIntent();
         String login = intent.getStringExtra("login");
+        initTab();
         loadInfos(login);
     }
 

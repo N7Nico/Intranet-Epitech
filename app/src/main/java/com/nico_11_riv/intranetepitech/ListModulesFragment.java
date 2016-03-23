@@ -1,6 +1,6 @@
 package com.nico_11_riv.intranetepitech;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
