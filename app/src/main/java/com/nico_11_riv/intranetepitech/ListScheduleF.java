@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
+import android.text.InputType;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -249,6 +250,17 @@ public class ListScheduleF extends Fragment implements MonthLoader.MonthChangeLi
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         registertoevent(tmp, validate);
+                        if (Objects.equals(validate, "Token")) {
+                            new MaterialDialog.Builder(getActivity())
+                                    .title("Enter Token")
+                                    .inputType(InputType.TYPE_CLASS_NUMBER)
+                                    .input("00000000", "", new MaterialDialog.InputCallback() {
+                                        @Override
+                                        public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                            // Do something
+                                        }
+                                    }).show();
+                        }
                         if (!Objects.equals(validate, "OK")) {
                             startActivity(getActivity().getIntent());
                         }
