@@ -21,8 +21,6 @@ public class Userinfos extends SugarRecord {
     private String gpa;
 
     public Userinfos() {
-        GUser u = new GUser();
-        this.token = u.getToken();
     }
 
     public Userinfos(String token) {
