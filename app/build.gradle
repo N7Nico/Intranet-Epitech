@@ -1,10 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'com.google.gms.google-services'
 def AAVersion = '3.3.2'
 
 buildscript {
     repositories {
         mavenCentral()
+        jcenter();
         maven {
             url 'http://repo.spring.io/milestone'
         }
@@ -12,6 +14,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.google.gms:google-services:2.0.0-alpha6'
     }
 }
 
@@ -95,4 +98,6 @@ dependencies {
     compile 'com.github.alamkanak:android-week-view:1.2.6'
 
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
+
+    compile "com.google.android.gms:play-services-gcm:8.3.0"
 }
