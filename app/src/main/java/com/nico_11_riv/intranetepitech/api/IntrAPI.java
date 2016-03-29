@@ -11,7 +11,9 @@ import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 
 /**
- * Created by Jimmy on 09/02/2016.
+ *
+ * Created by nicol on 13/03/2016.
+ *
  */
 
 @Rest(rootUrl = "https://intra.epitech.eu", converters = {StringHttpMessageConverter.class, FormHttpMessageConverter.class})
@@ -30,7 +32,7 @@ public interface IntrAPI extends RestClientErrorHandling {
 
     @Get("/user/{login}/notes?format=json")
     @RequiresCookie("PHPSESSID")
-    String getmarks(String login);
+    String getmarksandmodules(String login);
 
     @Get("/course/filter?format=json")
     @RequiresCookie("PHPSESSID")
@@ -76,10 +78,6 @@ public interface IntrAPI extends RestClientErrorHandling {
     @Post("/module/{scolaryear}/{codemodule}/{codeinstance}/{codeacti}/project/file/?format=json")
     @RequiresCookie("PHPSESSID")
     String getprojectfile(String scolaryear, String codemodule, String codeinstance, String codeacti);
-
-    @Post("/user/filter/user?format=json&location={location}&year={year}&promo={promo}")
-    @RequiresCookie("PHPSESSID")
-    String gettrombi(String location, String year, String promo);
 
     void setCookie(String name, String value);
     String getCookie(String name);

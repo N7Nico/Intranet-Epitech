@@ -1,212 +1,59 @@
 package com.nico_11_riv.intranetepitech;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
-import com.nico_11_riv.intranetepitech.api.requests.InfosRequest;
-import com.nico_11_riv.intranetepitech.api.IntrAPI;
-import com.nico_11_riv.intranetepitech.database.setters.infos.CircleTransform;
-import com.nico_11_riv.intranetepitech.database.setters.infos.Guserinfos;
-import com.nico_11_riv.intranetepitech.database.setters.infos.Puserinfos;
-import com.nico_11_riv.intranetepitech.database.setters.messages.Pmessages;
-import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
-import com.nico_11_riv.intranetepitech.database.Messages;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.nico_11_riv.intranetepitech.database.User;
-import com.nico_11_riv.intranetepitech.database.Userinfos;
-import com.nico_11_riv.intranetepitech.ui.adapters.MessagesAdapter;
-import com.nico_11_riv.intranetepitech.ui.contents.Messages_content;
-import com.orm.query.Condition;
-import com.orm.query.Select;
-import com.squareup.picasso.Picasso;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.rest.RestService;
-import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_profile)
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    @RestService
-    IntrAPI api;
+    @ViewById
+    Toolbar toolbar;
 
-    @Bean
-    APIErrorHandler ErrorHandler;
+    @ViewById
+    FloatingActionButton fab;
 
     @ViewById
     DrawerLayout drawer_layout;
 
     @ViewById
-    Toolbar toolbar;
-
-    @ViewById
     NavigationView nav_view;
-
-    @ViewById
-    ImageView userImg;
-
-    @ViewById
-    TextView vlogin;
-
-    @ViewById
-    TextView title_user;
-
-    @ViewById
-    TextView email_user;
-
-    @ViewById
-    TextView student_year;
-
-    @ViewById
-    TextView student_semester;
-
-    @ViewById
-    TextView current_credits;
-
-    @ViewById
-    TextView objectif_credit;
-
-    @ViewById
-    TextView current_netsoul;
-
-    @ViewById
-    TextView gpa;
-
-    @AfterInject
-    void afterInject() {
-        api.setRestErrorHandler(ErrorHandler);
-    }
-
-    private GUser gUser = null;
-
-    private boolean isConnected() {
-        try {
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            return cm.getActiveNetworkInfo().isConnectedOrConnecting();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    @UiThread
-    void sAdapter(ListView listView, MessagesAdapter adapter) {
-        listView.setAdapter(adapter);
-    }
-
-    void display_cur_projs() {
-        MessagesAdapter adapter = new MessagesAdapter(this, generateData());
-
-        ListView listView = (ListView) findViewById(R.id.messageslistview);
-        sAdapter(listView, adapter);
-    }
-
-    private ArrayList<Messages_content> generateData() {
-        ArrayList<Messages_content> items = new ArrayList<Messages_content>();
-        List<Messages> messages = Select.from(Messages.class)
-                .where(Condition.prop("token").eq(gUser.getToken())).list();
-        for (int i = 0; i < messages.size(); i++) {
-            Messages info = messages.get(i);
-            items.add(new Messages_content(Html.fromHtml(info.getTitle()).toString(), info.getDate(), Html.fromHtml(info.getContent()).toString(), info.getLogin().toString(), info.getPicture()));
-        }
-        return items;
-    }
-
-    @UiThread
-    void dispHeader(View header) {
-        nav_view.addHeaderView(header);
-    }
-
-    @UiThread
-    void dispImgsAndHeader(Guserinfos user_info) {
-        Picasso.with(getApplicationContext()).load(user_info.getPicture()).transform(new CircleTransform()).into((ImageView) findViewById(R.id.user_img));
-        Picasso.with(getApplicationContext()).load(user_info.getPicture()).transform(new CircleTransform()).into((ImageView) findViewById(R.id.header_imageview_dashboard));
-        title_user.setText(gUser.getLogin());
-        email_user.setText(user_info.getEmail());
-        student_year.setText("Promo " + user_info.getPromo());
-        student_semester.setText("Semestre " + user_info.getSemester());
-        //objectif_credit.setText(user_info.getCredits_obj());
-        //current_netsoul.setText(user_info.getActive_log());
-        gpa.setText("GPA : " + user_info.getGpa());
-        current_credits.setText("Credits : " + user_info.getCredits());
-    }
-
-    void initMenu() {
-        Guserinfos user_info = new Guserinfos();
-        View header = LayoutInflater.from(this).inflate(R.layout.nav_header, null);
-        dispHeader(header);
-        TextView name = (TextView) header.findViewById(R.id.user_name);
-        name.setText(user_info.getTitle() + " (" + gUser.getLogin() + ")");
-        TextView email = (TextView) header.findViewById(R.id.user_email);
-        email.setText(user_info.getEmail());
-        dispImgsAndHeader(user_info);
-        display_cur_projs();
-    }
-
-    @Background
-    void loadInfos() {
-        gUser = new GUser();
-        if (isConnected() == true) {
-            InfosRequest ir = new InfosRequest(gUser.getToken());
-            Userinfos.deleteAll(Userinfos.class, "token = ?", gUser.getToken());
-            Messages.deleteAll(Messages.class, "token = ?", gUser.getToken());
-            api.setCookie("PHPSESSID", gUser.getToken());
-            try {
-                Puserinfos infos = new Puserinfos(api.getuserinfo(gUser.getLogin()));
-            } catch (HttpClientErrorException e) {
-                Log.d("Response", e.getResponseBodyAsString());
-                Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
-            }  catch (NullPointerException e) {
-                Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-            api.setCookie("PHPSESSID", gUser.getToken());
-            try {
-                Pmessages msg = new Pmessages(api.getnotifs());
-            } catch (HttpClientErrorException e) {
-                Log.d("Response", e.getResponseBodyAsString());
-                Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
-            }  catch (NullPointerException e) {
-                Toast.makeText(getApplicationContext(), "Erreur de l'API", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-        }
-        initMenu();
-    }
 
     @AfterViews
     void init() {
         setSupportActionBar(toolbar);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer_layout.setDrawerListener(toggle);
+        drawer_layout.addDrawerListener(toggle);
         toggle.syncState();
 
         nav_view.setNavigationItemSelectedListener(this);
-        loadInfos();
+    }
+
+    @Click
+    void fabClicked(View fab) {
+        Snackbar.make(fab, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
 
     @Override
@@ -214,12 +61,51 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            new MaterialDialog.Builder(this)
+                    .title(R.string.exit)
+                    .negativeText("Retour")
+                    .positiveText("Oui")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            List<User> users = User.find(User.class, "connected = ?", "true");
+                            if (users.size() > 0) {
+                                users.get(0).setConnected("false");
+                                users.get(0).save();
+                            }
+                            startActivity(new Intent(getApplicationContext(), LoginActivity_.class));
+                        }
+                    })
+                    .icon(getApplicationContext().getDrawable(R.drawable.logo)).limitIconToDefaultSize()
+                    .show();
         }
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_profile, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
@@ -235,13 +121,8 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             drawer_layout.closeDrawer(GravityCompat.START);
             startActivity(new Intent(this, ProjectsActivity_.class));
         } else if (id == R.id.nav_schedule) {
-            drawer_layout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, ScheduleActivity_.class));
-        }
-        else if (id == R.id.nav_trombi) {
-            drawer_layout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, TrombiActivity_.class));
-        }else if (id == R.id.nav_logout) {
+
+        } else if (id == R.id.nav_logout) {
             drawer_layout.closeDrawer(GravityCompat.START);
             List<User> users = User.find(User.class, "connected = ?", "true");
             User user = users.get(0);
@@ -249,6 +130,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             user.save();
             startActivity(new Intent(this, LoginActivity_.class));
         }
+        drawer_layout.closeDrawer(GravityCompat.START);
         return true;
     }
 }

@@ -1,72 +1,96 @@
 <resources>
     <string name="app_name">Intranet Epitech</string>
+    <string name="title_profile">Profil</string>
+    <string name="title_marks">Notes</string>
+    <string name="title_modules">Modules</string>
+    <string name="title_projects">Projects</string>
+    <string name="title_planning">Planning</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="connexion_error">Erreur de connexion</string>
+    <string name="misc">Misc</string>
+    <string name="deconnexion">Déconnexion</string>
 
-    <!-- Strings related to login -->
-    <string name="prompt_email">Login</string>
-    <string name="prompt_password">Mot de Passe Unix</string>
-    <string name="action_sign_in">Connexion</string>
+    <string name="search_hint">Chercher</string>
+
+    <string name="noinfos">Aucune information à afficher</string>
+
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sodales sagittis molestie.</string>
+
+    <!-- Values of login -->
+
     <string name="error_field_required">Ce champ est obligatoire</string>
+    <string name="login">Login</string>
+    <string name="passwd">Mot de Passe Unix</string>
+    <string name="action_sign_in">Connexion</string>
 
-    <string name="title_activity_login">Connexion</string>
-    <string name="title_activity_profile">Profil</string>
-    <string name="title_activity_modules">Modules</string>
-    <string name="title_activity_modules_all">Tous les Modules</string>
-    <string name="title_activity_projects">Projets</string>
-    <string name="title_activity_schedule">Planning</string>
-    <string name="title_activity_schedule_modules">Planning (Modules enregistrés)</string>
-    <string name="title_activity_schedule_all">Tout le Planning</string>
-    <string name="title_activity_marks">Notes</string>
-    <string name="title_activity_marks_all">Toutes les Notes</string>
-    <string name="title_activity_trombi">Trombi</string>
-    <string name="title_activity_trombi_user">Trombi Utilisateur</string>
+    <!-- Values of profile -->
 
-    <string name="login">login_n</string>
-    <string name="mail">login_n@epitech.eu</string>
+    <string name="student_img_desc">Student Img</string>
+    <string name="login_n">login_n</string>
+    <string name="email">login_n@epitech.eu</string>
+    <string name="gpa">GPA :</string>
+    <string name="promo">Promo :</string>
+    <string name="semester">Semestre :</string>
+    <string name="credits">Crédits :</string>
+    <string name="na">n/a</string>
+    <string name="exit">Se déconnecter ?</string>
 
-    <string name="promo">Promo</string>
-    <string name="semester">Semestre</string>
-    <string name="logtime">NetSoul :</string>
-    <string name="current_credit">Credits :</string>
+    <!-- Values of messages -->
+    <string name="profile_img_desc">Profile Img</string>
+    <string name="date">2042-01-24 23:42:00</string>
 
-    <string name="prev_week">Prev</string>
-    <string name="next_week">Next</string>
+    <!-- Values of marks -->
+    <string name="mark_img_desc">Mark Background</string>
+    <string name="mark">42</string>
+    <string name="corrector">corrector_l</string>
+    <string name="project">Project</string>
+    <string name="module">Module</string>
 
-    <string name="object_credit">Objectif :</string>
+    <string name="action_search">Chercher</string>
+    <string name="action_nb">Nombre à afficher</string>
+    <string name="action_semester">Semestre</string>
 
-    <string name="colorlistvl">#ECEFF1</string>
-    <string name="colorlistvd">#E3F2FD</string>
-
-    <string name="action_planning_activities">Activités Uniquement</string>
-    <string name="action_planning_modules">Modules Uniquement</string>
-    <string name="action_planning_all">Tout</string>
-
-    <string name="semester_1">Semestre 1</string>
-    <string name="semester_2">Semestre 2</string>
-    <string name="semester_3">Semestre 3</string>
-    <string name="semester_4">Semestre 4</string>
-    <string name="semester_5">Semestre 5</string>
-    <string name="semester_6">Semestre 6</string>
-    <string name="semester_7">Semestre 7</string>
-    <string name="semester_8">Semestre 8</string>
-
-    <string-array name="villes">
-        <item>Bordeaux</item>
-        <item>Lille</item>
-        <item>Lyon</item>
-        <item>Marseille</item>
-        <item>Montpellier</item>
-        <item>Nancy</item>
-        <item>Nantes</item>
-        <item>Nice</item>
-        <item>Paris</item>
-        <item>Rennes</item>
-        <item>Strasbourg</item>
-        <item>Toulouse</item>
+    <string name="numberofmarks">Nombre de notes à afficher</string>
+    <string-array name="number_array">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>Toutes</item>
     </string-array>
+    <string name="choose">OK</string>
+    <string name="semester_choice">Semestre à afficher</string>
+    <string-array name="semester_array">
+        <item>Semestre 0</item>
+        <item>Semestre 1</item>
+        <item>Semestre 2</item>
+        <item>Semestre 3</item>
+        <item>Semestre 4</item>
+        <item>Semestre 5</item>
+        <item>Semestre 6</item>
+        <item>Semestre 7</item>
+        <item>Semestre 8</item>
+        <item>Semestre 9</item>
+        <item>Semestre 10</item>
+        <item>Tous</item>
+    </string-array>
+
+    <!-- Values of modules -->
+    <string name="grade_img_desc">Grade Background</string>
+    <string name="grade">A</string>
+    <string name="timeline">2042-01-24 -> 2042-01-42</string>
+    <string name="codemodule">G-EPI-42</string>
+
+    <string name="numberofmodules">Nombre de module à afficher</string>
+
+    <!-- Values of projects -->
+
+    <string name="numberofprojects">Nombre de projects à afficher</string>
 
 </resources>

@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nico_11_riv.intranetepitech">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <permission android:name="<your-package-name>.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="<your-package-name>.permission.C2D_MESSAGE" />
 
     <application
         android:name="com.orm.SugarApp"
@@ -20,20 +14,22 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="DATABASE"
-            android:value="intraepitech.db" />
+            android:value="intranetepitech.db" />
         <meta-data
             android:name="VERSION"
-            android:value="2" />
+            android:value="4" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
-            android:value="com.nico_11_riv" />
+            android:value="com.nico_11_riv.intranetepitech" />
 
         <activity
             android:name=".LoginActivity_"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,70 +38,48 @@
         </activity>
         <activity
             android:name=".ProfileActivity_"
-            android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_profile"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop" />
         <activity
             android:name=".MarksActivity_"
-            android:label="@string/title_activity_marks"
-            android:theme="@style/AppTheme.NoActionBar">
-                <intent-filter>
-                    <action android:name="android.intent.action.SEARCH" />
-                </intent-filter>
-                <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"
-                    android:value=".activities.SearchResultActivity" />
-            </activity>
-        <activity
-            android:name=".MarksAllActivity_"
-            android:label="@string/title_activity_marks_all"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_marks"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity
             android:name=".ModulesActivity_"
-            android:label="@string/title_activity_modules"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/title_modules"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"
-                android:value=".activities.SearchResultActivity" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
-        <activity
-            android:name=".ModulesAllActivity_"
-            android:label="@string/title_activity_modules_all"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ProjectsActivity_"
-            android:label="@string/title_activity_projects"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/title_projects"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"
-                android:value=".activities.SearchResultActivity" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
-        <activity
-            android:name=".ScheduleAllActivity_"
-            android:label="@string/title_activity_schedule"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ScheduleModulesActivity_"
-            android:label="@string/title_activity_schedule"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ScheduleActivity_"
-            android:label="@string/title_activity_schedule"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".SubjectViewActivity_"
-            android:label="Sujet"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".TrombiActivity_"
-            android:label="@string/title_activity_trombi"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".TrombiUserActivity_"
-            android:label="@string/title_activity_trombi_user"
-            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

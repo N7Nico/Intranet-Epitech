@@ -1,10 +1,11 @@
 package com.nico_11_riv.intranetepitech.database;
 
-import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.orm.SugarRecord;
 
 public class Allmodules extends SugarRecord {
-    private String token;
+    private String login;
+    private boolean old;
+    private String grade;
     private String semester;
     private String begin;
     private String end;
@@ -21,20 +22,35 @@ public class Allmodules extends SugarRecord {
     private String title;
 
     public Allmodules() {
-        GUser user = new GUser();
-        this.token = user.getToken();
     }
 
-    public Allmodules(String token) {
-        this.token = token;
+    public Allmodules(String login) {
+        this.login = login;
+        this.old = false;
     }
 
-    public String getToken() {
-        return token;
+    public String getLogin() {
+        return login;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public boolean isOld() {
+        return old;
+    }
+
+    public void setOld(boolean old) {
+        this.old = old;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     public String getSemester() {

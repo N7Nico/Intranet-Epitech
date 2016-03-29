@@ -9,15 +9,16 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
-import com.nico_11_riv.intranetepitech.api.requests.LoginRequest;
-import com.nico_11_riv.intranetepitech.api.HerokuAPI;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
-import com.nico_11_riv.intranetepitech.database.setters.infos.Puserinfos;
-import com.nico_11_riv.intranetepitech.database.setters.user.SUser;
+import com.nico_11_riv.intranetepitech.api.requests.LoginRequest;
 import com.nico_11_riv.intranetepitech.database.User;
+import com.nico_11_riv.intranetepitech.database.setters.user.PUser;
+import com.nico_11_riv.intranetepitech.toolbox.GenerateToken;
+import com.nico_11_riv.intranetepitech.toolbox.IsConnected;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
@@ -43,11 +44,6 @@ public class LoginActivity extends AppCompatActivity {
     @Bean
     APIErrorHandler ErrorHandler;
 
-    @AfterInject
-    void afterInject() {
-        api.setRestErrorHandler(ErrorHandler);
-    }
-
     @ViewById
     AutoCompleteTextView vlogin;
 
@@ -57,35 +53,15 @@ public class LoginActivity extends AppCompatActivity {
     @ViewById
     Button login_button;
 
-    private boolean isConnected() {
-        try {
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            return cm.getActiveNetworkInfo().isConnectedOrConnecting();
-        } catch (Exception e) {
-            return false;
-        }
+    @ViewById
+    ProgressBar login_progress;
+
+    @AfterInject
+    void afterInject() {
+        api.setRestErrorHandler(ErrorHandler);
     }
 
-    @AfterViews
-    void init() {
-        ErrorHandler = new APIErrorHandler(getApplicationContext());
-        if (User.count(User.class, "connected = ?", new String[]{"true"}) == 1) {
-            startActivity(new Intent(this, ProfileActivity_.class));
-        }
-    }
-
-    String generateToken() {
-        char[] chars = "abcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
-        StringBuilder sb = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < 26; i++) {
-            char c = chars[random.nextInt(chars.length)];
-            sb.append(c);
-        }
-        return (sb.toString());
-    }
-
-    boolean check_user(String token, String login) {
+    boolean check_user(String login) {
         String restapi = api.getuserinfo(login);
         try {
             JSONObject json = new JSONObject(restapi);
@@ -101,36 +77,42 @@ public class LoginActivity extends AppCompatActivity {
         return false;
     }
 
-    @UiThread
-    void ttt(String tokengenerate) {
-        vlogin.setText(tokengenerate);
+    @AfterViews
+    void init() {
+        ErrorHandler = new APIErrorHandler(getApplicationContext());
+        if (User.count(User.class, "connected = ?", new String[]{"true"}) == 1) {
+            startActivity(new Intent(this, ProfileActivity_.class));
+        }
     }
 
     @UiThread
     void error_connect(String text) {
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
-        vlogin.setText("");
-        vpasswd.setText("");
+    }
+
+    @UiThread
+    void progressBarGone() {
+        login_progress.setVisibility(View.GONE);
     }
 
     boolean connectNetwork(String login, String passwd) {
         LoginRequest lr = new LoginRequest(login, passwd);
-        String tokengenerate = generateToken();
-        api.setCookie("PHPSESSID", tokengenerate);
+        GenerateToken gt = new GenerateToken();
+        String token = gt.gen();
+        api.setCookie("PHPSESSID", token);
         try {
             api.sendToken(lr);
-            if (check_user(tokengenerate, login)) {
-                User u = new User(login, passwd, tokengenerate, "true");
+            if (check_user(login)) {
+                User u = new User(login, passwd, token, "true");
                 u.save();
-                api.setCookie("PHPSESSID", tokengenerate);
-                Puserinfos infos = new Puserinfos(api.getuserinfo(login));
                 return false;
             }
         } catch (HttpClientErrorException e) {
+            progressBarGone();
             error_connect("Erreur de l'API");
             e.printStackTrace();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
+            progressBarGone();
             error_connect("Mauvais login / mot de passe");
             e.printStackTrace();
         }
@@ -138,10 +120,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @UiThread
-    void settingFieldError() {
+    void reset() {
         vlogin.setError(null);
         vpasswd.setError(null);
-        login_button.setText("Connexion");
+        login_button.setText(R.string.action_sign_in);
     }
 
     @UiThread
@@ -159,26 +141,15 @@ public class LoginActivity extends AppCompatActivity {
         focusView.requestFocus();
     }
 
-    @UiThread
-    void internetError() {
-        Toast.makeText(getApplicationContext(), "Connection Internet Requise", Toast.LENGTH_LONG).show();
-    }
-
-    @UiThread
-    void wrongPasswd() {
-        Toast.makeText(getApplicationContext(), "Mauvais Mot de Passe", Toast.LENGTH_LONG).show();
-    }
-
     @Background
     void attemptLogin() {
-        String login = vlogin.getText().toString().replaceAll("\\s","");
+        String login = vlogin.getText().toString().replaceAll("\\s", "");
         String passwd = vpasswd.getText().toString();
-
         View focusView = null;
-
         boolean cancel = false;
+        IsConnected ic = new IsConnected(getApplicationContext());
 
-        settingFieldError();
+        reset();
 
         if (TextUtils.isEmpty(passwd)) {
             setPasswdRequired();
@@ -190,18 +161,22 @@ public class LoginActivity extends AppCompatActivity {
             focusView = vlogin;
             cancel = true;
         }
-        if (cancel)
+        if (cancel) {
+            login_progress.setVisibility(View.GONE);
             setView(focusView);
+        }
         else {
             if (User.count(User.class, "login = ? and passwd = ?", new String[]{login, passwd}) == 1) {
-                SUser sUser = new SUser(login);
+                PUser pUser = new PUser();
+                pUser.init(login);
                 startActivity(new Intent(this, ProfileActivity_.class));
             } else if (User.count(User.class, "login = ?", new String[]{login}) == 1) {
-                wrongPasswd();
-            } else if (isConnected() == false) {
-                internetError();
+                error_connect("Mauvais Mot de Passe");
+            } else if (!ic.connected()) {
+                progressBarGone();
+                error_connect("Connection Internet Requise");
             } else {
-                if (connectNetwork(login, passwd) == false) {
+                if (!connectNetwork(login, passwd)) {
                     startActivity(new Intent(this, ProfileActivity_.class));
                 }
             }
@@ -210,6 +185,12 @@ public class LoginActivity extends AppCompatActivity {
 
     @Click(R.id.login_button)
     void SignInClicked() {
+        login_progress.setVisibility(View.VISIBLE);
         attemptLogin();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

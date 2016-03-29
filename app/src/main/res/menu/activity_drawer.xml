@@ -5,35 +5,31 @@
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_profile"
-            android:title="Profil" />
+            android:title="@string/title_profile" />
         <item
             android:id="@+id/nav_marks"
             android:icon="@drawable/ic_marks"
-            android:title="Notes" />
+            android:title="@string/title_marks" />
         <item
             android:id="@+id/nav_modules"
             android:icon="@drawable/ic_modules"
-            android:title="Modules" />
+            android:title="@string/title_modules" />
         <item
             android:id="@+id/nav_projects"
             android:icon="@drawable/ic_projects"
-            android:title="Projects" />
+            android:title="@string/title_projects" />
         <item
             android:id="@+id/nav_schedule"
             android:icon="@drawable/ic_schedule"
-            android:title="Planning" />
-        <item
-            android:id="@+id/nav_trombi"
-            android:icon="@drawable/ic_projects"
-            android:title="Trombi" />
+            android:title="@string/title_planning" />
     </group>
 
-    <item android:title="Misc">
+    <item android:title="@string/misc">
         <menu>
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_logout"
-                android:title="Déconnexion" />
+                android:title="@string/deconnexion" />
         </menu>
     </item>
 </menu>

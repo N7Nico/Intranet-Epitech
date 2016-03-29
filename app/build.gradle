@@ -1,39 +1,24 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
-apply plugin: 'com.google.gms.google-services'
 def AAVersion = '3.3.2'
 
 buildscript {
     repositories {
         mavenCentral()
-        jcenter();
-        maven {
-            url 'http://repo.spring.io/milestone'
-        }
     }
     dependencies {
+        // replace with the current version of the Android plugin
         classpath 'com.android.tools.build:gradle:1.5.0'
+        // replace with the current version of the android-apt plugin
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.google.gms:google-services:2.0.0-alpha6'
     }
 }
 
 repositories {
     mavenCentral()
     mavenLocal()
-}
-
-apt {
-    arguments {
-        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
-        // if you have multiple outputs (when using splits), you may want to have other index than 0
-
-        // you should set your package name here if you are using different application IDs
-        // resourcePackageName "your.package.name"
-
-        // You can set optional annotation processing options here, like these commented options:
-        // logLevel 'INFO'
-        // logFile '/var/log/aa.log'
+    maven {
+        url 'https://repo.spring.io/libs-milestone'
     }
 }
 
@@ -68,36 +53,44 @@ android {
     }
 }
 
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
+        // if you have multiple outputs (when using splits), you may want to have other index than 0
+
+        // you should set your package name here if you are using different application IDs
+        // resourcePackageName "your.package.name"
+
+        // You can set optional annotation processing options here, like these commented options:
+        // logLevel 'INFO'
+        // logFile '/var/log/aa.log'
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.android.support:design:23.2.1'
+    compile 'com.android.support:cardview-v7:23.2.1'
+    compile 'com.android.support:recyclerview-v7:23.2.1'
 
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
 
-    compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
-
-
-
-    compile 'com.google.code.gson:gson:2.5'
-
     compile 'com.github.satyan:sugar:1.4'
+
+    compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
 
     compile 'com.squareup.picasso:picasso:2.5.2'
 
-    compile('com.github.afollestad.material-dialogs:core:0.8.5.3@aar') {
+    compile 'com.makeramen:roundedimageview:2.2.1'
+
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.7@aar') {
         transitive = true
     }
-    compile('com.github.afollestad.material-dialogs:commons:0.8.5.3@aar') {
+    compile('com.github.afollestad.material-dialogs:commons:0.8.5.7@aar') {
         transitive = true
     }
-
-    compile 'com.github.alamkanak:android-week-view:1.2.6'
-
-    compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
-
-    compile "com.google.android.gms:play-services-gcm:8.3.0"
 }

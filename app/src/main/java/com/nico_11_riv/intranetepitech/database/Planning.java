@@ -1,10 +1,9 @@
 package com.nico_11_riv.intranetepitech.database;
 
 import com.orm.SugarRecord;
-import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 
 public class Planning extends SugarRecord {
-    private String token;
+    private String login;
     private String scolaryear;
     private String codemodule;
     private String codeinstance;
@@ -18,24 +17,22 @@ public class Planning extends SugarRecord {
     private String resigtermodule;
     private String registerevent;
     private String regstudent;
-    private String allow_token;
+    private String allowtoken;
     private String typecode;
 
     public Planning() {
-        GUser gUser = new GUser();
-        this.token = gUser.getToken();
     }
 
-    public Planning(String token) {
-        this.token = token;
+    public Planning(String login) {
+        this.login = login;
     }
 
-    public String getToken() {
-        return token;
+    public String getLogin() {
+        return login;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getScolaryear() {
@@ -142,12 +139,12 @@ public class Planning extends SugarRecord {
         this.regstudent = regstudent;
     }
 
-    public String getAllow_token() {
-        return allow_token;
+    public String getAllowtoken() {
+        return allowtoken;
     }
 
-    public void setAllow_token(String allow_token) {
-        this.allow_token = allow_token;
+    public void setAllowtoken(String allowtoken) {
+        this.allowtoken = allowtoken;
     }
 
     public String getTypecode() {
