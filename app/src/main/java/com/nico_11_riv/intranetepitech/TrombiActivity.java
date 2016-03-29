@@ -14,7 +14,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.Spinner;
 
 import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
@@ -65,7 +64,7 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
     Spinner spinner_tek;
 
     @FragmentById(R.id.listtrombifragment)
-    ListTrombiFragment fragment;
+    TrombiActivityFragment fragment;
 
     GUser gUser = new GUser();
     GUserInfos user = new GUserInfos();

@@ -9,7 +9,7 @@
     tools:showIn="@layout/app_bar_trombi">
     <fragment
         android:id="@+id/listtrombifragment"
-        android:name="com.nico_11_riv.intranetepitech.ListTrombiFragment_"
+        android:name="com.nico_11_riv.intranetepitech.TrombiActivityFragment_"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"/>
 </RelativeLayout>
