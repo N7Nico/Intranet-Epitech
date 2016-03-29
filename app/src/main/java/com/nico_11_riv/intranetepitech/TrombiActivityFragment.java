@@ -1,40 +1,28 @@
 package com.nico_11_riv.intranetepitech;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.support.design.widget.NavigationView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
-import com.nico_11_riv.intranetepitech.database.Mark;
 import com.nico_11_riv.intranetepitech.database.Trombi;
 import com.nico_11_riv.intranetepitech.database.Userinfos;
-import com.nico_11_riv.intranetepitech.database.setters.marks.PMarks;
 import com.nico_11_riv.intranetepitech.database.setters.trombi.Ptrombi;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUserInfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.PUserInfos;
 import com.nico_11_riv.intranetepitech.toolbox.CircleTransform;
 import com.nico_11_riv.intranetepitech.toolbox.IsConnected;
-import com.nico_11_riv.intranetepitech.ui.adapters.RVMarksAdapter;
 import com.nico_11_riv.intranetepitech.ui.adapters.TrombiAdapter;
-import com.nico_11_riv.intranetepitech.ui.contents.MarkContent;
 import com.nico_11_riv.intranetepitech.ui.contents.Trombi_content;
-import com.orm.query.Condition;
-import com.orm.query.Select;
 import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
@@ -55,14 +43,9 @@ import java.util.Map;
  */
 
 
-
 @EFragment(R.layout.listtrombi)
-public class ListTrombiFragment extends Fragment{
+public class TrombiActivityFragment extends Fragment {
 
-    private IsConnected ic;
-    private GUser gUser = new GUser();
-    private GUserInfos user_info = new GUserInfos();
-    private TrombiAdapter adapter;
     Map<String, String> info = new HashMap<String, String>() {{
         put("Bordeaux", "FR/BDX");
         put("Lille", "FR/LIL");
@@ -80,7 +63,6 @@ public class ListTrombiFragment extends Fragment{
     String ville = "MPL/FR";
     String annee = "2015";
     String tek = "all";
-
     @RestService
     IntrAPI api;
     @ViewById
@@ -91,6 +73,10 @@ public class ListTrombiFragment extends Fragment{
     Spinner spinner_year;
     @ViewById
     Spinner spinner_tek;
+    private IsConnected ic;
+    private GUser gUser = new GUser();
+    private GUserInfos user_info = new GUserInfos();
+    private TrombiAdapter adapter;
 
     @UiThread
     void maketoast(String text) {
@@ -155,7 +141,7 @@ public class ListTrombiFragment extends Fragment{
     void filluserinfosui() {
         TextView tv = (TextView) getActivity().findViewById(R.id.menu_login);
         tv.setText(user_info.getLogin());
-        tv = (TextView)getActivity().findViewById(R.id.menu_email);
+        tv = (TextView) getActivity().findViewById(R.id.menu_email);
         tv.setText(user_info.getEmail());
 
         ImageView iv = (ImageView) getActivity().findViewById(R.id.menu_img);
@@ -163,25 +149,25 @@ public class ListTrombiFragment extends Fragment{
     }
 
     void setUserInfos() {
-        List <Userinfos> uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", gUser.getLogin());
+        List<Userinfos> uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", gUser.getLogin());
         if (uInfos.size() > 0)
             //filluserinfosui();
-        if (ic.connected()) {
-            Userinfos.deleteAll(Userinfos.class, "login = ?", gUser.getLogin());
-            api.setCookie("PHPSESSID", gUser.getToken());
-            try {
-                PUserInfos infos = new PUserInfos();
-                infos.init(api.getuserinfo(gUser.getLogin()));
-            } catch (HttpClientErrorException e) {
-                Log.d("Response", e.getResponseBodyAsString());
-                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            } catch (NullPointerException e) {
-                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
+            if (ic.connected()) {
+                Userinfos.deleteAll(Userinfos.class, "login = ?", gUser.getLogin());
+                api.setCookie("PHPSESSID", gUser.getToken());
+                try {
+                    PUserInfos infos = new PUserInfos();
+                    infos.init(api.getuserinfo(gUser.getLogin()));
+                } catch (HttpClientErrorException e) {
+                    Log.d("Response", e.getResponseBodyAsString());
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                } catch (NullPointerException e) {
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+                user_info = new GUserInfos();
+                //filluserinfosui();
             }
-            user_info = new GUserInfos();
-            //filluserinfosui();
-        }
     }
 
     @Background
