@@ -16,6 +16,7 @@ public class GUserInfos {
     private String location;
     private String course_code;
     private String studentyear;
+    private String scolaryear;
     private String credits;
     private String gpa;
 
@@ -35,6 +36,7 @@ public class GUserInfos {
             this.location = info.getLocation();
             this.course_code = info.getCoursecode();
             this.studentyear = info.getStudentyear();
+            this.scolaryear = info.getScolaryear();
             this.credits = info.getCredits();
             this.gpa = info.getGpa();
         }
@@ -82,6 +84,10 @@ public class GUserInfos {
 
     public String getStudentyear() {
         return studentyear;
+    }
+
+    public String getScolaryear() {
+        return scolaryear;
     }
 
     public String getCredits() {

@@ -9,12 +9,12 @@ public class Userinfos extends SugarRecord {
     private String firstname;
     private String email;
     private String picture;
-    private String scolaryear;
     private String promo;
     private String semester;
     private String location;
     private String coursecode;
     private String studentyear;
+    private String scolaryear;
     private String credits;
     private String gpa;
 
@@ -120,6 +120,7 @@ public class Userinfos extends SugarRecord {
     public void setStudentyear(String studentyear) {
         this.studentyear = studentyear;
     }
+
 
     public String getCredits() {
         return credits;
