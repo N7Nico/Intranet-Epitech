@@ -10,8 +10,8 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.Objects;
 
-public class PMessages {
-    public PMessages() {
+public class Pmessages {
+    public Pmessages() {
     }
 
     public void init(String api) {

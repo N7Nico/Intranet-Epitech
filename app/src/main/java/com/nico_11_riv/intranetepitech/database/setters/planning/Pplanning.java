@@ -16,8 +16,8 @@ import org.json.JSONObject;
 import java.util.Objects;
 
 
-public class PPlanning {
-    public PPlanning(String api) {
+public class Pplanning {
+    public Pplanning(String api) {
         GUser user = new GUser();
         try {
             JSONArray planning = new JSONArray(api);

@@ -8,8 +8,8 @@ import android.widget.Toast;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Allmodules;
 import com.nico_11_riv.intranetepitech.database.Project;
-import com.nico_11_riv.intranetepitech.database.setters.modules.PAllModules;
-import com.nico_11_riv.intranetepitech.database.setters.modules.PModules;
+import com.nico_11_riv.intranetepitech.database.setters.modules.Pallmodules;
+import com.nico_11_riv.intranetepitech.database.setters.modules.Pmodules;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 
 import org.json.JSONArray;
@@ -139,7 +139,7 @@ public class PProjects {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-        PModules modules = new PModules();
+        Pmodules modules = new Pmodules();
         modules.init(s);
         api.setCookie("PHPSESSID", user.getToken());
         try {
@@ -153,7 +153,7 @@ public class PProjects {
         }
         api.setCookie("PHPSESSID", user.getToken());
         try {
-            PAllModules mod = new PAllModules();
+            Pallmodules mod = new Pallmodules();
             mod.init(api.getallmodules());
         } catch (HttpClientErrorException e) {
             Log.d("Response", e.getResponseBodyAsString());

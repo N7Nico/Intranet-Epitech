@@ -11,8 +11,8 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.Objects;
 
-public class PModules {
-    public PModules() {
+public class Pmodules {
+    public Pmodules() {
     }
 
     public void init(String api) {

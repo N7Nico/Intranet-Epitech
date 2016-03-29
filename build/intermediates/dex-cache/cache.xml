@@ -1,3 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="673d77a5bbddd766037f088e775df525c46407f0">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.2.1_f077721b1dae1a41f2b9d694fb007e956c72ac87.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\picasso-2.5.2_f9ade9447834863594326b49fa46bd19b711ae7a.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\exploded-aar\com.github.satyan\sugar\1.4\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ac045b53684345f4ec8468477e8fc5034d0d2bfd">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.github.satyan-sugar-1.4_f3ec11fed1794c2892cf148f0b4b97dfe47bc5eb.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\.gradle\caches\modules-2\files-2.1\org.androidannotations\androidannotations-api\3.3.2\7d6149d856b880bbd676047aacb8446a758fbbdb\androidannotations-api-3.3.2.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7d6149d856b880bbd676047aacb8446a758fbbdb">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\androidannotations-api-3.3.2_5380770bc6defbe5e41d3f3746ad3c5c4e55e8f5.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e3885783ff8926ed9e2fdcd16816c2e1e73e7aee">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.2.1_d071ab440ae426b46d4745cdadc1cc01b549720e.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\exploded-aar\com.github.afollestad.material-dialogs\core\0.8.5.7\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a94e3ac390a37f149a235f7f5e1b49b65151c0bf">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.github.afollestad.material-dialogs-core-0.8.5.7_c683ab11a3210492563521fab93acde6329c017a.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="cb86970df0f0f25f766d320b279c7858c1ca0003">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.android.support-cardview-v7-23.2.1_9a0206eb20bc379cf9882f557a9ce35c79a88015.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\libs\internal_impl-23.2.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="607a3d0b8013b4ccbfeb0b7cb293351994e021fb">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\internal_impl-23.2.1_e11eb6c5a6e65de03225c04ee613b65a1634b6f7.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="3469cb457f10f74c28cbc05f069b6c894f6cbdd0">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.2.1_96809fefb05f46e9f616d1e6d68172465fd0c7d0.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="3be474b1b21b31cf2fa93fe6bd641ae108d96452">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.2.1_a9decd875b3918203e237e3e4f322d7ff701d827.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\exploded-aar\com.android.support\design\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="72961d8b453b46e277702f18de9d210bc019e36e">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.2.1_e1cca3ba4f1f7357f1966f3318f7e9884ca1e4a0.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\AppData\Local\Android\Sdk\extras\android\m2repository\com\android\support\support-annotations\23.2.1\support-annotations-23.2.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ccb693bc0774fcb637246f7360de25b4af7df318">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\support-annotations-23.2.1_a43f8f83093ecd9dbd5b2dbb2a0f697091ea0812.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\.gradle\caches\modules-2\files-2.1\com.google.guava\guava\18.0\cce0823396aa693798f8882e64213b1772032b09\guava-18.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="cce0823396aa693798f8882e64213b1772032b09">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\guava-18.0_b35d37d8763235dcf009fa52195244a866b94cd0.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\.gradle\caches\modules-2\files-2.1\org.springframework.android\spring-android-rest-template\2.0.0.M3\204c594c2a47073b30d3cb14ca69ba1066c4e44c\spring-android-rest-template-2.0.0.M3.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="204c594c2a47073b30d3cb14ca69ba1066c4e44c">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\spring-android-rest-template-2.0.0.M3_b15a0ad79ef0520b4e2b56fcaa039ddc56354ddc.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\exploded-aar\com.makeramen\roundedimageview\2.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="814fc0c3ec69a944add398217d90077301501a74">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.makeramen-roundedimageview-2.2.1_b851ac09f7ac373f54203c4a459982ab5d594666.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e4d0cbb0b999604b349062f0214a0a228a7fd151">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.2.1_f2056c3e4fd4daa644d1be602b19184e5af1f3c7.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\exploded-aar\me.zhanghai.android.materialprogressbar\library\1.1.5\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="4a9f97c742d058ca55948643c06f447895a9af76">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\me.zhanghai.android.materialprogressbar-library-1.1.5_06f2055014d71e430171647ca2aa5f810927fd63.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\exploded-aar\com.github.afollestad.material-dialogs\commons\0.8.5.7\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8064f2524ddf3818e300fa545e538071ecf84462">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\com.github.afollestad.material-dialogs-commons-0.8.5.7_4dc4ba9519922238c684ad9a8415faf5bd5e244e.jar" />
+    </item>
+    <item
+        jar="C:\Users\victor\.gradle\caches\modules-2\files-2.1\org.springframework.android\spring-android-core\2.0.0.M3\c7e2c60943248bbce5de6cf552592281ed2296b\spring-android-core-2.0.0.M3.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="0c7e2c60943248bbce5de6cf552592281ed2296b">
+        <dex dex="C:\Users\victor\Documents\GitHub\Intranet-Epitech\app\build\intermediates\pre-dexed\debug\spring-android-core-2.0.0.M3_98e08f9367ad96182d9452a41fc301cdb04bea73.jar" />
+    </item>
+
+</items>

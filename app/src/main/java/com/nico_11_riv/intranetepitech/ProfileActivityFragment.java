@@ -17,7 +17,7 @@ import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Message;
 import com.nico_11_riv.intranetepitech.database.Userinfos;
-import com.nico_11_riv.intranetepitech.database.setters.messages.PMessages;
+import com.nico_11_riv.intranetepitech.database.setters.messages.Pmessages;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUserInfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.PUserInfos;
@@ -164,7 +164,7 @@ public class ProfileActivityFragment extends Fragment {
         if (ic.connected()) {
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
-                PMessages msgs = new PMessages();
+                Pmessages msgs = new Pmessages();
                 msgs.init(api.getnotifs());
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());

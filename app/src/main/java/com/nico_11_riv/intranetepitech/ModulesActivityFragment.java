@@ -14,8 +14,8 @@ import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Allmodules;
 import com.nico_11_riv.intranetepitech.database.Userinfos;
-import com.nico_11_riv.intranetepitech.database.setters.modules.PAllModules;
-import com.nico_11_riv.intranetepitech.database.setters.modules.PModules;
+import com.nico_11_riv.intranetepitech.database.setters.modules.Pallmodules;
+import com.nico_11_riv.intranetepitech.database.setters.modules.Pmodules;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUserInfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.PUserInfos;
@@ -156,7 +156,7 @@ public class ModulesActivityFragment extends Fragment {
                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-            PModules modules = new PModules();
+            Pmodules modules = new Pmodules();
             modules.init(m);
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
@@ -170,7 +170,7 @@ public class ModulesActivityFragment extends Fragment {
             }
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
-                PAllModules mod = new PAllModules();
+                Pallmodules mod = new Pallmodules();
                 mod.init(api.getallmodules());
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());

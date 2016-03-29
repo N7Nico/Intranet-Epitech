@@ -16,8 +16,8 @@ import java.util.Objects;
  * Created by Jimmy on 10/02/2016.
  *
  */
-public class PAllModules {
-    public PAllModules() {
+public class Pallmodules {
+    public Pallmodules() {
     }
 
     public void init(String api) {
