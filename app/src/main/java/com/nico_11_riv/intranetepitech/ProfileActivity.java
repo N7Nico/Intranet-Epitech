@@ -129,6 +129,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             user.setConnected("false");
             user.save();
             startActivity(new Intent(this, LoginActivity_.class));
+        } else if (id == R.id.nav_trombi) {
+            drawer_layout.closeDrawer(GravityCompat.START);
+            startActivity(new Intent(this, TrombiActivity_.class));
         }
         drawer_layout.closeDrawer(GravityCompat.START);
         return true;

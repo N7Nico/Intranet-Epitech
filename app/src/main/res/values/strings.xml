@@ -89,7 +89,24 @@
 
     <string name="numberofmodules">Nombre de module à afficher</string>
 
+    <!-- Value of trombi -->
+    <string-array name="villes">
+        <item>Bordeaux</item>
+        <item>Lille</item>
+        <item>Lyon</item>
+        <item>Marseille</item>
+        <item>Montpellier</item>
+        <item>Nancy</item>
+        <item>Nantes</item>
+        <item>Nice</item>
+        <item>Paris</item>
+        <item>Rennes</item>
+        <item>Strasbourg</item>
+        <item>Toulouse</item>
+    </string-array>
+
     <!-- Values of projects -->
+
 
     <string name="numberofprojects">Nombre de projects à afficher</string>
 
