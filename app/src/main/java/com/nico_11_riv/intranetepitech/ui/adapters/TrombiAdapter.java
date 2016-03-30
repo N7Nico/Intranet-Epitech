@@ -84,7 +84,7 @@ public class TrombiAdapter extends RecyclerView.Adapter<TrombiAdapter.ViewHolder
             login = (TextView) itemView.findViewById(R.id.login);
             Intent intent = new Intent(context , TrombiUserActivity_.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("login",login.toString());
+            intent.putExtra("login", login.getText().toString());
             context.startActivity(intent);
         }
     }

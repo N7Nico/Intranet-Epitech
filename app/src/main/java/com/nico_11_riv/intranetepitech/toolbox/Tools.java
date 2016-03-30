@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.nico_11_riv.intranetepitech.LoginActivity_;
 import com.nico_11_riv.intranetepitech.MarksActivity_;
@@ -15,6 +16,8 @@ import com.nico_11_riv.intranetepitech.ProjectsActivity_;
 import com.nico_11_riv.intranetepitech.R;
 import com.nico_11_riv.intranetepitech.TrombiActivity_;
 import com.nico_11_riv.intranetepitech.database.User;
+
+import org.androidannotations.annotations.UiThread;
 
 import java.util.List;
 
@@ -26,6 +29,10 @@ public class Tools {
 
     public Tools (Context context){
         this.context = context;
+    }
+
+    public void makeToast(String text, int time) {
+        Toast.makeText(context, text, time).show();
     }
 
     public Intent menu(MenuItem item, Activity activity, DrawerLayout drawer_layout){

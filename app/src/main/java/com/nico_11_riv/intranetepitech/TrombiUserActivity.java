@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -48,11 +49,6 @@ public class TrombiUserActivity extends AppCompatActivity implements NavigationV
     @ViewById
     TabLayout tab_layout;
 
-    private void handleIntent(Intent intent) {
-            String login = intent.getStringExtra("login");
-
-    }
-
     @AfterViews
     void init() {
         setSupportActionBar(toolbar);
@@ -62,13 +58,11 @@ public class TrombiUserActivity extends AppCompatActivity implements NavigationV
         toggle.syncState();
 
         nav_view.setNavigationItemSelectedListener(this);
-        handleIntent(getIntent());
-
-        TrombiUserAdapter adapter = new TrombiUserAdapter(getSupportFragmentManager());
+        String login = getIntent().getStringExtra("login");
+        Tools tools = new Tools(getApplicationContext());
+        TrombiUserAdapter adapter = new TrombiUserAdapter(getSupportFragmentManager(), login);
         pager.setAdapter(adapter);
         tab_layout.setupWithViewPager(pager);
-
-
     }
 
     @Override

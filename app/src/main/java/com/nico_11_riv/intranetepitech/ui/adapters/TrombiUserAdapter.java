@@ -10,6 +10,7 @@ import com.nico_11_riv.intranetepitech.ModulesActivityFragment;
 import com.nico_11_riv.intranetepitech.ModulesActivityFragment_;
 import com.nico_11_riv.intranetepitech.PageFragment;
 import com.nico_11_riv.intranetepitech.PageFragment_;
+import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 
 
 /**
@@ -17,13 +18,13 @@ import com.nico_11_riv.intranetepitech.PageFragment_;
  */
 public class TrombiUserAdapter extends FragmentPagerAdapter {
     private static int NUM_ITEMS = 3;
-    public String login = "";
+    GUser gUser = new GUser();
+    private String login = gUser.getLogin();
 
-    public TrombiUserAdapter(FragmentManager fm) {
+    public TrombiUserAdapter(FragmentManager fm, String login) {
         super(fm);
+        this.login = login;
     }
-
-
 
     @Override
     public Fragment getItem(int position) {
@@ -32,10 +33,10 @@ public class TrombiUserAdapter extends FragmentPagerAdapter {
                 PageFragment fragment = PageFragment_.builder().sectionNumber(position).build();
                 return fragment;
             case 1:
-                MarksActivityFragment fragment1 = MarksActivityFragment_.builder().build();
+                MarksActivityFragment fragment1 = MarksActivityFragment_.builder().login(login).build();
                 return fragment1;
             case 2:
-                ModulesActivityFragment fragment2 = ModulesActivityFragment_.builder().build();
+                ModulesActivityFragment fragment2 = ModulesActivityFragment_.builder().login(login).build();
                 return fragment2;
         }
         return new Fragment();
@@ -43,13 +44,24 @@ public class TrombiUserAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return NUM_ITEMS;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "TAB " + (position + 1);
+        String text = "Profil";
+        switch (position) {
+            case 0:
+                text = "Profil";
+                return text;
+            case 1:
+                text = "Notes";
+                return text;
+            case 2:
+                text = "Modules";
+                return text;
+        }
+        return text;
     }
-
 }
 

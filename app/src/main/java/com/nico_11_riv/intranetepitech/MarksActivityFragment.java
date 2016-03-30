@@ -32,6 +32,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
@@ -62,6 +63,9 @@ public class MarksActivityFragment extends Fragment {
     ProgressBar marks_progress;
 
     private GUser gUser = new GUser();
+    @FragmentArg
+    String login = gUser.getLogin();
+
     private GUserInfos user_info = new GUserInfos();
     private RVMarksAdapter adapter;
     private static int def_nb = 8;
@@ -101,7 +105,7 @@ public class MarksActivityFragment extends Fragment {
 
     void fillmarksui() {
         ArrayList<MarkContent> items = new ArrayList<>();
-        List<Mark> marks = Select.from(Mark.class).where(Condition.prop("login").eq(gUser.getLogin())).list();
+        List<Mark> marks = Select.from(Mark.class).where(Condition.prop("login").eq(login)).list();
 
         for (int i = marks.size() - 1; i > 0; i--) {
             Mark info = marks.get(i);
@@ -153,7 +157,7 @@ public class MarksActivityFragment extends Fragment {
             String m = null;
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
-                m = api.getmarksandmodules(gUser.getLogin());
+                m = api.getmarksandmodules(login);
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());
                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();

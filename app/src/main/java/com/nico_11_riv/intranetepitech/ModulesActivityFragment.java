@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Allmodules;
+import com.nico_11_riv.intranetepitech.database.Module;
 import com.nico_11_riv.intranetepitech.database.Userinfos;
 import com.nico_11_riv.intranetepitech.database.setters.modules.Pallmodules;
 import com.nico_11_riv.intranetepitech.database.setters.modules.Pmodules;
@@ -32,6 +33,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
@@ -39,6 +41,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -69,6 +72,9 @@ public class ModulesActivityFragment extends Fragment {
     TextView noinfos;
 
     private GUser gUser = new GUser();
+    @FragmentArg
+    String login = gUser.getLogin();
+
     private GUserInfos user_info = new GUserInfos();
     private RVModulesAdapter adapter;
 
@@ -96,13 +102,19 @@ public class ModulesActivityFragment extends Fragment {
 
     void fillmodulesui() {
         ArrayList<ModuleContent> items = new ArrayList<>();
-        List<Allmodules> modules = Select.from(Allmodules.class).where(Condition.prop("login").eq(gUser.getLogin())).list();
+        ArrayList<ModuleContent> items_mod = new ArrayList<>();
+        List<Allmodules> modules = Select.from(Allmodules.class).where(Condition.prop("login").eq(login)).list();
+        List<Module> mod = Select.from(Module.class).where(Condition.prop("login").eq(login)).list();
 
         for (int i = 0; i < modules.size(); i++) {
             Allmodules info = modules.get(i);
             items.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getBegin() + " -> " + info.getEnd(), info.getCode()));
         }
-        setadpt(items);
+        for (int i = 0; i < mod.size(); i++) {
+            Module info = mod.get(i);
+            items_mod.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getDate(), info.getCodemodule()));
+        }
+        setadpt((items.size() > 0) ? items : items_mod);
     }
 
     @UiThread
@@ -148,7 +160,7 @@ public class ModulesActivityFragment extends Fragment {
             String m = null;
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
-                m = api.getmarksandmodules(gUser.getLogin());
+                m = api.getmarksandmodules(login);
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());
                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -169,15 +181,17 @@ public class ModulesActivityFragment extends Fragment {
                 e.printStackTrace();
             }
             api.setCookie("PHPSESSID", gUser.getToken());
-            try {
-                Pallmodules mod = new Pallmodules();
-                mod.init(api.getallmodules());
-            } catch (HttpClientErrorException e) {
-                Log.d("Response", e.getResponseBodyAsString());
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }  catch (NullPointerException e) {
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
+            if (Objects.equals(login, gUser.getLogin())) {
+                try {
+                    Pallmodules mod = new Pallmodules();
+                    mod.init(api.getallmodules());
+                } catch (HttpClientErrorException e) {
+                    Log.d("Response", e.getResponseBodyAsString());
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }  catch (NullPointerException e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
             }
             fillnewmodulesui();
         }
