@@ -3,7 +3,6 @@ package com.nico_11_riv.intranetepitech;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +14,7 @@ import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.astuetz.PagerSlidingTabStrip;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.User;
 import com.nico_11_riv.intranetepitech.toolbox.Tools;
@@ -46,7 +46,7 @@ public class TrombiUserActivity extends AppCompatActivity implements NavigationV
     ViewPager pager;
 
     @ViewById
-    TabLayout tab_layout;
+    PagerSlidingTabStrip tab_layout;
 
     private void handleIntent(Intent intent) {
             String login = intent.getStringExtra("login");
@@ -66,7 +66,7 @@ public class TrombiUserActivity extends AppCompatActivity implements NavigationV
 
         TrombiUserAdapter adapter = new TrombiUserAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
-        tab_layout.setupWithViewPager(pager);
+        tab_layout.setViewPager(pager);
 
 
     }
