@@ -146,7 +146,7 @@ public class MarksActivityFragment extends Fragment {
            // filluserinfosui();
         }
     }
-    
+
     void setMarks() {
         fillmarksui();
         if (ic.connected()) {

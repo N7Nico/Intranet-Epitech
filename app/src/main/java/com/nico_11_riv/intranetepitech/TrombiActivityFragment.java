@@ -181,7 +181,6 @@ public class TrombiActivityFragment extends Fragment {
                                        int pos, long id) {
                 ville = info.get(parent.getItemAtPosition(pos).toString());
                 setTrombi(ville, annee, tek);
-                maketoast(ville);
             }
 
             public void onNothingSelected(AdapterView<?> parent) {

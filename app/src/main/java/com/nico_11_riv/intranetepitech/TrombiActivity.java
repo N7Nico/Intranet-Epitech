@@ -18,9 +18,9 @@ import android.widget.Spinner;
 
 import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
-import com.nico_11_riv.intranetepitech.database.User;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUserInfos;
+import com.nico_11_riv.intranetepitech.toolbox.Tools;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
@@ -32,7 +32,6 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -130,31 +129,8 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_profile) {
-            drawer_layout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, ProfileActivity_.class));
-        } else if (id == R.id.nav_marks) {
-            drawer_layout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, MarksActivity_.class));
-        } else if (id == R.id.nav_modules) {
-            drawer_layout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, ModulesActivity_.class));
-        } else if (id == R.id.nav_projects) {
-            drawer_layout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, ProjectsActivity_.class));
-        } else if (id == R.id.nav_schedule) {
-
-        } else if (id == R.id.nav_logout) {
-            drawer_layout.closeDrawer(GravityCompat.START);
-            List<User> users = User.find(User.class, "connected = ?", "true");
-            User user = users.get(0);
-            user.setConnected("false");
-            user.save();
-            startActivity(new Intent(this, LoginActivity_.class));
-        } else if (id == R.id.nav_trombi) {
-            drawer_layout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, TrombiActivity_.class));
-        }
+        Tools tools = new Tools(getApplicationContext());
+        startActivity(tools.menu(item,this,drawer_layout));
         drawer_layout.closeDrawer(GravityCompat.START);
         return true;
     }
