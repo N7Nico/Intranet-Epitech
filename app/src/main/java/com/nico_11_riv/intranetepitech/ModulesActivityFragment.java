@@ -55,6 +55,10 @@ public class ModulesActivityFragment extends Fragment {
     private static int def_nb = 8;
     private static int def_semester = 11;
     private IsConnected ic;
+    private GUser gUser = new GUser();
+
+    @FragmentArg
+    String login = gUser.getLogin();
 
     @RestService
     IntrAPI api;
@@ -71,9 +75,6 @@ public class ModulesActivityFragment extends Fragment {
     @ViewById
     TextView noinfos;
 
-    private GUser gUser = new GUser();
-    @FragmentArg
-    String login = gUser.getLogin();
 
     private GUserInfos user_info = new GUserInfos();
     private RVModulesAdapter adapter;
@@ -140,7 +141,7 @@ public class ModulesActivityFragment extends Fragment {
             Userinfos.deleteAll(Userinfos.class, "login = ?", gUser.getLogin());
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
-                PUserInfos infos = new PUserInfos();
+                PUserInfos infos = new PUserInfos(gUser.getLogin());
                 infos.init(api.getuserinfo(gUser.getLogin()));
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());
@@ -168,7 +169,7 @@ public class ModulesActivityFragment extends Fragment {
                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-            Pmodules modules = new Pmodules();
+            Pmodules modules = new Pmodules(login);
             modules.init(m);
             api.setCookie("PHPSESSID", gUser.getToken());
             try {

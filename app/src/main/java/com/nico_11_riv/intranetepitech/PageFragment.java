@@ -17,6 +17,7 @@ import com.nico_11_riv.intranetepitech.database.setters.user.GUserInfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.PUserInfos;
 import com.nico_11_riv.intranetepitech.toolbox.CircleTransform;
 import com.nico_11_riv.intranetepitech.toolbox.IsConnected;
+import com.nico_11_riv.intranetepitech.toolbox.Tools;
 import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
@@ -35,7 +36,12 @@ import java.util.List;
 public class PageFragment extends Fragment {
 
     @FragmentArg
-   public Integer sectionNumber;
+    public Integer sectionNumber;
+
+    private GUser gUser = new GUser();
+
+    @FragmentArg
+    String logintoget = gUser.getLogin();
 
     @ViewById
     TextView text;
@@ -71,46 +77,52 @@ public class PageFragment extends Fragment {
     @ViewById
     TextView credits_content;
 
-    private GUser gUser = new GUser();
     private GUserInfos user_info;
+    private Userinfos userinfos;
     private IsConnected ic;
-
+    private Tools tools;
 
     public PageFragment() {
+        this.tools = new Tools(getContext());
     }
 
     @UiThread
     void filluserinfosui() {
-        Picasso.with(getActivity().getApplicationContext()).load(user_info.getPicture()).transform(new CircleTransform()).into(student_img);
-        login.setText(user_info.getLogin());
-        email.setText(user_info.getEmail());
-        gpa_content.setText(user_info.getGpa());
-        promo_content.setText(user_info.getPromo());
-        semester_content.setText(user_info.getSemester());
-        credits_content.setText(user_info.getCredits());
+        Picasso.with(getContext()).load(userinfos.getPicture()).transform(new CircleTransform()).into(student_img);
+        login.setText(userinfos.getLogin());
+        email.setText(userinfos.getEmail());
+        gpa_content.setText(userinfos.getGpa());
+        promo_content.setText(userinfos.getPromo());
+        semester_content.setText(userinfos.getSemester());
+        credits_content.setText(userinfos.getCredits());
+    }
+
+    @UiThread
+    void toast(String message) {
+        this.tools.makeToast(message, Toast.LENGTH_SHORT);
     }
 
     void setUserInfos() {
-        List<Userinfos> uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", gUser.getLogin());
-
+        List<Userinfos> uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", logintoget);
         if (uInfos.size() > 0) {
-            user_info = new GUserInfos();
+            userinfos = uInfos.get(0);
             filluserinfosui();
         }
         if (ic.connected()) {
-            Userinfos.deleteAll(Userinfos.class, "login = ?", gUser.getLogin());
+            //Userinfos.deleteAll(Userinfos.class, "login = ?", logintoget);
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
-                PUserInfos infos = new PUserInfos();
-                infos.init(api.getuserinfo(gUser.getLogin()));
+                PUserInfos infos = new PUserInfos(logintoget);
+                infos.init(api.getuserinfo(logintoget));
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());
-                Toast.makeText(getActivity().getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                toast(e.getMessage());
             } catch (NullPointerException e) {
-                Toast.makeText(getActivity().getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                toast(e.getMessage());
                 e.printStackTrace();
             }
-            user_info = new GUserInfos();
+            uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", logintoget);
+            userinfos = uInfos.get(0);
             filluserinfosui();
         }
     }

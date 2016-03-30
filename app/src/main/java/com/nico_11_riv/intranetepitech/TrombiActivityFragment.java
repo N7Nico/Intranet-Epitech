@@ -33,6 +33,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -149,7 +150,7 @@ public class TrombiActivityFragment extends Fragment {
                 Userinfos.deleteAll(Userinfos.class, "login = ?", gUser.getLogin());
                 api.setCookie("PHPSESSID", gUser.getToken());
                 try {
-                    PUserInfos infos = new PUserInfos();
+                    PUserInfos infos = new PUserInfos(gUser.getLogin());
                     infos.init(api.getuserinfo(gUser.getLogin()));
                 } catch (HttpClientErrorException e) {
                     Log.d("Response", e.getResponseBodyAsString());
@@ -236,5 +237,4 @@ public class TrombiActivityFragment extends Fragment {
         setSpinner();
         profile_trombi();
     }
-
 }

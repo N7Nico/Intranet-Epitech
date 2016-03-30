@@ -137,7 +137,7 @@ public class MarksActivityFragment extends Fragment {
             Userinfos.deleteAll(Userinfos.class, "login = ?", gUser.getLogin());
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
-                PUserInfos infos = new PUserInfos();
+                PUserInfos infos = new PUserInfos(gUser.getLogin());
                 infos.init(api.getuserinfo(gUser.getLogin()));
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());
@@ -165,7 +165,7 @@ public class MarksActivityFragment extends Fragment {
                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-            PMarks marks = new PMarks();
+            PMarks marks = new PMarks(login);
             marks.init(m);
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
