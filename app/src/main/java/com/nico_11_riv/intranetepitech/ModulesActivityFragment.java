@@ -75,7 +75,6 @@ public class ModulesActivityFragment extends Fragment {
     @ViewById
     TextView noinfos;
 
-
     private GUserInfos user_info = new GUserInfos();
     private RVModulesAdapter adapter;
 
@@ -115,7 +114,7 @@ public class ModulesActivityFragment extends Fragment {
             Module info = mod.get(i);
             items_mod.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getDate(), info.getCodemodule()));
         }
-        setadpt((items.size() > 0) ? items : items_mod);
+        setadpt((Objects.equals(gUser.getLogin(), login)) ? items : items_mod);
     }
 
     @UiThread
