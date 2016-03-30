@@ -30,7 +30,7 @@ public class TrombiUserAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                PageFragment fragment = PageFragment_.builder().sectionNumber(position).build();
+                PageFragment fragment = PageFragment_.builder().sectionNumber(position).logintoget(login).build();
                 return fragment;
             case 1:
                 MarksActivityFragment fragment1 = MarksActivityFragment_.builder().login(login).build();

@@ -1,12 +1,19 @@
 package com.nico_11_riv.intranetepitech.database.setters.user;
 
+import com.nico_11_riv.intranetepitech.database.User;
 import com.nico_11_riv.intranetepitech.database.Userinfos;
+import com.orm.query.Condition;
+import com.orm.query.Select;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class PUserInfos {
-    public PUserInfos() {
+    private String login;
+    public PUserInfos(String login) {
+        this.login = login;
     }
 
     public void init(String api) {
@@ -14,12 +21,18 @@ public class PUserInfos {
             GUser user = new GUser();
             JSONObject tmp = new JSONObject(api);
             if (tmp.has("login")) {
-                Userinfos userinfos = new Userinfos(user.getLogin());
-                userinfos.setLogin(tmp.getString("login") != "null" ? tmp.getString("login") : "n/a");
+                Userinfos userinfos;
+                List<Userinfos> list = Select.from(Userinfos.class).where(Condition.prop("login").eq(this.login)).list();
+                if (list.size() > 0) {
+                    userinfos = list.get(0);
+                } else {
+                    userinfos = new Userinfos(this.login);
+                }
+                userinfos.setLogin(this.login);
                 userinfos.setTitle(tmp.getString("title") != "null" ? tmp.getString("title") : "n/a");
                 userinfos.setLastname(tmp.getString("lastname") != "null" ? tmp.getString("lastname") : "n/a");
                 userinfos.setFirstname(tmp.getString("firstname") != "null" ? tmp.getString("firstname") : "n/a");
-                userinfos.setEmail(user.getLogin() + "@epitech.eu");
+                userinfos.setEmail(this.login + "@epitech.eu");
                 userinfos.setScolaryear(tmp.getString("scolaryear") != "null" ? tmp.getString("scolaryear") : "n/a");
                 userinfos.setPicture(tmp.getString("picture") != "null" ? tmp.getString("picture") : "n/a");
                 userinfos.setPromo(tmp.getString("promo") != "null" ? tmp.getString("promo") : "n/a");

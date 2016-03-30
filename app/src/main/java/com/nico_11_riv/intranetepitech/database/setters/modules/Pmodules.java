@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class Pmodules {
-    public Pmodules() {
+    private String login;
+    public Pmodules(String login) {
+        this.login = login;
     }
 
     public void init(String api) {
@@ -20,7 +22,7 @@ public class Pmodules {
         try {
             JSONObject obj = new JSONObject(api);
             JSONArray json = obj.getJSONArray("modules");
-            List<Module> m = Module.findWithQuery(Module.class, "SELECT * FROM Module WHERE login = ?", user.getLogin());
+            List<Module> m = Module.findWithQuery(Module.class, "SELECT * FROM Module WHERE login = ?", this.login);
             for (int n = 0; n < m.size(); n++) {
                 Module module = m.get(n);
                 module.setOld(true);
@@ -29,11 +31,11 @@ public class Pmodules {
             for (int i = 0; i < json.length(); i++) {
                 JSONObject tmp = json.getJSONObject(i);
                 Module module;
-                m = Module.findWithQuery(Module.class, "SELECT * FROM Module WHERE login = ? AND codemodule = ?", user.getLogin(), !Objects.equals(tmp.getString("codemodule"), "null") ? tmp.getString("codemodule") : "n/a");
+                m = Module.findWithQuery(Module.class, "SELECT * FROM Module WHERE login = ? AND codemodule = ?", this.login, !Objects.equals(tmp.getString("codemodule"), "null") ? tmp.getString("codemodule") : "n/a");
                 if (m.size() > 0)
                     module = m.get(0);
                 else
-                    module = new Module(user.getLogin());
+                    module = new Module(this.login);
                 module.setOld(false);
                 module.setScolaryear(!Objects.equals(tmp.getString("scolaryear"), "null") ? tmp.getString("scolaryear") : "n/a");
                 module.setCodemodule(!Objects.equals(tmp.getString("codemodule"), "null") ? tmp.getString("codemodule") : "n/a");
@@ -46,7 +48,7 @@ public class Pmodules {
                 module.setBarrage(!Objects.equals(tmp.getString("barrage"), "null") ? tmp.getString("barrage") : "n/a");
                 module.save();
             }
-            m = Module.findWithQuery(Module.class, "SELECT * FROM Module WHERE login = ?", user.getLogin());
+            m = Module.findWithQuery(Module.class, "SELECT * FROM Module WHERE login = ?", this.login);
             for (int n = 0; n < m.size(); n++) {
                 Module module = m.get(n);
                 if (module.isOld())

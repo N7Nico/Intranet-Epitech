@@ -139,7 +139,7 @@ public class PProjects {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-        Pmodules modules = new Pmodules();
+        Pmodules modules = new Pmodules(user.getLogin());
         modules.init(s);
         api.setCookie("PHPSESSID", user.getToken());
         try {

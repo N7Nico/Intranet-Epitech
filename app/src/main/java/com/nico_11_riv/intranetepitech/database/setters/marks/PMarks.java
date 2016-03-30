@@ -11,16 +11,17 @@ import java.util.List;
 import java.util.Objects;
 
 public class PMarks {
-    public PMarks() {
+    private String login;
+    public PMarks(String login) {
+        this.login = login;
     }
 
     public void init(String api) {
-        GUser user = new GUser();
         try {
             JSONObject json = new JSONObject(api);
             if (json.has("notes")) {
                 JSONArray marks = json.getJSONArray("notes");
-                List<Mark> m = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ?", user.getLogin());
+                List<Mark> m = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ?", this.login);
                 for (int n = 0; n < m.size(); n++) {
                     Mark mark = m.get(n);
                     mark.setOld(true);
@@ -29,11 +30,11 @@ public class PMarks {
                 for (int i = 0; i < marks.length(); ++i) {
                     JSONObject tmp = marks.getJSONObject(i);
                     Mark note;
-                    m = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ? AND codeacti = ?", user.getLogin(), !Objects.equals(tmp.getString("codeacti"), "null") ? tmp.getString("codeacti") : "n/a");
+                    m = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ? AND codeacti = ?", this.login, !Objects.equals(tmp.getString("codeacti"), "null") ? tmp.getString("codeacti") : "n/a");
                     if (m.size() > 0)
                         note = m.get(0);
                     else
-                        note = new Mark(user.getLogin());
+                        note = new Mark(this.login);
                     note.setOld(false);
                     note.setScolyear(!Objects.equals(tmp.getString("scolaryear"), "null") ? tmp.getString("scolaryear") : "n/a");
                     note.setCodemodule(!Objects.equals(tmp.getString("codemodule"), "null") ? tmp.getString("codemodule") : "n/a");
@@ -47,7 +48,7 @@ public class PMarks {
                     note.setComment(!Objects.equals(tmp.getString("comment"), "null") ? tmp.getString("comment") : "Aucun commentaire.");
                     note.save();
                 }
-                m = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ?", user.getLogin());
+                m = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ?", this.login);
                 for (int n = 0; n < m.size(); n++) {
                     Mark mark = m.get(n);
                     if (mark.isOld())

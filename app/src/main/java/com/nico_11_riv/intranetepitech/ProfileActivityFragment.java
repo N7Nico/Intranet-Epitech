@@ -145,7 +145,7 @@ public class ProfileActivityFragment extends Fragment {
             Userinfos.deleteAll(Userinfos.class, "login = ?", gUser.getLogin());
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
-                PUserInfos infos = new PUserInfos();
+                PUserInfos infos = new PUserInfos(gUser.getLogin());
                 infos.init(api.getuserinfo(gUser.getLogin()));
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());
