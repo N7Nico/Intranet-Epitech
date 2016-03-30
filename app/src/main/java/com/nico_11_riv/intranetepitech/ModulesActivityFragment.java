@@ -123,7 +123,7 @@ public class ModulesActivityFragment extends Fragment {
     void setUserInfos() {
         List<Userinfos> uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", gUser.getLogin());
         if (uInfos.size() > 0)
-            filluserinfosui();
+            //filluserinfosui();
         if (ic.connected()) {
             Userinfos.deleteAll(Userinfos.class, "login = ?", gUser.getLogin());
             api.setCookie("PHPSESSID", gUser.getToken());
@@ -138,7 +138,7 @@ public class ModulesActivityFragment extends Fragment {
                 e.printStackTrace();
             }
             user_info = new GUserInfos();
-            filluserinfosui();
+           // filluserinfosui();
         }
     }
 

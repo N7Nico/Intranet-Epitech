@@ -84,13 +84,6 @@ public class TrombiActivityFragment extends Fragment {
     }
 
     @UiThread
-    void dispPopUp(Trombi_content item) {
-        /*Intent intent = new Intent(getActivity(), TrombiUserActivity_.class);
-        intent.putExtra("login", item.getLogin());
-        getActivity().startActivity(intent);*/
-    }
-
-    @UiThread
     void setadpt(ArrayList<Trombi_content> items) {
         adapter = new TrombiAdapter(getActivity().getApplicationContext(), items);
         trombigridview.setAdapter(adapter);

@@ -1,5 +1,6 @@
 package com.nico_11_riv.intranetepitech;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +67,15 @@ public class MarksActivityFragment extends Fragment {
     private static int def_nb = 8;
     private static int def_semester = 11;
     private IsConnected ic;
+    public static final String ARG_PAGE = "ARG_PAGE";
+
+    public static MarksActivityFragment newInstance(int page) {
+        Bundle args = new Bundle();
+        args.putInt(ARG_PAGE, page);
+        MarksActivityFragment fragment = new MarksActivityFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @AfterInject
     void afterInject() {
@@ -118,7 +128,7 @@ public class MarksActivityFragment extends Fragment {
     void setUserInfos() {
         List <Userinfos> uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", gUser.getLogin());
         if (uInfos.size() > 0)
-            filluserinfosui();
+           // filluserinfosui();
         if (ic.connected()) {
             Userinfos.deleteAll(Userinfos.class, "login = ?", gUser.getLogin());
             api.setCookie("PHPSESSID", gUser.getToken());
@@ -133,7 +143,21 @@ public class MarksActivityFragment extends Fragment {
                 e.printStackTrace();
             }
             user_info = new GUserInfos();
-            filluserinfosui();
+           // filluserinfosui();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (this != null
+                && getFragmentManager().findFragmentById(
+                this.getId()) != null) {
+
+            getFragmentManager().beginTransaction().remove(this)
+                    .commit();
+
         }
     }
 

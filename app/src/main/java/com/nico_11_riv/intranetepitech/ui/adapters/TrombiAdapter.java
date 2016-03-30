@@ -1,6 +1,7 @@
 package com.nico_11_riv.intranetepitech.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nico_11_riv.intranetepitech.R;
+import com.nico_11_riv.intranetepitech.TrombiUserActivity_;
 import com.nico_11_riv.intranetepitech.toolbox.CircleTransform;
 import com.nico_11_riv.intranetepitech.toolbox.ToHTML;
 import com.nico_11_riv.intranetepitech.ui.contents.Trombi_content;
@@ -79,7 +81,11 @@ public class TrombiAdapter extends RecyclerView.Adapter<TrombiAdapter.ViewHolder
 
         @Override
         public void onClick(View view) {
-
+            login = (TextView) itemView.findViewById(R.id.login);
+            Intent intent = new Intent(context , TrombiUserActivity_.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("login",login.toString());
+            context.startActivity(intent);
         }
     }
 }
