@@ -146,21 +146,7 @@ public class MarksActivityFragment extends Fragment {
            // filluserinfosui();
         }
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        if (this != null
-                && getFragmentManager().findFragmentById(
-                this.getId()) != null) {
-
-            getFragmentManager().beginTransaction().remove(this)
-                    .commit();
-
-        }
-    }
-
+    
     void setMarks() {
         fillmarksui();
         if (ic.connected()) {
