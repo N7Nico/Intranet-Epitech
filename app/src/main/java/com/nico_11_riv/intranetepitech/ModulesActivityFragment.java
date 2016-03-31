@@ -78,6 +78,11 @@ public class ModulesActivityFragment extends Fragment {
     private GUserInfos user_info = new GUserInfos();
     private RVModulesAdapter adapter;
 
+    @UiThread
+    void makeToast(String text) {
+        Toast.makeText(getContext(), text, Toast.LENGTH_LONG).show();
+    }
+
     @AfterInject
     void afterInject() {
         api.setRestErrorHandler(ErrorHandler);
@@ -102,19 +107,21 @@ public class ModulesActivityFragment extends Fragment {
 
     void fillmodulesui() {
         ArrayList<ModuleContent> items = new ArrayList<>();
-        ArrayList<ModuleContent> items_mod = new ArrayList<>();
-        List<Allmodules> modules = Select.from(Allmodules.class).where(Condition.prop("login").eq(login)).list();
-        List<Module> mod = Select.from(Module.class).where(Condition.prop("login").eq(login)).list();
+        List<Allmodules> my_modules = Select.from(Allmodules.class).where(Condition.prop("login").eq(login)).list();
+        List<Module> modules = Select.from(Module.class).where(Condition.prop("login").eq(login)).list();
 
-        for (int i = 0; i < modules.size(); i++) {
-            Allmodules info = modules.get(i);
-            items.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getBegin() + " -> " + info.getEnd(), info.getCode()));
+        if (Objects.equals(gUser.getLogin(), login)) {
+            for (int i = 0; i < modules.size(); i++) {
+                Allmodules info = my_modules.get(i);
+                items.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getBegin() + " -> " + info.getEnd(), info.getCode()));
+            }
+        } else {
+            for (int i = 0; i < modules.size(); i++) {
+                Module info = modules.get(i);
+                items.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getDate(), info.getCodemodule()));
+            }
         }
-        for (int i = 0; i < mod.size(); i++) {
-            Module info = mod.get(i);
-            items_mod.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getDate(), info.getCodemodule()));
-        }
-        setadpt((Objects.equals(gUser.getLogin(), login)) ? items : items_mod);
+        setadpt(items);
     }
 
     @UiThread

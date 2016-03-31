@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.nico_11_riv.intranetepitech.R;
 import com.nico_11_riv.intranetepitech.database.Allmodules;
+import com.nico_11_riv.intranetepitech.database.Module;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.ui.contents.ModuleContent;
 
@@ -27,6 +28,7 @@ public class RVModulesAdapter extends RecyclerView.Adapter<RVModulesAdapter.View
     private List<ModuleContent> modules;
     private Context context;
     private String login;
+    private GUser gUser = new GUser();
 
     public RVModulesAdapter(List<ModuleContent> modules, Context context, String login) {
         this.modules = modules;
@@ -60,33 +62,58 @@ public class RVModulesAdapter extends RecyclerView.Adapter<RVModulesAdapter.View
 
     public void filter(int position, String semester) {
         List<Allmodules> new_modules;
-        if (!Objects.equals(semester, "All"))
+        List<Module> my_modules;
+        if (!Objects.equals(semester, "All")) {
             new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ? AND title LIKE ?", login, semester);
-        else
+            my_modules = Module.findWithQuery(Module.class, "SELECT * FROM Module WHERE login = ? AND title LIKE ?", login, semester);
+        }
+        else {
             new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ?", login);
+            my_modules = Module.findWithQuery(Module.class, "SELECT * FROM Module WHERE login = ?", login);
+        }
         modules.clear();
-        for (int i = 0; i < new_modules.size(); i++) {
-            if (i == position && position != 0)
-                break;
-            Allmodules info = new_modules.get(i);
-            modules.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getBegin() + " -> " + info.getEnd(), info.getCode()));
+        if (Objects.equals(login, gUser.getLogin())) {
+            for (int i = 0; i < new_modules.size(); i++) {
+                if (i == position && position != 0)
+                    break;
+                Allmodules info = new_modules.get(i);
+                modules.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getBegin() + " -> " + info.getEnd(), info.getCode()));
+            }
+        } else {
+            for (int i = 0; i < my_modules.size(); i++) {
+                if (i == position && position != 0)
+                    break;
+                Module info = my_modules.get(i);
+                modules.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getDate(), info.getCodemodule()));
+            }
         }
         notifyDataSetChanged();
     }
 
     public void search(String text) {
         List<Allmodules> new_modules;
+        List<Module> my_modules;
         new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ? AND grade LIKE ?", login, "%" + text + "%");
+        my_modules = Module.findWithQuery(Module.class, "SELECT * FROM Module WHERE login = ? AND grade LIKE ?", login, "%" + text + "%");
         if (new_modules.size() == 0) {
             new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ? AND title LIKE ?", login, "%" + text + "%");
+            my_modules = Module.findWithQuery(Module.class, "SELECT * FROM Module WHERE login = ? AND title LIKE ?", login, "%" + text + "%");
             if (new_modules.size() == 0) {
                 new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ? AND code LIKE ?", login, "%" + text + "%");
+                my_modules = Module.findWithQuery(Module.class, "SELECT * FROM Module WHERE login = ? AND code LIKE ?", login, "%" + text + "%");
             }
         }
         modules.clear();
-        for (int i = 0; i < new_modules.size(); i++) {
-            Allmodules info = new_modules.get(i);
-            modules.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getBegin() + " -> " + info.getEnd(), info.getCode()));
+        if (Objects.equals(login, gUser.getLogin())) {
+            for (int i = 0; i < new_modules.size(); i++) {
+                Allmodules info = new_modules.get(i);
+                modules.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getBegin() + " -> " + info.getEnd(), info.getCode()));
+            }
+        } else {
+            for (int i = 0; i < my_modules.size(); i++) {
+                Module info = my_modules.get(i);
+                modules.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getDate(), info.getCodemodule()));
+            }
         }
         notifyDataSetChanged();
     }
@@ -114,10 +141,21 @@ public class RVModulesAdapter extends RecyclerView.Adapter<RVModulesAdapter.View
         public void onClick(View view) {
 
             List<Allmodules> modules = Allmodules.findWithQuery(Allmodules.class, "Select * FROM Allmodules WHERE grade = ? AND title = ? AND code = ?", grade.getText().toString(), module.getText().toString(), codemodule.getText().toString());
-            Allmodules module = modules.get(0);
+            List<Module> my_modules = Module.findWithQuery(Module.class, "Select * FROM Module WHERE grade = ? AND title = ? AND codemodule = ?", grade.getText().toString(), module.getText().toString(), codemodule.getText().toString());
+            String content;
+            String title;
+            if (Objects.equals(login, gUser.getLogin())) {
+                Allmodules module = modules.get(0);
+                title = module.getTitle();
+                content = Html.fromHtml("<b>Grade :</b> " + module.getGrade() + "<br /><br /><b>Code Module :</b> " + module.getCode() + "<br /><br /><b>Date :</b> " + module.getBegin() + " -> " + module.getEnd()).toString();
+            } else {
+                Module my_module = my_modules.get(0);
+                title = my_module.getTitle();
+                content = Html.fromHtml("<b>Grade :</b> " + my_module.getGrade() + "<br /><br /><b>Code Module :</b> " + my_module.getCodemodule() + "<br /><br /><b>Date :</b> " + my_module.getDate()).toString();
+            }
             new MaterialDialog.Builder(context)
-                    .title(module.getTitle())
-                    .content(Html.fromHtml("<b>Grade :</b> " + module.getGrade() + "<br /><br /><b>Code Module :</b> " + module.getCode() + "<br /><br /><b>Date :</b> " + module.getBegin() + " -> " + module.getEnd()))
+                    .title(title)
+                    .content(content)
                     .negativeText("Retour")
                     .icon(context.getDrawable(R.drawable.logo)).limitIconToDefaultSize()
                     .show();
