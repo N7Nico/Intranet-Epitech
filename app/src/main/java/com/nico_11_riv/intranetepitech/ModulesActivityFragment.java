@@ -111,7 +111,7 @@ public class ModulesActivityFragment extends Fragment {
         List<Module> modules = Select.from(Module.class).where(Condition.prop("login").eq(login)).list();
 
         if (Objects.equals(gUser.getLogin(), login)) {
-            for (int i = 0; i < modules.size(); i++) {
+            for (int i = 0; i < my_modules.size(); i++) {
                 Allmodules info = my_modules.get(i);
                 items.add(new ModuleContent(info.getGrade(), info.getTitle(), info.getBegin() + " -> " + info.getEnd(), info.getCode()));
             }
