@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/lineartab"
-        >
+        android:id="@+id/lineartab" >
         <com.astuetz.PagerSlidingTabStrip
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
@@ -29,14 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:color/white"
-            >
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rm"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            android:background="@android:color/white" >
         </android.support.v4.view.ViewPager>
     </LinearLayout>
 

@@ -24,13 +24,14 @@ import java.util.Objects;
 
 public class RVModulesAdapter extends RecyclerView.Adapter<RVModulesAdapter.ViewHolder> {
 
-    private GUser gUser = new GUser();
     private List<ModuleContent> modules;
     private Context context;
+    private String login;
 
-    public RVModulesAdapter(List<ModuleContent> modules, Context context) {
+    public RVModulesAdapter(List<ModuleContent> modules, Context context, String login) {
         this.modules = modules;
         this.context = context;
+        this.login = login;
     }
 
     @Override
@@ -60,9 +61,9 @@ public class RVModulesAdapter extends RecyclerView.Adapter<RVModulesAdapter.View
     public void filter(int position, String semester) {
         List<Allmodules> new_modules;
         if (!Objects.equals(semester, "All"))
-            new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ? AND title LIKE ?", gUser.getLogin(), semester);
+            new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ? AND title LIKE ?", login, semester);
         else
-            new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ?", gUser.getLogin());
+            new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ?", login);
         modules.clear();
         for (int i = 0; i < new_modules.size(); i++) {
             if (i == position && position != 0)
@@ -75,11 +76,11 @@ public class RVModulesAdapter extends RecyclerView.Adapter<RVModulesAdapter.View
 
     public void search(String text) {
         List<Allmodules> new_modules;
-        new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ? AND grade LIKE ?", gUser.getLogin(), "%" + text + "%");
+        new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ? AND grade LIKE ?", login, "%" + text + "%");
         if (new_modules.size() == 0) {
-            new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ? AND title LIKE ?", gUser.getLogin(), "%" + text + "%");
+            new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ? AND title LIKE ?", login, "%" + text + "%");
             if (new_modules.size() == 0) {
-                new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ? AND code LIKE ?", gUser.getLogin(), "%" + text + "%");
+                new_modules = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ? AND code LIKE ?", login, "%" + text + "%");
             }
         }
         modules.clear();

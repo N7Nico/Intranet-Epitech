@@ -33,10 +33,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.List;
 
 @EFragment(R.layout.fragment_trombi_user)
-public class PageFragment extends Fragment {
-
-    @FragmentArg
-    public Integer sectionNumber;
+public class TrombiUserActivityFragment extends Fragment {
 
     private GUser gUser = new GUser();
 
@@ -77,12 +74,11 @@ public class PageFragment extends Fragment {
     @ViewById
     TextView credits_content;
 
-    private GUserInfos user_info;
     private Userinfos userinfos;
     private IsConnected ic;
     private Tools tools;
 
-    public PageFragment() {
+    public TrombiUserActivityFragment() {
         this.tools = new Tools(getContext());
     }
 
@@ -109,7 +105,6 @@ public class PageFragment extends Fragment {
             filluserinfosui();
         }
         if (ic.connected()) {
-            //Userinfos.deleteAll(Userinfos.class, "login = ?", logintoget);
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
                 PUserInfos infos = new PUserInfos(logintoget);
@@ -122,8 +117,13 @@ public class PageFragment extends Fragment {
                 e.printStackTrace();
             }
             uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", logintoget);
-            userinfos = uInfos.get(0);
-            filluserinfosui();
+            try {
+                userinfos = uInfos.get(0);
+                filluserinfosui();
+            } catch (Exception e) {
+                toast(e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 

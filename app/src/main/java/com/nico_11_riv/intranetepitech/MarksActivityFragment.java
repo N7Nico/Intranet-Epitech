@@ -50,36 +50,25 @@ import java.util.List;
 @EFragment(R.layout.fragment_marks)
 public class MarksActivityFragment extends Fragment {
 
+    private GUser gUser = new GUser();
+    private GUserInfos user_info = new GUserInfos();
+    private RVMarksAdapter adapter;
+    private IsConnected ic;
+    private static int def_nb = 8;
+    private static int def_semester = 11;
+    public static final String ARG_PAGE = "ARG_PAGE";
+
+    @FragmentArg
+    String login = gUser.getLogin();
     @RestService
     IntrAPI api;
-
     @Bean
     APIErrorHandler ErrorHandler;
-
     @ViewById
     RecyclerView rv;
-
     @ViewById
     ProgressBar marks_progress;
 
-    private GUser gUser = new GUser();
-    @FragmentArg
-    String login = gUser.getLogin();
-
-    private GUserInfos user_info = new GUserInfos();
-    private RVMarksAdapter adapter;
-    private static int def_nb = 8;
-    private static int def_semester = 11;
-    private IsConnected ic;
-    public static final String ARG_PAGE = "ARG_PAGE";
-
-    public static MarksActivityFragment newInstance(int page) {
-        Bundle args = new Bundle();
-        args.putInt(ARG_PAGE, page);
-        MarksActivityFragment fragment = new MarksActivityFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @AfterInject
     void afterInject() {
@@ -88,7 +77,7 @@ public class MarksActivityFragment extends Fragment {
 
     @UiThread
     void setadpt(ArrayList<MarkContent> items) {
-        adapter = new RVMarksAdapter(items, getContext());
+        adapter = new RVMarksAdapter(items, getContext(), login);
         rv.setAdapter(adapter);
     }
 
@@ -130,11 +119,8 @@ public class MarksActivityFragment extends Fragment {
     }
 
     void setUserInfos() {
-        List <Userinfos> uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", gUser.getLogin());
-        if (uInfos.size() > 0)
-           // filluserinfosui();
+        filluserinfosui();
         if (ic.connected()) {
-            Userinfos.deleteAll(Userinfos.class, "login = ?", gUser.getLogin());
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
                 PUserInfos infos = new PUserInfos(gUser.getLogin());
@@ -147,29 +133,19 @@ public class MarksActivityFragment extends Fragment {
                 e.printStackTrace();
             }
             user_info = new GUserInfos();
-           // filluserinfosui();
+            filluserinfosui();
         }
     }
 
     void setMarks() {
         fillmarksui();
         if (ic.connected()) {
-            String m = null;
+            String m;
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
                 m = api.getmarksandmodules(login);
-            } catch (HttpClientErrorException e) {
-                Log.d("Response", e.getResponseBodyAsString());
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            } catch (NullPointerException e) {
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-            PMarks marks = new PMarks(login);
-            marks.init(m);
-            api.setCookie("PHPSESSID", gUser.getToken());
-            try {
-                api.getuserinfo(gUser.getLogin());
+                PMarks marks = new PMarks(login);
+                marks.init(m);
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());
                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -188,7 +164,7 @@ public class MarksActivityFragment extends Fragment {
 
     @Background
     void profile_marks() {
-        setUserInfos();
+        //setUserInfos();
         setMarks();
         setProgressBar();
     }

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/myFragment"
-        android:name="com.nico_11_riv.intranetepitech.PageFragment_"
+        android:name="com.nico_11_riv.intranetepitech.TrombiUserActivityFragment_"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

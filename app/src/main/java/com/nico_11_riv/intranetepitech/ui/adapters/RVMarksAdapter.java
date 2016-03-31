@@ -1,7 +1,6 @@
 package com.nico_11_riv.intranetepitech.ui.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.nico_11_riv.intranetepitech.R;
 import com.nico_11_riv.intranetepitech.database.Mark;
-import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.toolbox.ToHTML;
 import com.nico_11_riv.intranetepitech.ui.contents.MarkContent;
 
@@ -24,14 +22,14 @@ import java.util.Objects;
  */
 
 public class RVMarksAdapter extends RecyclerView.Adapter<RVMarksAdapter.ViewHolder> {
-
-    private GUser gUser = new GUser();
     private List<MarkContent> marks;
     private Context context;
+    private String login;
 
-    public RVMarksAdapter(List<MarkContent> marks, Context context) {
+    public RVMarksAdapter(List<MarkContent> marks, Context context, String login) {
         this.marks = marks;
         this.context = context;
+        this.login = login;
     }
 
     @Override
@@ -61,9 +59,9 @@ public class RVMarksAdapter extends RecyclerView.Adapter<RVMarksAdapter.ViewHold
     public void filter(int position, String semester) {
         List<Mark> new_marks;
         if (!Objects.equals(semester, "All"))
-            new_marks = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ? AND titlemodule LIKE ?", gUser.getLogin(), semester);
+            new_marks = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ? AND titlemodule LIKE ?", login, semester);
         else
-            new_marks = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ?", gUser.getLogin());
+            new_marks = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ?", login);
         marks.clear();
         for (int i = new_marks.size() - 1; i > 0; i--) {
             if (i == new_marks.size() - position - 1 && position != 0)
@@ -76,13 +74,13 @@ public class RVMarksAdapter extends RecyclerView.Adapter<RVMarksAdapter.ViewHold
 
     public void search(String text) {
         List<Mark> new_marks;
-        new_marks = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ? AND finalnote LIKE ?", gUser.getLogin(), "%" + text + "%");
+        new_marks = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ? AND finalnote LIKE ?", login, "%" + text + "%");
         if (new_marks.size() == 0) {
-            new_marks = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ? AND title LIKE ?", gUser.getLogin(), "%" + text + "%");
+            new_marks = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ? AND title LIKE ?", login, "%" + text + "%");
             if (new_marks.size() == 0) {
-                new_marks = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ? AND correcteur LIKE ?", gUser.getLogin(), "%" + text + "%");
+                new_marks = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ? AND correcteur LIKE ?", login, "%" + text + "%");
                 if (new_marks.size() == 0) {
-                    new_marks = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ? AND titlemodule LIKE ?", gUser.getLogin(), "%" + text + "%");
+                    new_marks = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ? AND titlemodule LIKE ?", login, "%" + text + "%");
                 }
             }
         }

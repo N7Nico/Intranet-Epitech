@@ -8,8 +8,8 @@ import com.nico_11_riv.intranetepitech.MarksActivityFragment;
 import com.nico_11_riv.intranetepitech.MarksActivityFragment_;
 import com.nico_11_riv.intranetepitech.ModulesActivityFragment;
 import com.nico_11_riv.intranetepitech.ModulesActivityFragment_;
-import com.nico_11_riv.intranetepitech.PageFragment;
-import com.nico_11_riv.intranetepitech.PageFragment_;
+import com.nico_11_riv.intranetepitech.TrombiUserActivityFragment;
+import com.nico_11_riv.intranetepitech.TrombiUserActivityFragment_;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 
 
@@ -28,9 +28,9 @@ public class TrombiUserAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0:
-                PageFragment fragment = PageFragment_.builder().sectionNumber(position).logintoget(login).build();
+                TrombiUserActivityFragment fragment = TrombiUserActivityFragment_.builder().logintoget(login).build();
                 return fragment;
             case 1:
                 MarksActivityFragment fragment1 = MarksActivityFragment_.builder().login(login).build();
@@ -49,8 +49,11 @@ public class TrombiUserAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        String text = "Profil";
+        String text;
         switch (position) {
+            default:
+                text = "Profil";
+                return text;
             case 0:
                 text = "Profil";
                 return text;
@@ -61,7 +64,6 @@ public class TrombiUserAdapter extends FragmentPagerAdapter {
                 text = "Modules";
                 return text;
         }
-        return text;
     }
 }
 

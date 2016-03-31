@@ -85,7 +85,7 @@ public class ModulesActivityFragment extends Fragment {
 
     @UiThread
     void setadpt(ArrayList<ModuleContent> items) {
-        adapter = new RVModulesAdapter(items, getContext());
+        adapter = new RVModulesAdapter(items, getContext(), login);
         rv.setAdapter(adapter);
     }
 
@@ -133,9 +133,7 @@ public class ModulesActivityFragment extends Fragment {
     }
 
     void setUserInfos() {
-        List<Userinfos> uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", gUser.getLogin());
-        if (uInfos.size() > 0)
-            //filluserinfosui();
+        filluserinfosui();
         if (ic.connected()) {
             Userinfos.deleteAll(Userinfos.class, "login = ?", gUser.getLogin());
             api.setCookie("PHPSESSID", gUser.getToken());
@@ -150,7 +148,7 @@ public class ModulesActivityFragment extends Fragment {
                 e.printStackTrace();
             }
             user_info = new GUserInfos();
-           // filluserinfosui();
+            filluserinfosui();
         }
     }
 
@@ -170,16 +168,6 @@ public class ModulesActivityFragment extends Fragment {
             }
             Pmodules modules = new Pmodules(login);
             modules.init(m);
-            api.setCookie("PHPSESSID", gUser.getToken());
-            try {
-                api.getuserinfo(gUser.getLogin());
-            } catch (HttpClientErrorException e) {
-                Log.d("Response", e.getResponseBodyAsString());
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            } catch (NullPointerException e) {
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
             api.setCookie("PHPSESSID", gUser.getToken());
             if (Objects.equals(login, gUser.getLogin())) {
                 try {
@@ -204,7 +192,7 @@ public class ModulesActivityFragment extends Fragment {
 
     @Background
     void profile_modules() {
-        setUserInfos();
+        //setUserInfos();
         setModules();
         setProgressBar();
     }
