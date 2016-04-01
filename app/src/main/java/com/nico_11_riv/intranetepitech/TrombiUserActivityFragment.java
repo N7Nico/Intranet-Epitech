@@ -42,7 +42,13 @@ import java.util.Objects;
 
 @EFragment(R.layout.fragment_trombi_user)
 public class TrombiUserActivityFragment extends Fragment {
+    
+    private GUser gUser = new GUser();
+    private Userinfos user ;
+    private IsConnected ic;
+    private Tools tools;
 
+    @ViewById
     TextView text;
     @RestService
     IntrAPI api;
@@ -76,15 +82,12 @@ public class TrombiUserActivityFragment extends Fragment {
     ImageView ic_card;
     @ViewById
     TextView credits_content;
-
-    private GUserInfos userinfos = new GUserInfos();
-    private RVMarksAdapter adapter;
-    private GUser gUser = new GUser();
-
-    private Userinfos user ;
-
     @FragmentArg
     String logintoget = gUser.getLogin();
+
+    public TrombiUserActivityFragment() {
+        this.tools = new Tools(getActivity());
+    }
 
     View.OnClickListener mailListener = new View.OnClickListener() {
         @Override
@@ -98,7 +101,7 @@ public class TrombiUserActivityFragment extends Fragment {
                 emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{user.getEmail()});
                 emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject");
                 emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Text");
-                startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                startActivity(Intent.createChooser(emailIntent, "Choisissez l'application"));
             }
         }
     };
@@ -134,13 +137,6 @@ public class TrombiUserActivityFragment extends Fragment {
             }
         }
     };
-    private IsConnected ic;
-    private Tools tools;
-
-
-    public TrombiUserActivityFragment() {
-        this.tools = new Tools(getContext());
-    }
 
     @UiThread
     void filluserinfosui() {
@@ -177,16 +173,12 @@ public class TrombiUserActivityFragment extends Fragment {
        /* ic_card.setImageResource(R.drawable.ic_add_contact);
         action_card.setText("ee");*/
 
-
         card_call.setVisibility(View.VISIBLE);
-
     }
 
     @UiThread
     public void maketoast(String text) {
         Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
-
-
     }
 
     @UiThread
@@ -206,12 +198,13 @@ public class TrombiUserActivityFragment extends Fragment {
             user = uInfos.get(0);
             filluserinfosui();
         }
-        if (tools.getIc().connected()) {
+        maketoast(String.valueOf(tools.getIc().connected()));
+        if (ic.connected()) {
             api.setCookie("PHPSESSID", tools.getgUser().getToken());
             try {
-
                 PUserInfos infos = new PUserInfos(logintoget);
                 infos.init(api.getuserinfo(logintoget));
+                uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", logintoget);
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());
                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -219,20 +212,17 @@ public class TrombiUserActivityFragment extends Fragment {
                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-            tools.setgUserInfos(new GUserInfos());
-            uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", logintoget);
-            if (uInfos.size() > 0)
-            {
+            if (uInfos.size() > 0) {
                 user = uInfos.get(0);
+                filluserinfosui();
             }
-            filluserinfosui();
         }
     }
 
     @Background
     void profile_messages() {
-        setUserInfos();
         fillmenu();
+        setUserInfos();
     }
 
     @AfterViews
