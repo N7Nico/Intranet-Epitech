@@ -1,7 +1,7 @@
 package com.nico_11_riv.intranetepitech;
 
 import android.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +33,6 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -232,7 +231,7 @@ public class TrombiActivityFragment extends Fragment {
     @AfterViews
     void init() {
         ic = new IsConnected(getActivity().getApplicationContext());
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        GridLayoutManager llm = new GridLayoutManager(getActivity(),3, GridLayoutManager.VERTICAL,false);
         trombigridview.setLayoutManager(llm);
         setSpinner();
         profile_trombi();

@@ -20,6 +20,9 @@ public class GUserInfos {
     private String credits;
     private String gpa;
 
+
+    private String phone;
+
     public GUserInfos() {
         GUser gUser = new GUser();
         if (gUser.getLogin() != null) {
@@ -39,8 +42,12 @@ public class GUserInfos {
             this.scolaryear = info.getScolaryear();
             this.credits = info.getCredits();
             this.gpa = info.getGpa();
+            this.phone = info.getPhone();
         }
     }
+
+    public String getPhone() {return phone;}
+
 
     public String getLogin() {
         return login;

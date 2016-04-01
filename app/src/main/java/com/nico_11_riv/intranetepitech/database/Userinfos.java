@@ -18,6 +18,16 @@ public class Userinfos extends SugarRecord {
     private String credits;
     private String gpa;
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    private String phone;
+
     public Userinfos() {
     }
 

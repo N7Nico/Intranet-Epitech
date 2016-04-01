@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.nico_11_riv.intranetepitech.R;
 import com.nico_11_riv.intranetepitech.TrombiUserActivity_;
-import com.nico_11_riv.intranetepitech.toolbox.CircleTransform;
 import com.nico_11_riv.intranetepitech.toolbox.ToHTML;
 import com.nico_11_riv.intranetepitech.ui.contents.Trombi_content;
 import com.squareup.picasso.Picasso;
@@ -49,9 +48,9 @@ public class TrombiAdapter extends RecyclerView.Adapter<TrombiAdapter.ViewHolder
         ViewHolder.login.setText(itemsArrayList.get(i).getLogin());
         ViewHolder.name.setText(itemsArrayList.get(i).getName());
         if (!Objects.equals(itemsArrayList.get(i).getPicture(), "null")) {
-            Picasso.with(context).load(itemsArrayList.get(i).getPicture()).transform(new CircleTransform()).into(ViewHolder.image);
+            Picasso.with(context).load(itemsArrayList.get(i).getPicture()).into(ViewHolder.image);
         } else {
-            Picasso.with(context).load(R.drawable.login_x).transform(new CircleTransform()).into(ViewHolder.image);
+            Picasso.with(context).load(R.drawable.login_x).into(ViewHolder.image);
 
         }
     }

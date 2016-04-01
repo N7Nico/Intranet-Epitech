@@ -1,6 +1,5 @@
 package com.nico_11_riv.intranetepitech.database.setters.user;
 
-import com.nico_11_riv.intranetepitech.database.User;
 import com.nico_11_riv.intranetepitech.database.Userinfos;
 import com.orm.query.Condition;
 import com.orm.query.Select;
@@ -12,6 +11,7 @@ import java.util.List;
 
 public class PUserInfos {
     private String login;
+
     public PUserInfos(String login) {
         this.login = login;
     }
@@ -41,11 +41,20 @@ public class PUserInfos {
                 userinfos.setCoursecode(tmp.getString("course_code") != "null" ? tmp.getString("course_code") : "n/a");
                 userinfos.setStudentyear(tmp.getString("studentyear") != "null" ? tmp.getString("studentyear") : "n/a");
                 userinfos.setCredits(tmp.getString("credits") != "null" ? tmp.getString("credits") : "n/a");
+                if (tmp.has("userinfo")) {
+                    if (tmp.getJSONObject("userinfo").has("telephone")) {
+                        userinfos.setPhone(tmp.getJSONObject("userinfo").getJSONObject("telephone").getString("value"));
+                    }
+                    else {
+                        userinfos.setPhone("");
+                    }
+                } else {
+                        userinfos.setPhone("");
+                }
                 userinfos.setGpa(tmp.getJSONArray("gpa").getJSONObject(0).getString("gpa") != "null" ? tmp.getJSONArray("gpa").getJSONObject(0).getString("gpa") : "n/a");
                 userinfos.save();
             }
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
