@@ -117,17 +117,6 @@ public class TrombiActivityFragment extends Fragment {
             }
             Ptrombi trombi = new Ptrombi(scolaryear, tek);
             trombi.load(m);
-            api.setCookie("PHPSESSID", gUser.getToken());
-            try {
-                api.getuserinfo(gUser.getLogin());
-            } catch (HttpClientErrorException e) {
-                Log.d("Response", e.getResponseBodyAsString());
-                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            } catch (NullPointerException e) {
-                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-            //fillnewtrombisui();
         }
     }
 
@@ -145,7 +134,6 @@ public class TrombiActivityFragment extends Fragment {
     void setUserInfos() {
         List<Userinfos> uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", gUser.getLogin());
         if (uInfos.size() > 0)
-            //filluserinfosui();
             if (ic.connected()) {
                 Userinfos.deleteAll(Userinfos.class, "login = ?", gUser.getLogin());
                 api.setCookie("PHPSESSID", gUser.getToken());
@@ -160,15 +148,13 @@ public class TrombiActivityFragment extends Fragment {
                     e.printStackTrace();
                 }
                 user_info = new GUserInfos();
-                //filluserinfosui();
             }
     }
 
     @Background
     void profile_trombi() {
-        setUserInfos();
+        //setUserInfos();
         setTrombi(ville, annee, tek);
-        //setProgressBar();
     }
 
     @UiThread

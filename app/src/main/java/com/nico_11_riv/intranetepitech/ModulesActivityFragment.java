@@ -22,6 +22,7 @@ import com.nico_11_riv.intranetepitech.database.setters.user.GUserInfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.PUserInfos;
 import com.nico_11_riv.intranetepitech.toolbox.CircleTransform;
 import com.nico_11_riv.intranetepitech.toolbox.IsConnected;
+import com.nico_11_riv.intranetepitech.ui.adapters.RVMarksAdapter;
 import com.nico_11_riv.intranetepitech.ui.adapters.RVModulesAdapter;
 import com.nico_11_riv.intranetepitech.ui.contents.ModuleContent;
 import com.orm.query.Condition;
@@ -52,10 +53,12 @@ import java.util.Objects;
 @EFragment(R.layout.fragment_modules)
 public class ModulesActivityFragment extends Fragment {
 
+    private GUser gUser = new GUser();
+    private GUserInfos user_info = new GUserInfos();
+    private RVModulesAdapter adapter;
+    private IsConnected ic;
     private static int def_nb = 8;
     private static int def_semester = 11;
-    private IsConnected ic;
-    private GUser gUser = new GUser();
 
     @FragmentArg
     String login = gUser.getLogin();
@@ -75,9 +78,6 @@ public class ModulesActivityFragment extends Fragment {
     @ViewById
     TextView noinfos;
 
-    private GUserInfos user_info = new GUserInfos();
-    private RVModulesAdapter adapter;
-
     @UiThread
     void makeToast(String text) {
         Toast.makeText(getContext(), text, Toast.LENGTH_LONG).show();
@@ -92,17 +92,6 @@ public class ModulesActivityFragment extends Fragment {
     void setadpt(ArrayList<ModuleContent> items) {
         adapter = new RVModulesAdapter(items, getContext(), login);
         rv.setAdapter(adapter);
-    }
-
-    @UiThread
-    void filluserinfosui() {
-        TextView tv = (TextView) getActivity().findViewById(R.id.menu_login);
-        tv.setText(user_info.getLogin());
-        tv = (TextView) getActivity().findViewById(R.id.menu_email);
-        tv.setText(user_info.getEmail());
-
-        ImageView iv = (ImageView) getActivity().findViewById(R.id.menu_img);
-        Picasso.with(getContext()).load(user_info.getPicture()).transform(new CircleTransform()).into(iv);
     }
 
     void fillmodulesui() {
@@ -139,25 +128,6 @@ public class ModulesActivityFragment extends Fragment {
         }
     }
 
-    void setUserInfos() {
-        filluserinfosui();
-        if (ic.connected()) {
-            Userinfos.deleteAll(Userinfos.class, "login = ?", gUser.getLogin());
-            api.setCookie("PHPSESSID", gUser.getToken());
-            try {
-                PUserInfos infos = new PUserInfos(gUser.getLogin());
-                infos.init(api.getuserinfo(gUser.getLogin()));
-            } catch (HttpClientErrorException e) {
-                Log.d("Response", e.getResponseBodyAsString());
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            } catch (NullPointerException e) {
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-            user_info = new GUserInfos();
-            filluserinfosui();
-        }
-    }
 
     void setModules() {
         fillmodulesui();
@@ -199,7 +169,6 @@ public class ModulesActivityFragment extends Fragment {
 
     @Background
     void profile_modules() {
-        //setUserInfos();
         setModules();
         setProgressBar();
     }

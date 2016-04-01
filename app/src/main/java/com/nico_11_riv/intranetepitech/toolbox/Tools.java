@@ -16,6 +16,8 @@ import com.nico_11_riv.intranetepitech.ProjectsActivity_;
 import com.nico_11_riv.intranetepitech.R;
 import com.nico_11_riv.intranetepitech.TrombiActivity_;
 import com.nico_11_riv.intranetepitech.database.User;
+import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
+import com.nico_11_riv.intranetepitech.database.setters.user.GUserInfos;
 
 import org.androidannotations.annotations.UiThread;
 
@@ -27,8 +29,28 @@ import java.util.List;
 public class Tools {
     private Context context;
 
+    private GUser gUser = new GUser();
+    private GUserInfos gUserInfos = new GUserInfos();
+    private IsConnected ic = new IsConnected();
+
     public Tools (Context context){
         this.context = context;
+    }
+
+    public GUser getgUser() {
+        return gUser;
+    }
+
+    public GUserInfos getgUserInfos() {
+        return gUserInfos;
+    }
+
+    public void setgUserInfos(GUserInfos gUserInfos) {
+        this.gUserInfos = gUserInfos;
+    }
+
+    public IsConnected getIc() {
+        return ic;
     }
 
     public void makeToast(String text, int time) {
