@@ -42,7 +42,7 @@ import java.util.Objects;
 
 @EFragment(R.layout.fragment_trombi_user)
 public class TrombiUserActivityFragment extends Fragment {
-    
+
     private GUser gUser = new GUser();
     private Userinfos user ;
     private IsConnected ic;

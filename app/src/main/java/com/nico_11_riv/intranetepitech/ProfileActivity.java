@@ -41,6 +41,17 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     @ViewById
     NavigationView nav_view;
 
+
+    /*-------------------------------------------------------*/
+    /*-------------------------------------------------------*/
+    /*-------------------------------------------------------*/
+
+
+
+    /*-------------------------------------------------------*/
+    /*-------------------------------------------------------*/
+    /*-------------------------------------------------------*/
+
     @AfterViews
     void init() {
         setSupportActionBar(toolbar);
@@ -50,6 +61,14 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         toggle.syncState();
 
         nav_view.setNavigationItemSelectedListener(this);
+
+        /************************************
+         *
+         * Notifications avec un delay en secondes
+         *
+         ************************************/
+        //Notifications notifications = new Notifications(this, "Titre", "Message", "Content", 5);  // 5 = Secondes
+        //notifications.initNotification(); // Initialiser la notification
     }
 
     @Click
@@ -110,7 +129,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         int id = item.getItemId();
 
         Tools tools = new Tools(getApplicationContext());
-        startActivity(tools.menu(item,this,drawer_layout));
+        startActivity(tools.menu(item, this, drawer_layout));
         drawer_layout.closeDrawer(GravityCompat.START);
         return true;
     }
