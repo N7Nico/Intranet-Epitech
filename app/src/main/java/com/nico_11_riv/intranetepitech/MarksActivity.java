@@ -1,5 +1,6 @@
 package com.nico_11_riv.intranetepitech;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -11,19 +12,32 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.nico_11_riv.intranetepitech.api.IntrAPI;
+import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
+import com.nico_11_riv.intranetepitech.database.setters.user.GUserInfos;
+import com.nico_11_riv.intranetepitech.database.setters.user.PUserInfos;
+import com.nico_11_riv.intranetepitech.toolbox.CircleTransform;
 import com.nico_11_riv.intranetepitech.toolbox.Tools;
+import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentById;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.rest.RestService;
+import org.springframework.web.client.HttpClientErrorException;
 
 @EActivity(R.layout.activity_marks)
 public class MarksActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,9 +45,13 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
     private static int def_nb = 8;
     private static int def_semester = 11;
     private SearchView searchView;
+    private Tools tools;
 
     @FragmentById(R.id.fragment_marks)
     MarksActivityFragment fragment;
+
+    @RestService
+    IntrAPI api;
 
     @ViewById
     Toolbar toolbar;
@@ -56,6 +74,36 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
         }
     }
 
+    @UiThread
+    void filluserinfosui() {
+        TextView tv = (TextView) findViewById(R.id.menu_login);
+        tv.setText(tools.getgUserInfos().getLogin());
+        tv = (TextView) findViewById(R.id.menu_email);
+        tv.setText(tools.getgUserInfos().getEmail());
+
+        ImageView iv = (ImageView) findViewById(R.id.menu_img);
+        Picasso.with(getApplicationContext()).load(tools.getgUserInfos().getPicture()).transform(new CircleTransform()).into(iv);
+    }
+
+    void setUserInfos() {
+        filluserinfosui();
+        if (tools.getIc().connected()) {
+            api.setCookie("PHPSESSID", tools.getgUser().getToken());
+            try {
+                PUserInfos infos = new PUserInfos(tools.getgUser().getLogin());
+                infos.init(api.getuserinfo(tools.getgUser().getLogin()));
+            } catch (HttpClientErrorException e) {
+                Log.d("Response", e.getResponseBodyAsString());
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (NullPointerException e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+            tools.setgUserInfos(new GUserInfos());
+            filluserinfosui();
+        }
+    }
+
     @AfterViews
     void init() {
         def_nb = 8;
@@ -70,6 +118,8 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
         nav_view.setNavigationItemSelectedListener(this);
 
         handleIntent(getIntent());
+        tools = new Tools(getApplicationContext());
+        setUserInfos();
     }
 
     @Click
@@ -173,7 +223,6 @@ public class MarksActivity extends AppCompatActivity implements NavigationView.O
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Tools tools = new Tools(getApplicationContext());
         startActivity(tools.menu(item,this,drawer_layout));
         drawer_layout.closeDrawer(GravityCompat.START);
         return true;

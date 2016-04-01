@@ -81,17 +81,6 @@ public class MarksActivityFragment extends Fragment {
         rv.setAdapter(adapter);
     }
 
-    @UiThread
-    void filluserinfosui() {
-        TextView tv = (TextView) getActivity().findViewById(R.id.menu_login);
-        tv.setText(user_info.getLogin());
-        tv = (TextView)getActivity().findViewById(R.id.menu_email);
-        tv.setText(user_info.getEmail());
-
-        ImageView iv = (ImageView) getActivity().findViewById(R.id.menu_img);
-        Picasso.with(getContext()).load(user_info.getPicture()).transform(new CircleTransform()).into(iv);
-    }
-
     void fillmarksui() {
         ArrayList<MarkContent> items = new ArrayList<>();
         List<Mark> marks = Select.from(Mark.class).where(Condition.prop("login").eq(login)).list();
@@ -115,25 +104,6 @@ public class MarksActivityFragment extends Fragment {
                 adapter.filter(0, "B" + Integer.toString(def_semester) + "%");
             else
                 adapter.filter(0, "All");
-        }
-    }
-
-    void setUserInfos() {
-        filluserinfosui();
-        if (ic.connected()) {
-            api.setCookie("PHPSESSID", gUser.getToken());
-            try {
-                PUserInfos infos = new PUserInfos(gUser.getLogin());
-                infos.init(api.getuserinfo(gUser.getLogin()));
-            } catch (HttpClientErrorException e) {
-                Log.d("Response", e.getResponseBodyAsString());
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            } catch (NullPointerException e) {
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-            user_info = new GUserInfos();
-            filluserinfosui();
         }
     }
 
@@ -164,7 +134,6 @@ public class MarksActivityFragment extends Fragment {
 
     @Background
     void profile_marks() {
-        //setUserInfos();
         setMarks();
         setProgressBar();
     }

@@ -19,10 +19,12 @@ import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Userinfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
+import com.nico_11_riv.intranetepitech.database.setters.user.GUserInfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.PUserInfos;
 import com.nico_11_riv.intranetepitech.toolbox.CircleTransform;
 import com.nico_11_riv.intranetepitech.toolbox.IsConnected;
 import com.nico_11_riv.intranetepitech.toolbox.Tools;
+import com.nico_11_riv.intranetepitech.ui.adapters.RVMarksAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
@@ -41,7 +43,6 @@ import java.util.Objects;
 @EFragment(R.layout.fragment_trombi_user)
 public class TrombiUserActivityFragment extends Fragment {
 
-    @ViewById
     TextView text;
     @RestService
     IntrAPI api;
@@ -75,24 +76,26 @@ public class TrombiUserActivityFragment extends Fragment {
     ImageView ic_card;
     @ViewById
     TextView credits_content;
+
+    private GUserInfos userinfos = new GUserInfos();
+    private RVMarksAdapter adapter;
     private GUser gUser = new GUser();
+
+    private Userinfos user ;
 
     @FragmentArg
     String logintoget = gUser.getLogin();
 
-    private Userinfos userinfos;
-
-
     View.OnClickListener mailListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (Objects.equals(userinfos.getEmail(), "")) {
+            if (Objects.equals(user.getEmail(), "")) {
                 maketoast("Pas d'adresse mail");
             } else {
                 final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
                 emailIntent.setType("plain/text");
-                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{userinfos.getEmail()});
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{user.getEmail()});
                 emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject");
                 emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Text");
                 startActivity(Intent.createChooser(emailIntent, "Send mail..."));
@@ -102,18 +105,18 @@ public class TrombiUserActivityFragment extends Fragment {
     View.OnClickListener contactListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (Objects.equals(userinfos.getTitle(), "")) {
+            if (Objects.equals(user.getTitle(), "")) {
                 maketoast("Pas d'informations suffisantes");
             } else {
                 Intent intent = new Intent(Intent.ACTION_INSERT);
                 intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
 
-                intent.putExtra(ContactsContract.Intents.Insert.NAME, userinfos.getTitle());
+                intent.putExtra(ContactsContract.Intents.Insert.NAME, user.getTitle());
                 intent.putExtra(ContactsContract.Intents.Insert.COMPANY, "Epitech");
-                if (userinfos.getPhone() != "")
-                    intent.putExtra(ContactsContract.Intents.Insert.PHONE, userinfos.getPhone());
-                if (userinfos.getEmail() != "")
-                    intent.putExtra(ContactsContract.Intents.Insert.EMAIL, userinfos.getEmail());
+                if (user.getPhone() != "")
+                    intent.putExtra(ContactsContract.Intents.Insert.PHONE, user.getPhone());
+                if (user.getEmail() != "")
+                    intent.putExtra(ContactsContract.Intents.Insert.EMAIL, user.getEmail());
                 startActivity(intent);
             }
 
@@ -122,17 +125,18 @@ public class TrombiUserActivityFragment extends Fragment {
     View.OnClickListener phoneListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (userinfos.getPhone().length() < 9) {
+            if (user.getPhone().length() < 9) {
                 maketoast("Aucun numéro disponible");
             } else {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + userinfos.getPhone()));
+                intent.setData(Uri.parse("tel:" + user.getPhone()));
                 startActivity(intent);
             }
         }
     };
     private IsConnected ic;
     private Tools tools;
+
 
     public TrombiUserActivityFragment() {
         this.tools = new Tools(getContext());
@@ -141,13 +145,13 @@ public class TrombiUserActivityFragment extends Fragment {
     @UiThread
     void filluserinfosui() {
 
-        Picasso.with(getContext()).load(userinfos.getPicture()).transform(new CircleTransform()).into(student_img);
-        login.setText(userinfos.getLogin());
-        email.setText(userinfos.getEmail());
-        gpa_content.setText(userinfos.getGpa());
-        promo_content.setText(userinfos.getPromo());
-        semester_content.setText(userinfos.getSemester());
-        credits_content.setText(userinfos.getCredits());
+        Picasso.with(getContext()).load(user.getPicture()).transform(new CircleTransform()).into(student_img);
+        login.setText(user.getLogin());
+        email.setText(user.getEmail());
+        gpa_content.setText(user.getGpa());
+        promo_content.setText(user.getPromo());
+        semester_content.setText(user.getSemester());
+        credits_content.setText(user.getCredits());
         CardContainer.setVisibility(View.VISIBLE);
         CardView mail = (CardView) CardContainer.findViewById(R.id.card_mail);
         CardView contact = (CardView) CardContainer.findViewById(R.id.card_add_contact);
@@ -157,7 +161,7 @@ public class TrombiUserActivityFragment extends Fragment {
         card_mail.setVisibility(View.VISIBLE);
         card_mail.setOnClickListener(mailListener);
         ((ImageView) mail.findViewById(R.id.ic_card)).setImageResource(R.drawable.ic_send_mail);
-        ((TextView) mail.findViewById(R.id.action_card)).setText(Html.fromHtml("<a href=\"mailto:" + userinfos.getEmail() + "\">Envoyer un email</a>"));
+        ((TextView) mail.findViewById(R.id.action_card)).setText(Html.fromHtml("<a href=\"mailto:" + user.getEmail() + "\">Envoyer un email</a>"));
        /* ic_card.setImageResource(R.drawable.ic_send_mail);
         action_card.setText(Html.fromHtml("<a href=\"mailto:" + userinfos.getEmail() + "\">Envoyer un email </a>"));*/
 
@@ -181,45 +185,54 @@ public class TrombiUserActivityFragment extends Fragment {
     @UiThread
     public void maketoast(String text) {
         Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+
+
     }
 
     @UiThread
-    void toast(String message) {
-        this.tools.makeToast(message, Toast.LENGTH_SHORT);
+    void fillmenu() {
+        TextView tv = (TextView) getActivity().findViewById(R.id.menu_login);
+        tv.setText(tools.getgUserInfos().getLogin());
+        tv = (TextView) getActivity().findViewById(R.id.menu_email);
+        tv.setText(tools.getgUserInfos().getEmail());
+
+        ImageView iv = (ImageView) getActivity().findViewById(R.id.menu_img);
+        Picasso.with(getContext()).load(tools.getgUserInfos().getPicture()).transform(new CircleTransform()).into(iv);
     }
 
     void setUserInfos() {
         List<Userinfos> uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", logintoget);
-        if (uInfos.size() > 0) {
-            userinfos = uInfos.get(0);
+        if (uInfos.size() > 0){
+            user = uInfos.get(0);
             filluserinfosui();
         }
-        if (ic.connected()) {
-            api.setCookie("PHPSESSID", gUser.getToken());
+        if (tools.getIc().connected()) {
+            api.setCookie("PHPSESSID", tools.getgUser().getToken());
             try {
+
                 PUserInfos infos = new PUserInfos(logintoget);
                 infos.init(api.getuserinfo(logintoget));
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());
-                toast(e.getMessage());
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             } catch (NullPointerException e) {
-                toast(e.getMessage());
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
+            tools.setgUserInfos(new GUserInfos());
             uInfos = Userinfos.findWithQuery(Userinfos.class, "SELECT * FROM Userinfos WHERE login = ?", logintoget);
-            try {
-                userinfos = uInfos.get(0);
-                filluserinfosui();
-            } catch (Exception e) {
-                toast(e.getMessage());
-                e.printStackTrace();
+            if (uInfos.size() > 0)
+            {
+                user = uInfos.get(0);
             }
+            filluserinfosui();
         }
     }
 
     @Background
     void profile_messages() {
         setUserInfos();
+        fillmenu();
     }
 
     @AfterViews

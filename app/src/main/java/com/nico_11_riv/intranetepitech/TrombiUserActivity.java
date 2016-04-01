@@ -9,8 +9,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -18,13 +21,19 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.astuetz.PagerSlidingTabStrip;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.User;
+import com.nico_11_riv.intranetepitech.database.setters.user.GUserInfos;
+import com.nico_11_riv.intranetepitech.database.setters.user.PUserInfos;
+import com.nico_11_riv.intranetepitech.toolbox.CircleTransform;
 import com.nico_11_riv.intranetepitech.toolbox.Tools;
 import com.nico_11_riv.intranetepitech.ui.adapters.TrombiUserAdapter;
+import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -34,6 +43,9 @@ import java.util.List;
 
 @EActivity(R.layout.activity_trombi_user)
 public class TrombiUserActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private Tools tools;
+
     @RestService
     IntrAPI api;
     @ViewById
@@ -42,12 +54,40 @@ public class TrombiUserActivity extends AppCompatActivity implements NavigationV
     Toolbar toolbar;
     @ViewById
     NavigationView nav_view;
-
     @ViewById
     ViewPager pager;
-
     @ViewById
     PagerSlidingTabStrip tab_layout;
+
+    @UiThread
+    void filluserinfosui() {
+        TextView tv = (TextView) findViewById(R.id.menu_login);
+        tv.setText(tools.getgUserInfos().getLogin());
+        tv = (TextView) findViewById(R.id.menu_email);
+        tv.setText(tools.getgUserInfos().getEmail());
+
+        ImageView iv = (ImageView) findViewById(R.id.menu_img);
+        Picasso.with(getApplicationContext()).load(tools.getgUserInfos().getPicture()).transform(new CircleTransform()).into(iv);
+    }
+
+    void setUserInfos() {
+        filluserinfosui();
+        if (tools.getIc().connected()) {
+            api.setCookie("PHPSESSID", tools.getgUser().getToken());
+            try {
+                PUserInfos infos = new PUserInfos(tools.getgUser().getLogin());
+                infos.init(api.getuserinfo(tools.getgUser().getLogin()));
+            } catch (HttpClientErrorException e) {
+                Log.d("Response", e.getResponseBodyAsString());
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (NullPointerException e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+            tools.setgUserInfos(new GUserInfos());
+            filluserinfosui();
+        }
+    }
 
     @AfterViews
     void init() {
@@ -59,7 +99,8 @@ public class TrombiUserActivity extends AppCompatActivity implements NavigationV
 
         nav_view.setNavigationItemSelectedListener(this);
         String login = getIntent().getStringExtra("login");
-        Tools tools = new Tools(getApplicationContext());
+        tools = new Tools(getApplicationContext());
+        setUserInfos();
         TrombiUserAdapter adapter = new TrombiUserAdapter(getSupportFragmentManager(), login);
         pager.setAdapter(adapter);
         tab_layout.setViewPager(pager);
