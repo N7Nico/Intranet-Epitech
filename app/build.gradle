@@ -97,4 +97,6 @@ dependencies {
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.7@aar') {
         transitive = true
     }
+
+    compile 'com.github.alamkanak:android-week-view:1.2.6'
 }

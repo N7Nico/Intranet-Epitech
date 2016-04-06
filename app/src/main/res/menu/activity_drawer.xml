@@ -21,7 +21,7 @@
         <item
             android:id="@+id/nav_schedule"
             android:icon="@drawable/ic_schedule"
-            android:title="@string/title_planning" />
+            android:title="@string/title_schedule" />
         <item
             android:id="@+id/nav_trombi"
             android:icon="@drawable/ic_projects"

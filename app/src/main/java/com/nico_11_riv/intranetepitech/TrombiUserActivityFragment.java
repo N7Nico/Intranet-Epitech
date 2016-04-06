@@ -19,12 +19,10 @@ import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Userinfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
-import com.nico_11_riv.intranetepitech.database.setters.user.GUserInfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.PUserInfos;
 import com.nico_11_riv.intranetepitech.toolbox.CircleTransform;
 import com.nico_11_riv.intranetepitech.toolbox.IsConnected;
 import com.nico_11_riv.intranetepitech.toolbox.Tools;
-import com.nico_11_riv.intranetepitech.ui.adapters.RVMarksAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
@@ -116,9 +114,9 @@ public class TrombiUserActivityFragment extends Fragment {
 
                 intent.putExtra(ContactsContract.Intents.Insert.NAME, user.getTitle());
                 intent.putExtra(ContactsContract.Intents.Insert.COMPANY, "Epitech");
-                if (user.getPhone() != "")
+                if (!Objects.equals(user.getPhone(), ""))
                     intent.putExtra(ContactsContract.Intents.Insert.PHONE, user.getPhone());
-                if (user.getEmail() != "")
+                if (!Objects.equals(user.getEmail(), ""))
                     intent.putExtra(ContactsContract.Intents.Insert.EMAIL, user.getEmail());
                 startActivity(intent);
             }
@@ -198,7 +196,6 @@ public class TrombiUserActivityFragment extends Fragment {
             user = uInfos.get(0);
             filluserinfosui();
         }
-        maketoast(String.valueOf(tools.getIc().connected()));
         if (ic.connected()) {
             api.setCookie("PHPSESSID", tools.getgUser().getToken());
             try {

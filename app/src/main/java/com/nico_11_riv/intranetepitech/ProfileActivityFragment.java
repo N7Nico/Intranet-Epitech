@@ -164,7 +164,7 @@ public class ProfileActivityFragment extends Fragment {
         if (ic.connected()) {
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
-                Pmessages msgs = new Pmessages();
+                Pmessages msgs = new Pmessages(getActivity());
                 msgs.init(api.getnotifs());
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());

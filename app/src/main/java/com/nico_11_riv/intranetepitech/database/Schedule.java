@@ -2,7 +2,7 @@ package com.nico_11_riv.intranetepitech.database;
 
 import com.orm.SugarRecord;
 
-public class Planning extends SugarRecord {
+public class Schedule extends SugarRecord {
     private String login;
     private String scolaryear;
     private String codemodule;
@@ -20,10 +20,10 @@ public class Planning extends SugarRecord {
     private String allowtoken;
     private String typecode;
 
-    public Planning() {
+    public Schedule() {
     }
 
-    public Planning(String login) {
+    public Schedule(String login) {
         this.login = login;
     }
 

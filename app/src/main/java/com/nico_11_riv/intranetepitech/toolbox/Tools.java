@@ -14,6 +14,7 @@ import com.nico_11_riv.intranetepitech.ModulesActivity_;
 import com.nico_11_riv.intranetepitech.ProfileActivity_;
 import com.nico_11_riv.intranetepitech.ProjectsActivity_;
 import com.nico_11_riv.intranetepitech.R;
+import com.nico_11_riv.intranetepitech.ScheduleActivity_;
 import com.nico_11_riv.intranetepitech.TrombiActivity_;
 import com.nico_11_riv.intranetepitech.database.User;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
@@ -24,7 +25,9 @@ import org.androidannotations.annotations.UiThread;
 import java.util.List;
 
 /**
+ *
  * Created by victor on 30/03/2016.
+ *
  */
 public class Tools {
     private Context context;
@@ -53,10 +56,6 @@ public class Tools {
         return ic;
     }
 
-    public void makeToast(String text, int time) {
-        Toast.makeText(context, text, time).show();
-    }
-
     public Intent menu(MenuItem item, Activity activity, DrawerLayout drawer_layout){
         int id = item.getItemId();
 
@@ -73,7 +72,8 @@ public class Tools {
             drawer_layout.closeDrawer(GravityCompat.START);
             return(new Intent(activity, ProjectsActivity_.class));
         } else if (id == R.id.nav_schedule) {
-
+            drawer_layout.closeDrawer(GravityCompat.START);
+            return(new Intent(activity, ScheduleActivity_.class));
         } else if (id == R.id.nav_logout) {
             drawer_layout.closeDrawer(GravityCompat.START);
             List<User> users = User.find(User.class, "connected = ?", "true");

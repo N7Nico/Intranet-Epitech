@@ -114,7 +114,7 @@ public class MarksActivityFragment extends Fragment {
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
                 m = api.getmarksandmodules(login);
-                PMarks marks = new PMarks(login);
+                PMarks marks = new PMarks(login, getActivity());
                 marks.init(m);
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());

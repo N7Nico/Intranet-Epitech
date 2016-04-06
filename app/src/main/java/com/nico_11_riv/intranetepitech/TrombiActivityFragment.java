@@ -39,7 +39,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *
  * Created by victor on 17/03/2016.
+ *
  */
 
 
@@ -60,9 +62,6 @@ public class TrombiActivityFragment extends Fragment {
         put("Strasbourg", "FR/STG");
         put("Toulouse", "FR/TLS");
     }};
-    String ville = "MPL/FR";
-    String annee = "2015";
-    String tek = "all";
     @RestService
     IntrAPI api;
     @ViewById
@@ -77,6 +76,9 @@ public class TrombiActivityFragment extends Fragment {
     private GUser gUser = new GUser();
     private GUserInfos user_info = new GUserInfos();
     private TrombiAdapter adapter;
+    String ville = user_info.getLocation();
+    String annee = user_info.getScolaryear();
+    String tek = "tek" + user_info.getStudentyear();
 
     @UiThread
     void maketoast(String text) {
@@ -99,14 +101,18 @@ public class TrombiActivityFragment extends Fragment {
         setadpt(items);
     }
 
+    @UiThread
+    void print() {
+        adapter.print(ville, annee, tek);
+    }
+
     @Background
-    void setTrombi(String location, String scolaryear, String tek) {
-        filltrombisui();
+    void setTrombi() {
         if (ic.connected()) {
             String m = null;
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
-                m = api.gettrombi(location, scolaryear, tek);
+                m = api.gettrombi(ville, annee, tek);
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -114,9 +120,10 @@ public class TrombiActivityFragment extends Fragment {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-            Ptrombi trombi = new Ptrombi(scolaryear, tek);
+            Ptrombi trombi = new Ptrombi(annee, tek);
             trombi.load(m);
         }
+        print();
     }
 
     @UiThread
@@ -153,20 +160,23 @@ public class TrombiActivityFragment extends Fragment {
     @Background
     void profile_trombi() {
         //setUserInfos();
-        setTrombi(ville, annee, tek);
+        setTrombi();
     }
 
     @UiThread
     void setSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.villes, android.R.layout.simple_spinner_item);
+        /*ville = "FR/MPL";
+        annee = "2015";
+        tek = "tek1";*/
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.villes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_ville.setAdapter(adapter);
+        spinner_ville.setSelection(4);
         spinner_ville.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
                 ville = info.get(parent.getItemAtPosition(pos).toString());
-                setTrombi(ville, annee, tek);
+                setTrombi();
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -174,17 +184,18 @@ public class TrombiActivityFragment extends Fragment {
         });
 
         ArrayList<String> years = new ArrayList<String>();
-        for (int i = 2005; i < 2030; i++) {
+        for (int i = 2002; i < 2016; i++) {
             years.add(Integer.toString(i));
         }
         ArrayAdapter<String> adapter_year = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, years);
         adapter_year.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_year.setAdapter(adapter_year);
+        spinner_year.setSelection(13);
         spinner_year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
                 annee = parent.getItemAtPosition(pos).toString();
-                setTrombi(ville, annee, tek);
+                setTrombi();
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -198,20 +209,18 @@ public class TrombiActivityFragment extends Fragment {
         ArrayAdapter<String> adapter_tek = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, teks);
         adapter_tek.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_tek.setAdapter(adapter_tek);
+        spinner_tek.setSelection(2);
         spinner_tek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
-                tek = parent.getItemAtPosition(pos).toString();
-                setTrombi(ville, annee, tek);
+                int num = pos + 1;
+                tek = "tek" + Integer.toString(num);
+                setTrombi();
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
-        ville = info.get(spinner_ville.getSelectedItem().toString());
-        annee = spinner_year.getSelectedItem().toString();
-        tek = spinner_tek.getSelectedItem().toString();
     }
 
     @AfterViews
@@ -219,7 +228,7 @@ public class TrombiActivityFragment extends Fragment {
         ic = new IsConnected(getActivity().getApplicationContext());
         GridLayoutManager llm = new GridLayoutManager(getActivity(),3, GridLayoutManager.VERTICAL,false);
         trombigridview.setLayoutManager(llm);
+        filltrombisui();
         setSpinner();
-        profile_trombi();
     }
 }

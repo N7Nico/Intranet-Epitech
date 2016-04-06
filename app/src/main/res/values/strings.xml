@@ -4,7 +4,7 @@
     <string name="title_marks">Notes</string>
     <string name="title_modules">Modules</string>
     <string name="title_projects">Projects</string>
-    <string name="title_planning">Planning</string>
+    <string name="title_schedule">Planning</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -107,7 +107,12 @@
 
     <!-- Values of projects -->
 
-
     <string name="numberofprojects">Nombre de projects à afficher</string>
+
+    <!-- Values of Schedule -->
+
+    <string name="action_registered">Evènements inscrits</string>
+    <string name="action_modules">Evènements des modules enregistrés</string>
+    <string name="action_all">Tous les évènements</string>
 
 </resources>

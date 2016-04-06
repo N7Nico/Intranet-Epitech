@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import com.nico_11_riv.intranetepitech.R;
 import com.nico_11_riv.intranetepitech.TrombiUserActivity_;
+import com.nico_11_riv.intranetepitech.database.Trombi;
 import com.nico_11_riv.intranetepitech.toolbox.ToHTML;
 import com.nico_11_riv.intranetepitech.ui.contents.Trombi_content;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -86,5 +88,15 @@ public class TrombiAdapter extends RecyclerView.Adapter<TrombiAdapter.ViewHolder
             intent.putExtra("login", login.getText().toString());
             context.startActivity(intent);
         }
+    }
+
+    public void print(String ville, String annee, String tek) {
+        itemsArrayList.clear();
+        List<Trombi> trombi = Trombi.findWithQuery(Trombi.class, "SELECT * FROM Trombi WHERE location = ? and years = ? and tek = ? ORDER BY login", ville, annee, tek);
+        for (int i = trombi.size() - 1; i > 0; i--) {
+            Trombi info = trombi.get(i);
+            itemsArrayList.add(new Trombi_content(info.getLogin(), info.getTitle(), info.getPicture()));
+        }
+        notifyDataSetChanged();
     }
 }
