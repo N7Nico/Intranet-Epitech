@@ -90,10 +90,22 @@ public class TrombiAdapter extends RecyclerView.Adapter<TrombiAdapter.ViewHolder
         }
     }
 
-    public void print(String ville, String annee, String tek) {
+    public void print(String query, String ville, String annee, String tek) {
         itemsArrayList.clear();
-        List<Trombi> trombi = Trombi.findWithQuery(Trombi.class, "SELECT * FROM Trombi WHERE location = ? and years = ? and tek = ? ORDER BY login", ville, annee, tek);
-        for (int i = trombi.size() - 1; i > 0; i--) {
+
+        List<Trombi> trombi;
+        if (Objects.equals(query, "nosearch")) {
+            trombi = Trombi.findWithQuery(Trombi.class, "SELECT * FROM Trombi WHERE location = ? AND years = ? AND tek = ? ORDER BY login", ville, annee, tek);
+        } else {
+            trombi = Trombi.findWithQuery(Trombi.class, "SELECT * FROM Trombi WHERE login LIKE ?", "%" + query + "%");
+            if (trombi.size() == 0) {
+                trombi = Trombi.findWithQuery(Trombi.class, "SELECT * FROM Trombi WHERE nom LIKE ?", "%" + query + "%");
+                if (trombi.size() == 0) {
+                    trombi = Trombi.findWithQuery(Trombi.class, "SELECT * FROM Trombi WHERE prenom LIKE ?", "%" + query + "%");
+                }
+            }
+        }
+        for (int i = 0; i < trombi.size(); i++) {
             Trombi info = trombi.get(i);
             itemsArrayList.add(new Trombi_content(info.getLogin(), info.getTitle(), info.getPicture()));
         }

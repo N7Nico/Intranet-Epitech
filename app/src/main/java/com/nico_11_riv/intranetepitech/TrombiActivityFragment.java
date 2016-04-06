@@ -102,8 +102,8 @@ public class TrombiActivityFragment extends Fragment {
     }
 
     @UiThread
-    void print() {
-        adapter.print(ville, annee, tek);
+    public void print(String query) {
+        adapter.print(query, ville, annee, tek);
     }
 
     @Background
@@ -123,7 +123,7 @@ public class TrombiActivityFragment extends Fragment {
             Ptrombi trombi = new Ptrombi(annee, tek);
             trombi.load(m);
         }
-        print();
+        print("nosearch");
     }
 
     @UiThread

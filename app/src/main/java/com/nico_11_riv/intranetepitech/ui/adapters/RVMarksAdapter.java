@@ -85,7 +85,7 @@ public class RVMarksAdapter extends RecyclerView.Adapter<RVMarksAdapter.ViewHold
             }
         }
         marks.clear();
-        for (int i = new_marks.size() - 1; i > 0; i--) {
+        for (int i = 0; i < new_marks.size(); i++) {
             Mark info = new_marks.get(i);
             marks.add(new MarkContent(info.getFinalnote(), info.getCorrecteur(), info.getTitle(), info.getTitlemodule()));
         }

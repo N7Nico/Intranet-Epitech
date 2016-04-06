@@ -3,26 +3,25 @@ package com.nico_11_riv.intranetepitech;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nico_11_riv.intranetepitech.api.APIErrorHandler;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
-import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUserInfos;
 import com.nico_11_riv.intranetepitech.database.setters.user.PUserInfos;
 import com.nico_11_riv.intranetepitech.toolbox.CircleTransform;
@@ -43,13 +42,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ *
  * Created by victor on 17/03/2016.
+ *
  */
 
 @EActivity(R.layout.activity_trombi)
 public class TrombiActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Tools tools;
+    private SearchView searchView;
 
     @RestService
     IntrAPI api;
@@ -92,6 +94,20 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
     String annee = "2015";
     String tek = "all";
 
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            fragment.print(query);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
     @AfterInject
     void afterInject() {
         api.setRestErrorHandler(ErrorHandler);
@@ -100,12 +116,6 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
     @UiThread
     void sHeader(View header) {
         nav_view.addHeaderView(header);
-    }
-
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-        }
     }
 
     @UiThread
@@ -149,6 +159,27 @@ public class TrombiActivity extends AppCompatActivity implements NavigationView.
         nav_view.setNavigationItemSelectedListener(this);
         tools = new Tools(getApplicationContext());
         setUserInfos();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_trombi, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean queryTextFocused) {
+                if (!queryTextFocused) {
+                    searchView.setQuery("", false);
+                    fragment.print("nosearch");
+                }
+            }
+        });
+        return true;
     }
 
     @Override
