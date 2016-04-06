@@ -125,3 +125,4 @@ local.properties
 .gradle/*
 app/app.iml
 app/app.iml
+build/intermediates/dex-cache/cache.xml
