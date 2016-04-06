@@ -225,9 +225,6 @@ public class TrombiUserActivityFragment extends Fragment {
     @AfterViews
     void init() {
         ic = new IsConnected(getActivity().getApplicationContext());
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            background.setVisibility(View.GONE);
-        }
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         profile_messages();
     }
