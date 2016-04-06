@@ -17,6 +17,7 @@ public class PMarks {
 
     private String login;
     private Activity activity;
+    private GUser gUser;
 
     public PMarks(String login, Activity activity) {
         this.login = login;
@@ -59,8 +60,8 @@ public class PMarks {
                     note.setComment(!Objects.equals(tmp.getString("comment"), "null") ? tmp.getString("comment") : "Aucun commentaire.");
                     note.save();
                 }
-                if (notif) {
-                    Notifications notifications = new Notifications(activity, "Nouveau message", "", "Vous avez une nouvelle note", 0);
+                if (notif && Objects.equals(gUser.getLogin(), this.login)) {
+                    Notifications notifications = new Notifications(activity, "{Epitech}", "", "Vous avez une nouvelle note", 0);
                     notifications.initNotification();
                 }
                 m = Mark.findWithQuery(Mark.class, "SELECT * FROM Mark WHERE login = ?", this.login);
