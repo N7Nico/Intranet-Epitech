@@ -1,5 +1,8 @@
 package com.nico_11_riv.intranetepitech.database.setters.modules;
 
+import android.app.Activity;
+
+import com.nico_11_riv.intranetepitech.Notifications;
 import com.nico_11_riv.intranetepitech.database.Allmodules;
 import com.nico_11_riv.intranetepitech.database.Module;
 import com.nico_11_riv.intranetepitech.database.setters.user.GUser;
@@ -17,10 +20,15 @@ import java.util.Objects;
  *
  */
 public class Pallmodules {
-    public Pallmodules() {
+
+    private Activity activity;
+
+    public Pallmodules(Activity activity) {
+        this.activity = activity;
     }
 
     public void init(String api) {
+        boolean notif = false;
         GUser user = new GUser();
         try {
             JSONArray arr = new JSONArray(api);
@@ -36,8 +44,10 @@ public class Pallmodules {
                 m = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ? AND id = ?", user.getLogin(), !Objects.equals(tmp.getString("id"), "null") ? tmp.getString("id") : "n/a");
                 if (m.size() > 0)
                     allmodules = m.get(0);
-                else
+                else {
+                    notif = true;
                     allmodules = new Allmodules(user.getLogin());
+                }
                 allmodules.setOld(false);
                 allmodules.setLogin(user.getLogin());
                 List<Module> modules = Module.findWithQuery(Module.class, "SELECT * FROM Module WHERE login = ? AND codemodule = ?", user.getLogin(), !Objects.equals(tmp.getString("code"), "null") ? tmp.getString("code") : "n/a");
@@ -60,6 +70,10 @@ public class Pallmodules {
                 allmodules.setOpen(!Objects.equals(tmp.getString("open"), "null") ? tmp.getString("open") : "n/a");
                 allmodules.setTitle(!Objects.equals(tmp.getString("title"), "null") ? tmp.getString("title") : "n/a");
                 allmodules.save();
+            }
+            if (notif) {
+                Notifications notifications = new Notifications(activity, "Nouveau module ouvert", "", "Un module vient de s'ouvrir!", 0);
+                notifications.initNotification();
             }
             m = Allmodules.findWithQuery(Allmodules.class, "SELECT * FROM Allmodules WHERE login = ?", user.getLogin());
             for (int n = 0; n < m.size(); n++) {

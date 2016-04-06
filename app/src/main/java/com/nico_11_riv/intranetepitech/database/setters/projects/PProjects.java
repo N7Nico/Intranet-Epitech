@@ -1,10 +1,12 @@
 package com.nico_11_riv.intranetepitech.database.setters.projects;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.webkit.URLUtil;
 import android.widget.Toast;
 
+import com.nico_11_riv.intranetepitech.Notifications;
 import com.nico_11_riv.intranetepitech.api.IntrAPI;
 import com.nico_11_riv.intranetepitech.database.Allmodules;
 import com.nico_11_riv.intranetepitech.database.Project;
@@ -31,6 +33,13 @@ public class PProjects {
     private GUser user = new GUser();
     private Context context;
     private List<Project> m;
+    private boolean notif = false;
+    private Activity activity;
+
+    public PProjects(Context context, Activity activity) {
+        this.context = context;
+        this.activity = activity;
+    }
 
     public void getProject(String api, IntrAPI intra) {
         try {
@@ -41,8 +50,11 @@ public class PProjects {
             m = Project.findWithQuery(Project.class, "SELECT * FROM Project WHERE login = ? AND idactivite = ?", user.getLogin(), !Objects.equals(tmp.getString("id_activite"), "null") ? tmp.getString("id_activite") : "n/a");
             if (m.size() > 0)
                 project = m.get(0);
-            else
+            else {
+                notif = true;
                 project = new Project(user.getLogin());
+            }
+
             project.setOld(false);
             project.setScolaryear(!Objects.equals(tmp.getString("scolaryear"), "null") ? tmp.getString("scolaryear") : "n/a");
             project.setCodemodule(!Objects.equals(tmp.getString("codemodule"), "null") ? tmp.getString("codemodule") : "n/a");
@@ -123,10 +135,6 @@ public class PProjects {
         }
     }
 
-    public PProjects(Context context) {
-        this.context = context;
-    }
-
     public void init(IntrAPI api) {
         String s = null;
         api.setCookie("PHPSESSID", user.getToken());
@@ -153,7 +161,7 @@ public class PProjects {
         }
         api.setCookie("PHPSESSID", user.getToken());
         try {
-            Pallmodules mod = new Pallmodules();
+            Pallmodules mod = new Pallmodules(activity);
             mod.init(api.getallmodules());
         } catch (HttpClientErrorException e) {
             Log.d("Response", e.getResponseBodyAsString());
@@ -172,6 +180,10 @@ public class PProjects {
         }
         for (int i = 0; i < ms.size(); i++) {
             parsemodules(ms, i, api);
+        }
+        if (notif) {
+            Notifications notifications = new Notifications(activity, "Nouveau projet", "", "Un nouveau projet est apparu", 0);
+            notifications.initNotification();
         }
         m = Project.findWithQuery(Project.class, "SELECT * FROM Project WHERE login = ?", user.getLogin());
         for (int n = 0; n < m.size(); n++) {

@@ -148,7 +148,7 @@ public class ModulesActivityFragment extends Fragment {
             api.setCookie("PHPSESSID", gUser.getToken());
             if (Objects.equals(login, gUser.getLogin())) {
                 try {
-                    Pallmodules mod = new Pallmodules();
+                    Pallmodules mod = new Pallmodules(getActivity());
                     mod.init(api.getallmodules());
                 } catch (HttpClientErrorException e) {
                     Log.d("Response", e.getResponseBodyAsString());

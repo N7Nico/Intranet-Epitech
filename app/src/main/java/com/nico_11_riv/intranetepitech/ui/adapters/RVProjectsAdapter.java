@@ -67,8 +67,8 @@ public class RVProjectsAdapter extends RecyclerView.Adapter<RVProjectsAdapter.Vi
         else
             new_projects = Project.findWithQuery(Project.class, "SELECT * FROM Project WHERE login = ?", gUser.getLogin());
         projects.clear();
-        for (int i = 0; i < new_projects.size(); i++) {
-            if (i == position && position != 0)
+        for (int i = new_projects.size() - 1; i > 0; i--) {
+            if (i == new_projects.size() - position - 1 && position != 0)
                 break;
             Project info = new_projects.get(i);
             projects.add(new ProjectContent(info.getTitle(), info.getBegin() + " -> " + info.getEnd(), info.getModuletitle()));

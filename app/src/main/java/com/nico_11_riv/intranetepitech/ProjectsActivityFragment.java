@@ -141,7 +141,7 @@ public class ProjectsActivityFragment extends Fragment {
         if (ic.connected()) {
             api.setCookie("PHPSESSID", gUser.getToken());
             try {
-                PProjects p = new PProjects(getActivity().getApplicationContext());
+                PProjects p = new PProjects(getActivity().getApplicationContext(), getActivity());
                 p.init(api);
             } catch (HttpClientErrorException e) {
                 Log.d("Response", e.getResponseBodyAsString());

@@ -105,7 +105,7 @@ public class TrombiAdapter extends RecyclerView.Adapter<TrombiAdapter.ViewHolder
                 }
             }
         }
-        for (int i = 0; i < trombi.size(); i++) {
+        for (int i = trombi.size() - 1; i > 0; i--) {
             Trombi info = trombi.get(i);
             itemsArrayList.add(new Trombi_content(info.getLogin(), info.getTitle(), info.getPicture()));
         }
